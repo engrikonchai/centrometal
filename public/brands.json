@@ -1,0 +1,29 @@
+{
+  "brands": [
+    {
+      "name": "Bosch",
+      "logo": "/logos/bosch.png",
+      "products_count": 3
+    },
+    {
+      "name": "Makita",
+      "logo": "/logos/makita.png",
+      "products_count": 2
+    },
+    {
+      "name": "Einhell",
+      "logo": "/logos/einhell.png",
+      "products_count": 1
+    },
+    {
+      "name": "Telwin",
+      "logo": "/logos/telwin.png",
+      "products_count": 1
+    },
+    {
+      "name": "Knipex",
+      "logo": "/logos/knipex.png",
+      "products_count": 2
+    }
+  ]
+}

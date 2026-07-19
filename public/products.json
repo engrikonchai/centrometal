@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-19T00:00:00.000Z",
+  "total_products": 9,
+  "products": [
+    {
+      "id": "bosch-gsb-18v-55",
+      "name": "Bosch GSB 18V-55",
+      "brand": "Bosch",
+      "image": "/products/bosch-gsb-18v-55.jpg",
+      "logo": "/logos/bosch.png"
+    },
+    {
+      "id": "makita-hr2470",
+      "name": "Makita HR2470",
+      "brand": "Makita",
+      "image": "/products/makita-hr2470.jpg",
+      "logo": "/logos/makita.png"
+    },
+    {
+      "id": "einhell-te-cd-18-li",
+      "name": "Einhell TE-CD 18 Li",
+      "brand": "Einhell",
+      "image": "/products/einhell-te-cd-18-li.jpg",
+      "logo": "/logos/einhell.png"
+    },
+    {
+      "id": "telwin-tecnica-211-s",
+      "name": "Telwin Tecnica 211/S",
+      "brand": "Telwin",
+      "image": "/products/telwin-tecnica-211-s.jpg",
+      "logo": "/logos/telwin.png"
+    },
+    {
+      "id": "knipex-cobra-xl",
+      "name": "Knipex Cobra XL",
+      "brand": "Knipex",
+      "image": "/products/knipex-cobra-xl.jpg",
+      "logo": "/logos/knipex.png"
+    },
+    {
+      "id": "bosch-gws-750",
+      "name": "Bosch GWS 750",
+      "brand": "Bosch",
+      "image": "/products/bosch-gws-750.jpg",
+      "logo": "/logos/bosch.png"
+    },
+    {
+      "id": "makita-ek765ih",
+      "name": "Makita EK765IH",
+      "brand": "Makita",
+      "image": "/products/makita-ek765ih.jpg",
+      "logo": "/logos/makita.png"
+    },
+    {
+      "id": "bosch-glm-50-c",
+      "name": "Bosch GLM 50 C",
+      "brand": "Bosch",
+      "image": "/products/bosch-glm-50-c.jpg",
+      "logo": "/logos/bosch.png"
+    },
+    {
+      "id": "knipex-86-03-250",
+      "name": "Knipex 86 03 250",
+      "brand": "Knipex",
+      "image": "/products/knipex-86-03-250.jpg",
+      "logo": "/logos/knipex.png"
+    }
+  ]
+}
