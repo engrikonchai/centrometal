@@ -23,6 +23,9 @@ export const brand = defineType({
       title: "Logo",
       type: "image",
       options: { hotspot: true },
+      description:
+        "Optional for now — official logo assets haven't been sourced yet. " +
+        "The front end falls back to a text wordmark until this is set.",
       fields: [
         defineField({
           name: "alt",
@@ -32,7 +35,6 @@ export const brand = defineType({
           validation: (rule) => rule.required(),
         }),
       ],
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "description_mne",

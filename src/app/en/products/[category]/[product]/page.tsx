@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetailPage } from "@/components/product/ProductDetailPage";
 import { categories, getCategoryBySlug } from "@/lib/taxonomy";
-import { getProductBySlug, getProductsByCategory } from "@/lib/products";
+import { getProductBySlug, getProductsByCategory } from "@/lib/data";
 
-export function generateStaticParams() {
-  return categories.flatMap((category) =>
-    getProductsByCategory(category.slug.mne).map((product) => ({
-      category: category.slug.en,
-      product: product.slug,
-    })),
+export async function generateStaticParams() {
+  const perCategory = await Promise.all(
+    categories.map(async (category) => {
+      const products = await getProductsByCategory(category.slug.mne);
+      return products.map((product) => ({ category: category.slug.en, product: product.slug }));
+    }),
   );
+  return perCategory.flat();
 }
 
 export async function generateMetadata({
@@ -21,7 +22,7 @@ export async function generateMetadata({
   const { category: categorySlug, product: productSlug } = await params;
   const category = getCategoryBySlug("en", categorySlug);
   if (!category) return {};
-  const product = getProductBySlug(category.slug.mne, productSlug);
+  const product = await getProductBySlug(category.slug.mne, productSlug);
   if (!product) return {};
 
   return {
@@ -45,7 +46,7 @@ export default async function Page({
   const { category: categorySlug, product: productSlug } = await params;
   const category = getCategoryBySlug("en", categorySlug);
   if (!category) notFound();
-  const product = getProductBySlug(category.slug.mne, productSlug);
+  const product = await getProductBySlug(category.slug.mne, productSlug);
   if (!product) notFound();
 
   return <ProductDetailPage locale="en" product={product} />;

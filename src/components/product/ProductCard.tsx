@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -6,6 +7,7 @@ import { getBrandBySlug } from "@/lib/brands";
 import { getCategoryBySlug } from "@/lib/taxonomy";
 import { productPath } from "@/lib/paths";
 import { getDictionary } from "@/lib/dictionary";
+import { urlForImage } from "@/sanity/lib/image";
 import { Card } from "../ui/Card";
 import { BrandMark } from "../ui/BrandMark";
 import { ProductImagePlaceholder } from "../ui/ProductImagePlaceholder";
@@ -21,15 +23,28 @@ export function ProductCard({
   const category = getCategoryBySlug("mne", product.categorySlug);
   const dict = getDictionary(locale);
   const href = productPath(locale, category?.slug[locale] ?? product.categorySlug, product.slug);
+  const alt = `${brand?.name ?? ""} ${product.name}`.trim();
 
   return (
     <Card className="group flex h-full flex-col overflow-hidden">
       <Link href={href} className="flex h-full flex-col" aria-label={product.name}>
-        <ProductImagePlaceholder
-          alt={`${brand?.name ?? ""} ${product.name}`.trim()}
-          icon={category?.icon}
-          className="aspect-[4/3] w-full border-b border-line"
-        />
+        {product.image ? (
+          <div className="relative aspect-[4/3] w-full border-b border-line bg-warehouse">
+            <Image
+              src={urlForImage(product.image).width(480).height(360).fit("crop").auto("format").url()}
+              alt={alt}
+              fill
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              className="object-contain p-3"
+            />
+          </div>
+        ) : (
+          <ProductImagePlaceholder
+            alt={alt}
+            icon={category?.icon}
+            className="aspect-[4/3] w-full border-b border-line"
+          />
+        )}
         <div className="flex flex-1 flex-col gap-2 p-4">
           {brand && <BrandMark name={brand.name} className="self-start px-2 py-1 text-xs" />}
           <h3 className="font-heading text-lg font-semibold leading-tight text-navy">

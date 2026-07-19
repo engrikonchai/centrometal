@@ -1,13 +1,39 @@
 import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
+import type { SanityImageSource } from "@sanity/image-url";
+import { urlForImage } from "@/sanity/lib/image";
 import { ProductImagePlaceholder } from "../ui/ProductImagePlaceholder";
 
 /**
- * Single large image for now — no real product photography exists yet
- * (see brief's "Known open item"). Structurally this occupies the PDP's
- * gallery position so it becomes a real main-image + thumbnail-rail
- * gallery with no layout change once photos are uploaded to the CMS.
+ * Single large image for now (no thumbnail rail) — real product photos are
+ * one image per product so far. Structurally this occupies the PDP's
+ * gallery position so it becomes a real thumbnail-rail gallery with no
+ * layout change once a product has more than one photo in the CMS.
  */
-export function ProductGallery({ alt, icon }: { alt: string; icon?: LucideIcon }) {
+export function ProductGallery({
+  alt,
+  icon,
+  image,
+}: {
+  alt: string;
+  icon?: LucideIcon;
+  image?: SanityImageSource;
+}) {
+  if (image) {
+    return (
+      <div className="relative aspect-square w-full overflow-hidden rounded-button border border-line bg-warehouse">
+        <Image
+          src={urlForImage(image).width(1000).height(1000).fit("crop").auto("format").url()}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-contain p-6"
+          priority
+        />
+      </div>
+    );
+  }
+
   return (
     <ProductImagePlaceholder
       alt={alt}

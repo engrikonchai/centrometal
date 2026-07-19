@@ -51,6 +51,9 @@ export const product = defineType({
       type: "image",
       group: "content",
       options: { hotspot: true },
+      description:
+        "Optional for now — real product photography hasn't been sourced yet. " +
+        "The front end falls back to an illustrated placeholder until this is set.",
       fields: [
         defineField({
           name: "alt",
@@ -60,7 +63,6 @@ export const product = defineType({
           validation: (rule) => rule.required(),
         }),
       ],
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "brand",

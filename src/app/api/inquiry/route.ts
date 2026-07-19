@@ -80,7 +80,7 @@ export async function POST(request: Request) {
   const { payload } = result;
 
   const to = DEPARTMENT_EMAIL[payload.department];
-  const subject = `[Centrometal ${DEPARTMENT_LABEL[payload.department]}] Inquiry from ${payload.name}`;
+  const subject = `[${DEPARTMENT_LABEL[payload.department]}] New inquiry from ${payload.name}`;
   const text = renderEmailBody(payload);
 
   const apiKey = process.env.RESEND_API_KEY;

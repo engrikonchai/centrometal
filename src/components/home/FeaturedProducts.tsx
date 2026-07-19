@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
-import { getFeaturedProducts } from "@/lib/products";
+import { getFeaturedProducts } from "@/lib/data";
 import { getCategoryBySlug } from "@/lib/taxonomy";
 import { Container } from "../ui/Container";
 import { SectionHeading } from "../ui/SectionHeading";
@@ -8,9 +8,9 @@ import { Button } from "../ui/Button";
 import { ProductCard } from "../product/ProductCard";
 import { categoryPath } from "@/lib/paths";
 
-export function FeaturedProducts({ locale }: { locale: Locale }) {
+export async function FeaturedProducts({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
-  const featured = getFeaturedProducts();
+  const featured = await getFeaturedProducts();
 
   return (
     <section className="bg-surface py-16 sm:py-24">

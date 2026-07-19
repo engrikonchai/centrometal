@@ -1,9 +1,8 @@
 /**
- * GROQ queries for the future live-data path. Not yet called from any page —
- * src/lib/data.ts currently serves seed data from src/lib/products.ts,
- * taxonomy.ts and brands.ts. Once a Sanity project is connected
- * (see .env.local.example), wire these into src/lib/data.ts behind the
- * `sanityConfigured` flag so components don't need to change.
+ * GROQ queries for the live-data path, consumed by src/lib/data.ts behind
+ * the `sanityConfigured` flag. Projections are flattened (refs resolved to
+ * plain slug strings, localized fields grouped) so results match the local
+ * Product/Category/Brand shapes in src/lib/ with no further mapping needed.
  */
 
 export const categoriesQuery = /* groq */ `
@@ -18,22 +17,45 @@ export const categoryBySlugQuery = /* groq */ `
   }
 `;
 
+/** Just the _id — used to resolve a category slug into the reference id product.category points at. */
+export const categoryIdBySlugQuery = /* groq */ `
+  *[_type == "category" && slug_mne.current == $slug][0] { _id }
+`;
+
+const productProjection = /* groq */ `
+  "slug": slug.current,
+  "name": title_mne,
+  "brandSlug": brand->slug.current,
+  "categorySlug": category->slug_mne.current,
+  subcategorySlug,
+  "description": { "mne": description_mne, "en": description_en },
+  image,
+  featured
+`;
+
 export const productsByCategoryQuery = /* groq */ `
-  *[_type == "product" && category._ref == $categoryId] {
-    _id, title_mne, title_en, slug, image, description_mne, description_en,
-    subcategorySlug, featured,
-    "brand": brand->{name, slug, logo}
+  *[_type == "product" && category._ref == $categoryId] | order(title_mne asc) {
+    ${productProjection}
   }
 `;
 
 export const featuredProductsQuery = /* groq */ `
   *[_type == "product" && featured == true] {
-    _id, title_mne, title_en, slug, image, description_mne, description_en,
-    "brand": brand->{name, slug, logo},
-    "category": category->{slug_mne, slug_en}
+    ${productProjection}
+  }
+`;
+
+export const productBySlugQuery = /* groq */ `
+  *[_type == "product" && slug.current == $slug][0] {
+    ${productProjection},
+    "specs": specs[]{ "label": { "mne": label_mne, "en": label_en }, value },
+    "specPdfUrl": specPdf.asset->url,
+    manufacturerUrl
   }
 `;
 
 export const brandsQuery = /* groq */ `
-  *[_type == "brand"] | order(name asc) { _id, name, slug, logo }
+  *[_type == "brand"] | order(name asc) {
+    name, "slug": slug.current, logo, description_mne, description_en, website
+  }
 `;

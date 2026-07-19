@@ -2,7 +2,7 @@ import { FileText, Phone, ExternalLink } from "lucide-react";
 import { otherLocale, type Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import type { Product } from "@/lib/products";
-import { getRelatedProducts } from "@/lib/products";
+import { getRelatedProducts } from "@/lib/data";
 import { getBrandBySlug } from "@/lib/brands";
 import { getCategoryBySlug } from "@/lib/taxonomy";
 import { categoryPath, contactPath, productPath } from "@/lib/paths";
@@ -17,7 +17,7 @@ import { SpecSummary } from "./SpecSummary";
 import { SpecTable } from "./SpecTable";
 import { RelatedProducts } from "./RelatedProducts";
 
-export function ProductDetailPage({
+export async function ProductDetailPage({
   locale,
   product,
 }: {
@@ -27,7 +27,7 @@ export function ProductDetailPage({
   const dict = getDictionary(locale);
   const category = getCategoryBySlug("mne", product.categorySlug)!;
   const brand = getBrandBySlug(product.brandSlug);
-  const related = getRelatedProducts(product);
+  const related = await getRelatedProducts(product);
 
   const alternateHref = productPath(
     otherLocale(locale),
@@ -70,6 +70,7 @@ export function ProductDetailPage({
             <ProductGallery
               alt={`${brand?.name ?? ""} ${product.name}`.trim()}
               icon={category.icon}
+              image={product.image}
             />
 
             <div>

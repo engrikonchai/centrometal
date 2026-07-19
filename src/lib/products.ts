@@ -1,3 +1,4 @@
+import type { SanityImageSource } from "@sanity/image-url";
 import type { Localized } from "./i18n";
 
 export interface ProductSpec {
@@ -18,6 +19,13 @@ export interface Product {
   specPdfUrl?: string;
   manufacturerUrl?: string;
   featured?: boolean;
+  /**
+   * Raw Sanity image reference — only present when fetched from a live
+   * Sanity dataset with a photo uploaded. Resolve with urlForImage().
+   * Always undefined for this seed data; components fall back to
+   * ProductImagePlaceholder when it's absent.
+   */
+  image?: SanityImageSource;
 }
 
 /**

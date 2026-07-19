@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import type { Category } from "@/lib/taxonomy";
-import { getProductsByCategory } from "@/lib/products";
+import { getProductsByCategory } from "@/lib/data";
 import { alternateCategoryPath } from "@/lib/paths";
 import { Header } from "../layout/Header";
 import { Footer } from "../layout/Footer";
@@ -11,7 +11,7 @@ import { Container } from "../ui/Container";
 import { CategoryBrowser } from "./CategoryBrowser";
 import { RelatedCategories } from "./RelatedCategories";
 
-export function CategoryPage({
+export async function CategoryPage({
   locale,
   category,
 }: {
@@ -19,7 +19,7 @@ export function CategoryPage({
   category: Category;
 }) {
   const dict = getDictionary(locale);
-  const products = getProductsByCategory(category.slug.mne);
+  const products = await getProductsByCategory(category.slug.mne);
   const alternateHref = alternateCategoryPath(locale, category.slug.mne, category.slug.en);
 
   return (
