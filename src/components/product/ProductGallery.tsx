@@ -14,16 +14,22 @@ export function ProductGallery({
   alt,
   icon,
   image,
+  localImage,
 }: {
   alt: string;
   icon?: LucideIcon;
   image?: SanityImageSource;
+  localImage?: string;
 }) {
-  if (image) {
+  if (image || localImage) {
     return (
       <div className="relative aspect-square w-full overflow-hidden rounded-button border border-line bg-warehouse">
         <Image
-          src={urlForImage(image).width(1000).height(1000).fit("crop").auto("format").url()}
+          src={
+            image
+              ? urlForImage(image).width(1000).height(1000).fit("crop").auto("format").url()
+              : localImage!
+          }
           alt={alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"

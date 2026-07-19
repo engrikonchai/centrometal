@@ -20,7 +20,7 @@ export function BrandsGrid({ locale }: { locale: Locale }) {
         />
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           {brands.map((brand) => (
-            <BrandMark key={brand.slug} name={brand.name} className="px-5 py-3 text-sm" />
+            <BrandMark key={brand.slug} name={brand.name} logo={brand.logo} className="px-5 py-3 text-sm" />
           ))}
           <span className="inline-flex items-center px-3 py-3 text-sm font-semibold text-muted">
             {locale === "mne" ? "+ 20 drugih brendova" : "+ 20 more brands"}

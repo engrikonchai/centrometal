@@ -1,17 +1,33 @@
 import { clsx } from "clsx";
 
 /**
- * Text-wordmark stand-in for a brand logo image. No real logo assets exist
- * yet (see brief's "Known open item") — swap for a Sanity image once brand
- * logos are uploaded, without changing where this component is used.
+ * Renders a brand logo image when one exists locally, falling back to a
+ * text wordmark otherwise (see brief's "Known open item") — swap for a
+ * Sanity image once real logo assets are uploaded there.
  */
 export function BrandMark({
   name,
+  logo,
   className,
 }: {
   name: string;
+  logo?: string;
   className?: string;
 }) {
+  if (logo) {
+    return (
+      <span
+        className={clsx(
+          "inline-flex items-center justify-center rounded-button border border-line bg-surface px-3 py-2",
+          className,
+        )}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element -- variable-aspect-ratio local logos, not worth Image's width/height ceremony */}
+        <img src={logo} alt={name} className="h-5 w-auto object-contain" />
+      </span>
+    );
+  }
+
   return (
     <span
       className={clsx(

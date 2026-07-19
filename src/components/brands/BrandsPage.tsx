@@ -36,7 +36,7 @@ export function BrandsPage({ locale }: { locale: Locale }) {
               return (
                 <Card key={brand.slug} className="p-6">
                   <Link href={href} className="flex h-full flex-col gap-4">
-                    <BrandMark name={brand.name} className="self-start px-4 py-2.5 text-sm" />
+                    <BrandMark name={brand.name} logo={brand.logo} className="self-start px-4 py-2.5 text-sm" />
                     <p className="flex-1 text-sm text-muted">{brand.descriptor[locale]}</p>
                     <span className="text-sm font-semibold text-navy transition hover:text-orange">
                       {hasProducts ? dict.brandsPage.viewProducts : dict.brandsPage.noProductsYet} →

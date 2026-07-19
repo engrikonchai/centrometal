@@ -28,10 +28,14 @@ export function ProductCard({
   return (
     <Card className="group flex h-full flex-col overflow-hidden">
       <Link href={href} className="flex h-full flex-col" aria-label={product.name}>
-        {product.image ? (
+        {product.image || product.localImage ? (
           <div className="relative aspect-[4/3] w-full border-b border-line bg-warehouse">
             <Image
-              src={urlForImage(product.image).width(480).height(360).fit("crop").auto("format").url()}
+              src={
+                product.image
+                  ? urlForImage(product.image).width(480).height(360).fit("crop").auto("format").url()
+                  : product.localImage!
+              }
               alt={alt}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
@@ -46,7 +50,7 @@ export function ProductCard({
           />
         )}
         <div className="flex flex-1 flex-col gap-2 p-4">
-          {brand && <BrandMark name={brand.name} className="self-start px-2 py-1 text-xs" />}
+          {brand && <BrandMark name={brand.name} logo={brand.logo} className="self-start px-2 py-1 text-xs" />}
           <h3 className="font-heading text-lg font-semibold leading-tight text-navy">
             {product.name}
           </h3>

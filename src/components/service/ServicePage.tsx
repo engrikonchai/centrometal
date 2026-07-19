@@ -58,7 +58,7 @@ export function ServicePage({ locale }: { locale: Locale }) {
               </h3>
               <div className="mt-3 flex flex-wrap gap-2.5">
                 {brands.map((brand) => (
-                  <BrandMark key={brand.slug} name={brand.name} className="px-3 py-1.5 text-xs" />
+                  <BrandMark key={brand.slug} name={brand.name} logo={brand.logo} className="px-3 py-1.5 text-xs" />
                 ))}
               </div>
             </div>

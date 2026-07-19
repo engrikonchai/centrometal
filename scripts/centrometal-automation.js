@@ -1,6 +1,7 @@
 // Run with: node --env-file=.env.local scripts/centrometal-automation.js [--test]
 // --test generates only the first product, so we can confirm the Kling API
 // contract (endpoint/model/response shape) before spending credits on all 9.
+/* eslint-disable @typescript-eslint/no-require-imports -- plain CommonJS script, run directly via `node` */
 
 const fs = require('fs');
 const path = require('path');

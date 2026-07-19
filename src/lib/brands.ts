@@ -6,6 +6,8 @@ export interface Brand {
   slug: string;
   /** General product-category descriptor, not a Centrometal-specific claim. */
   descriptor: Localized;
+  /** Static /public path used as a stand-in until real logo assets exist in Sanity. */
+  logo?: string;
 }
 
 /**
@@ -13,13 +15,14 @@ export interface Brand {
  * brand partnerships. Actual roster (30+) to be populated via CMS once
  * confirmed with the client; the homepage/brands-page grids note the rest.
  */
-const brandData: { name: string; descriptor: Localized }[] = [
+const brandData: { name: string; descriptor: Localized; logo?: string }[] = [
   {
     name: "Bosch",
     descriptor: {
       mne: "Električni i akumulatorski alati, mjerni instrumenti.",
       en: "Electric and cordless power tools, measuring tools.",
     },
+    logo: "/logos/bosch.png",
   },
   {
     name: "Makita",
@@ -27,6 +30,7 @@ const brandData: { name: string; descriptor: Localized }[] = [
       mne: "Profesionalni akumulatorski i benzinski alati.",
       en: "Professional cordless and petrol-powered tools.",
     },
+    logo: "/logos/makita.png",
   },
   {
     name: "Einhell",
@@ -34,6 +38,7 @@ const brandData: { name: string; descriptor: Localized }[] = [
       mne: "DIY alati, baštenska i radionička oprema.",
       en: "DIY power tools, garden and workshop equipment.",
     },
+    logo: "/logos/einhell.png",
   },
   {
     name: "Telwin",
@@ -41,6 +46,7 @@ const brandData: { name: string; descriptor: Localized }[] = [
       mne: "Aparati za zavarivanje i punjači akumulatora.",
       en: "Welding machines and battery chargers.",
     },
+    logo: "/logos/telwin.png",
   },
   {
     name: "Kipor",
@@ -55,6 +61,7 @@ const brandData: { name: string; descriptor: Localized }[] = [
       mne: "Precizna klješta i ručni alati.",
       en: "Precision pliers and hand tools.",
     },
+    logo: "/logos/knipex.png",
   },
   {
     name: "Claber",
@@ -79,10 +86,11 @@ const brandData: { name: string; descriptor: Localized }[] = [
   },
 ];
 
-export const brands: Brand[] = brandData.map(({ name, descriptor }) => ({
+export const brands: Brand[] = brandData.map(({ name, descriptor, logo }) => ({
   name,
   slug: slugify(name),
   descriptor,
+  logo,
 }));
 
 export function getBrandBySlug(slug: string): Brand | undefined {

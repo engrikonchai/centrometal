@@ -71,10 +71,11 @@ export async function ProductDetailPage({
               alt={`${brand?.name ?? ""} ${product.name}`.trim()}
               icon={category.icon}
               image={product.image}
+              localImage={product.localImage}
             />
 
             <div>
-              {brand && <BrandMark name={brand.name} className="px-3 py-1.5 text-sm" />}
+              {brand && <BrandMark name={brand.name} logo={brand.logo} className="px-3 py-1.5 text-sm" />}
               <h1 className="mt-3 font-heading text-h1 font-bold text-navy">{product.name}</h1>
 
               {hasSpecs && (
