@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ProductDetailPage } from "@/components/product/ProductDetailPage";
+import { categories, getCategoryBySlug } from "@/lib/taxonomy";
+import { getProductBySlug, getProductsByCategory } from "@/lib/products";
+
+export function generateStaticParams() {
+  return categories.flatMap((category) =>
+    getProductsByCategory(category.slug.mne).map((product) => ({
+      category: category.slug.en,
+      product: product.slug,
+    })),
+  );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category: string; product: string }>;
+}): Promise<Metadata> {
+  const { category: categorySlug, product: productSlug } = await params;
+  const category = getCategoryBySlug("en", categorySlug);
+  if (!category) return {};
+  const product = getProductBySlug(category.slug.mne, productSlug);
+  if (!product) return {};
+
+  return {
+    title: product.name,
+    description: product.description.en,
+    alternates: {
+      canonical: `/en/products/${category.slug.en}/${product.slug}`,
+      languages: {
+        "sr-ME": `/proizvodi/${category.slug.mne}/${product.slug}`,
+        en: `/en/products/${category.slug.en}/${product.slug}`,
+      },
+    },
+  };
+}
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ category: string; product: string }>;
+}) {
+  const { category: categorySlug, product: productSlug } = await params;
+  const category = getCategoryBySlug("en", categorySlug);
+  if (!category) notFound();
+  const product = getProductBySlug(category.slug.mne, productSlug);
+  if (!product) notFound();
+
+  return <ProductDetailPage locale="en" product={product} />;
+}

@@ -1,0 +1,203 @@
+import type { Localized } from "./i18n";
+
+export interface ProductSpec {
+  label: Localized;
+  value: string;
+}
+
+export interface Product {
+  slug: string;
+  name: string;
+  brandSlug: string;
+  /** Canonical MNE category/subcategory slugs — stand in for a CMS reference id. */
+  categorySlug: string;
+  subcategorySlug: string;
+  description: Localized;
+  /** Optional — spec tables only render when this has entries (brief: never show "N/A"). */
+  specs?: ProductSpec[];
+  specPdfUrl?: string;
+  manufacturerUrl?: string;
+  featured?: boolean;
+}
+
+/**
+ * Seed data standing in for CMS content — no real product catalog was
+ * recoverable from the legacy site (see brief's "Known open item"). Shaped
+ * to match the future Sanity product schema so swapping in real queries
+ * later only touches lib/data.ts, not the components consuming it.
+ */
+export const products: Product[] = [
+  {
+    slug: "bosch-gsb-18v-55",
+    name: "Bosch GSB 18V-55",
+    brandSlug: "bosch",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "akumulatorski-alati",
+    description: {
+      mne: "Akumulatorska udarna bušilica-zavrtač za profesionalnu upotrebu, sa beskolektorskim motorom i visokim obrtnim momentom.",
+      en: "Professional cordless combi drill with brushless motor and high torque output for demanding job-site use.",
+    },
+    specs: [
+      { label: { mne: "Napon", en: "Voltage" }, value: "18 V" },
+      { label: { mne: "Obrtni moment", en: "Max torque" }, value: "63 Nm" },
+      { label: { mne: "Težina", en: "Weight" }, value: "1.6 kg" },
+    ],
+    featured: true,
+  },
+  {
+    slug: "makita-hr2470",
+    name: "Makita HR2470",
+    brandSlug: "makita",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "elektricni-alati",
+    description: {
+      mne: "Elektro-pneumatska rotaciona čekić-bušilica od 780 W, za bušenje betona i lakše rušenje.",
+      en: "780 W rotary hammer drill for concrete drilling and light chiseling work.",
+    },
+    specs: [
+      { label: { mne: "Snaga", en: "Power" }, value: "780 W" },
+      { label: { mne: "Energija udarca", en: "Impact energy" }, value: "2.4 J" },
+    ],
+    featured: true,
+  },
+  {
+    slug: "einhell-te-cd-18-li",
+    name: "Einhell TE-CD 18 Li",
+    brandSlug: "einhell",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "akumulatorski-alati",
+    description: {
+      mne: "Kompaktna akumulatorska bušilica-zavrtač iz Power X-Change sistema, pogodna za kućnu i profesionalnu upotrebu.",
+      en: "Compact cordless drill driver from the Power X-Change platform, suited to both home and professional use.",
+    },
+  },
+  {
+    slug: "telwin-tecnica-211-s",
+    name: "Telwin Tecnica 211/S",
+    brandSlug: "telwin",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "zavarivanje-i-lemljenje",
+    description: {
+      mne: "Inverterski aparat za MIG-MAG i MMA zavarivanje, jednostavan za podešavanje i pouzdan na gradilištu.",
+      en: "Inverter welding machine for MIG-MAG and MMA welding, straightforward to set up and reliable on site.",
+    },
+    specs: [
+      { label: { mne: "Struja zavarivanja", en: "Welding current" }, value: "40–200 A" },
+      { label: { mne: "Napajanje", en: "Power supply" }, value: "230 V" },
+    ],
+    featured: true,
+  },
+  {
+    slug: "knipex-cobra-xl",
+    name: "Knipex Cobra XL",
+    brandSlug: "knipex",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "rucni-alati",
+    description: {
+      mne: "Vodopumpne klješta velikog raspona hvatanja, kovane iz jednog komada čelika.",
+      en: "Water pump pliers with an extra-wide gripping range, forged from a single piece of steel.",
+    },
+  },
+  {
+    slug: "bosch-gws-750",
+    name: "Bosch GWS 750",
+    brandSlug: "bosch",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "elektricni-alati",
+    description: {
+      mne: "Ugaona brusilica od 750 W sa diskom od 125 mm, kompaktna i otporna na opterećenje.",
+      en: "750 W angle grinder with a 125 mm disc, compact and built to handle sustained loads.",
+    },
+    specs: [
+      { label: { mne: "Snaga", en: "Power" }, value: "750 W" },
+      { label: { mne: "Disk", en: "Disc diameter" }, value: "125 mm" },
+    ],
+  },
+  {
+    slug: "makita-ek7651h",
+    name: "Makita EK7651H",
+    brandSlug: "makita",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "benzinski-alati",
+    description: {
+      mne: "Benzinska rezačica za beton i metal, sa snažnim dvotaktnim motorom za intenzivnu upotrebu.",
+      en: "Petrol-powered disc cutter for concrete and metal, with a powerful two-stroke engine for heavy use.",
+    },
+  },
+  {
+    slug: "bosch-glm-50-c",
+    name: "Bosch GLM 50 C",
+    brandSlug: "bosch",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "mjerni-i-kontrolni-alati",
+    description: {
+      mne: "Laserski daljinomjer sa Bluetooth povezivanjem i dometom do 50 metara.",
+      en: "Laser measure with Bluetooth connectivity and a range of up to 50 metres.",
+    },
+    specs: [
+      { label: { mne: "Domet", en: "Range" }, value: "0.05–50 m" },
+      { label: { mne: "Preciznost", en: "Accuracy" }, value: "± 1.5 mm" },
+    ],
+  },
+  {
+    slug: "knipex-86-03-250",
+    name: "Knipex 86 03 250",
+    brandSlug: "knipex",
+    categorySlug: "alati-i-oprema",
+    subcategorySlug: "alati-za-stezanje-i-savijanje",
+    description: {
+      mne: "Klješta-ključ sa podesivim rasponom, za brzo i precizno stezanje bez podešavanja navojem.",
+      en: "Pliers wrench with a self-adjusting jaw for fast, precise clamping without a threaded adjustment.",
+    },
+  },
+  {
+    slug: "claber-aquauno-video-6",
+    name: "Claber Aquauno Video 6",
+    brandSlug: "claber",
+    categorySlug: "basta-i-eksterijer",
+    subcategorySlug: "navodnjavanje-pumpe-i-hidrofori",
+    description: {
+      mne: "Programator za navodnjavanje sa displejem, do 6 nezavisnih ciklusa zalivanja dnevno.",
+      en: "Irrigation timer with a display, supporting up to 6 independent watering cycles per day.",
+    },
+    featured: true,
+  },
+];
+
+export function getProductsByCategory(categorySlugMne: string): Product[] {
+  return products.filter((p) => p.categorySlug === categorySlugMne);
+}
+
+export function getFeaturedProducts(): Product[] {
+  return products.filter((p) => p.featured);
+}
+
+export function getProductBySlug(categorySlugMne: string, productSlug: string): Product | undefined {
+  return products.find((p) => p.categorySlug === categorySlugMne && p.slug === productSlug);
+}
+
+/** Same subcategory first, then filled out from the rest of the category — excludes itself. */
+export function getRelatedProducts(product: Product, limit = 4): Product[] {
+  const sameCategory = products.filter((p) => p.categorySlug === product.categorySlug && p.slug !== product.slug);
+  const sameSubcategory = sameCategory.filter((p) => p.subcategorySlug === product.subcategorySlug);
+  const rest = sameCategory.filter((p) => p.subcategorySlug !== product.subcategorySlug);
+  return [...sameSubcategory, ...rest].slice(0, limit);
+}
+
+/** The category (MNE slug) with the most products from this brand, if any. */
+export function getPrimaryCategoryForBrand(brandSlug: string): string | undefined {
+  const counts = new Map<string, number>();
+  for (const product of products) {
+    if (product.brandSlug !== brandSlug) continue;
+    counts.set(product.categorySlug, (counts.get(product.categorySlug) ?? 0) + 1);
+  }
+  let best: string | undefined;
+  let bestCount = 0;
+  for (const [categorySlug, count] of counts) {
+    if (count > bestCount) {
+      best = categorySlug;
+      bestCount = count;
+    }
+  }
+  return best;
+}

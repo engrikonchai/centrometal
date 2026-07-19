@@ -1,0 +1,403 @@
+import type { Locale } from "./i18n";
+
+export const dictionary = {
+  mne: {
+    nav: {
+      products: "Proizvodi",
+      brands: "Brendovi",
+      wholesale: "Veleprodaja",
+      service: "Servis",
+      about: "O nama",
+      contact: "Kontakt",
+      viewAllProducts: "Svi proizvodi",
+      callUs: "Pozovite nas",
+    },
+    hero: {
+      eyebrow: "Ovlašćeni distributer • Podgorica, Crna Gora",
+      headline: "Alati, mašine i oprema za svaki posao.",
+      subhead:
+        "Preko 30 svjetskih brendova na jednom mjestu — maloprodaja, veleprodaja i servis u dvije prodavnice u Podgorici.",
+      ctaPrimary: "Pregledajte proizvode",
+      ctaSecondary: "Veleprodajni upit",
+    },
+    trustBar: {
+      locations: "2 prodavnice u Podgorici",
+      service: "Sopstveni servis alata i mašina",
+      brands: "30+ zastupanih brendova",
+      experience: "Dugogodišnje iskustvo u struci",
+    },
+    categories: {
+      heading: "Kupujte po kategoriji",
+      subheading: "Osam kategorija, stotine proizvoda — pronađite ono što vam treba.",
+    },
+    featured: {
+      heading: "Izdvojeni proizvodi",
+      subheading: "Novo u ponudi i najtraženije iz naših prodavnica.",
+      viewAll: "Pogledajte sve",
+      requestQuote: "Zatražite ponudu",
+      viewDetails: "Detalji proizvoda",
+    },
+    brandsSection: {
+      heading: "Brendovi koje zastupamo",
+      subheading:
+        "Ovlašćeni distributer vodećih svjetskih proizvođača alata i opreme.",
+      viewAll: "Svi brendovi",
+    },
+    why: {
+      heading: "Zašto Centrometal",
+      points: [
+        {
+          title: "Ovlašćeni distributer",
+          body: "Zvanično zastupamo brendove poput Bosch, Makita, Einhell i Telwin.",
+        },
+        {
+          title: "Maloprodaja i veleprodaja",
+          body: "Snabdijevamo pojedince, majstore i preduzeća, u malim i velikim količinama.",
+        },
+        {
+          title: "Sopstveni servis",
+          body: "Popravka i održavanje alata i mašina u našoj servisnoj radionici.",
+        },
+        {
+          title: "Dvije lokacije",
+          body: "Prodavnice na 4 Jula 68 i Cetinjskom putu bb u Podgorici.",
+        },
+      ],
+    },
+    wholesaleCta: {
+      heading: "Snabdijevate firmu ili gradilište?",
+      body: "Pošaljite veleprodajni upit i naš tim će vam pripremiti ponudu prilagođenu vašim potrebama.",
+      cta: "Pošaljite upit",
+    },
+    locations: {
+      heading: "Posjetite nas",
+      subheading: "Dvije prodavnice u Podgorici, otvorene radnim danima i subotom.",
+      viewOnMap: "Prikaži na mapi",
+      hours: "Pon–Pet 08–20h, Sub 08–15h",
+    },
+    footer: {
+      productsHeading: "Proizvodi",
+      companyHeading: "Kompanija",
+      contactHeading: "Kontakt",
+      addressLabel: "Adresa",
+      phoneLabel: "Telefon",
+      emailLabel: "Email",
+      rights: "Sva prava zadržana.",
+    },
+    breadcrumb: {
+      home: "Početna",
+      products: "Proizvodi",
+    },
+    category: {
+      filtersHeading: "Filteri",
+      subcategoryLabel: "Podkategorija",
+      brandLabel: "Brend",
+      clearFilters: "Poništi filtere",
+      applyFilters: "Primijeni",
+      resultsLabel: "proizvoda",
+      relatedHeading: "Povezane kategorije",
+      noSpecs: "Specifikacije uskoro dostupne.",
+      emptyGeneric: "Nema proizvoda koji odgovaraju izabranim filterima.",
+      emptyBrandTemplate:
+        "Trenutno nemamo prikazane {brand} proizvode u ovoj kategoriji — kontaktirajte nas za dostupnost.",
+      emptyContactCta: "Kontaktirajte nas",
+      emptyCallCta: "Pozovite prodavnicu",
+    },
+    product: {
+      requestQuote: "Zatražite ponudu",
+      callStore: "Pozovite prodavnicu",
+      descriptionHeading: "Opis",
+      specsHeading: "Specifikacije",
+      downloadsHeading: "Dokumenti za preuzimanje",
+      specSheetLabel: "Tehnički list (PDF)",
+      manufacturerLinkLabel: "Stranica proizvođača",
+      relatedHeading: "Slični proizvodi",
+      quotePrefillTemplate: "Upit za: {product}\n\n",
+    },
+    form: {
+      nameLabel: "Ime i prezime",
+      companyLabel: "Naziv firme",
+      emailLabel: "Email",
+      phoneLabel: "Telefon",
+      messageLabel: "Poruka",
+      categoriesLabel: "Kategorije koje vas interesuju",
+      brandLabel: "Brend (opciono)",
+      issueLabel: "Opis problema",
+      departmentLabel: "Odjeljenje",
+      optional: "opciono",
+      submit: "Pošaljite upit",
+      submitting: "Slanje...",
+      successTitle: "Upit je poslat",
+      successBody: "Hvala, kontaktiraćemo vas u najkraćem roku.",
+      errorTitle: "Došlo je do greške",
+      errorBody: "Upit nije poslat. Pokušajte ponovo ili nas pozovite direktno.",
+      requiredError: "Ovo polje je obavezno.",
+      emailError: "Unesite ispravnu email adresu.",
+      sendAnother: "Pošaljite novi upit",
+    },
+    brandsPage: {
+      heading: "Brendovi",
+      intro:
+        "Ovlašćeni distributer vodećih svjetskih proizvođača alata, mašina i opreme za baštu i domaćinstvo.",
+      viewProducts: "Pogledajte proizvode",
+      noProductsYet: "Proizvodi uskoro dostupni",
+    },
+    wholesalePage: {
+      heading: "Veleprodaja",
+      intro:
+        "Snabdijevamo firme, majstore i gradilišta alatom, mašinama i opremom — u malim i velikim količinama, uz konkurentne veleprodajne uslove.",
+      stepsHeading: "Kako funkcioniše",
+      steps: [
+        {
+          title: "Upit",
+          body: "Pošaljite upit sa podacima o vašoj firmi i kategorijama koje vas interesuju.",
+        },
+        {
+          title: "Ponuda",
+          body: "Naš tim priprema personalizovanu ponudu prilagođenu vašim potrebama.",
+        },
+        {
+          title: "Nalog",
+          body: "Otvaramo veleprodajni nalog i dogovaramo uslove saradnje.",
+        },
+      ],
+      formHeading: "Pošaljite veleprodajni upit",
+    },
+    servicePage: {
+      heading: "Servis",
+      intro:
+        "Sopstvena servisna radionica za popravku i održavanje alata i mašina vodećih brendova.",
+      whatWeServiceHeading: "Šta servisiramo",
+      categoriesLabel: "Kategorije",
+      brandsLabel: "Brendovi",
+      dropOffHeading: "Predaja na servis",
+      dropOffBody: "Opremu možete donijeti lično u bilo koju od naše dvije prodavnice.",
+      formHeading: "Pošaljite servisni upit",
+    },
+    aboutPage: {
+      heading: "O nama",
+      intro:
+        "Centrometal je distributer i prodavac alata, mašina i opreme za baštu i domaćinstvo u Podgorici.",
+      storyHeading: "Naša priča",
+      storyParagraphs: [
+        "Centrometal posluje kao distributer i prodavac alata, mašina i opreme za baštu i domaćinstvo u Podgorici, sa fokusom na maloprodaju, veleprodaju i servis u jednom mjestu.",
+        "Danas zastupamo preko 30 svjetskih brendova — od profesionalnih električnih i akumulatorskih alata, preko mašina i agregata, do baštenske i kućne opreme — i snabdijevamo i pojedince i firme.",
+        "Uz dvije prodavnice u Podgorici, imamo i sopstvenu servisnu radionicu za popravku i održavanje alata i mašina, kako bismo klijentima pružili podršku i nakon kupovine.",
+      ],
+      statsLocations: "Prodavnice u Podgorici",
+      statsBrands: "Zastupanih brendova",
+      statsService: "Sopstveni servis",
+      locationsHeading: "Naše lokacije",
+    },
+    contactPage: {
+      heading: "Kontakt",
+      intro: "Za sva pitanja, upite i narudžbine kontaktirajte nas telefonom, mejlom ili putem forme.",
+      formHeading: "Pošaljite upit",
+      departmentRetail: "Maloprodaja",
+      departmentWholesale: "Veleprodaja",
+      departmentService: "Servis",
+      locationsHeading: "Lokacije",
+    },
+  },
+  en: {
+    nav: {
+      products: "Products",
+      brands: "Brands",
+      wholesale: "Wholesale",
+      service: "Service",
+      about: "About",
+      contact: "Contact",
+      viewAllProducts: "All products",
+      callUs: "Call us",
+    },
+    hero: {
+      eyebrow: "Authorized dealer • Podgorica, Montenegro",
+      headline: "Tools, machinery and equipment for every job.",
+      subhead:
+        "30+ world brands under one roof — retail, wholesale and service across two stores in Podgorica.",
+      ctaPrimary: "Browse Products",
+      ctaSecondary: "Wholesale Inquiries",
+    },
+    trustBar: {
+      locations: "2 stores in Podgorica",
+      service: "In-house tool & machinery service",
+      brands: "30+ brands represented",
+      experience: "Years of experience in the trade",
+    },
+    categories: {
+      heading: "Shop by Category",
+      subheading: "Eight categories, hundreds of products — find what you need.",
+    },
+    featured: {
+      heading: "Featured Products",
+      subheading: "New arrivals and best sellers from our stores.",
+      viewAll: "View all",
+      requestQuote: "Request Quote",
+      viewDetails: "Product details",
+    },
+    brandsSection: {
+      heading: "Brands We Represent",
+      subheading: "Authorized distributor for leading global tool and equipment manufacturers.",
+      viewAll: "All brands",
+    },
+    why: {
+      heading: "Why Centrometal",
+      points: [
+        {
+          title: "Authorized dealer",
+          body: "We officially represent brands including Bosch, Makita, Einhell and Telwin.",
+        },
+        {
+          title: "Retail & wholesale",
+          body: "We supply individuals, tradespeople and businesses, in small and large quantities.",
+        },
+        {
+          title: "In-house service",
+          body: "Tool and machinery repair and maintenance at our own service workshop.",
+        },
+        {
+          title: "Two locations",
+          body: "Stores at 4 Jula 68 and Cetinjski put bb in Podgorica.",
+        },
+      ],
+    },
+    wholesaleCta: {
+      heading: "Supplying a business or job site?",
+      body: "Send a wholesale inquiry and our team will prepare a quote tailored to your needs.",
+      cta: "Send Inquiry",
+    },
+    locations: {
+      heading: "Visit Us",
+      subheading: "Two stores in Podgorica, open weekdays and Saturdays.",
+      viewOnMap: "View on map",
+      hours: "Mon–Fri 8am–8pm, Sat 8am–3pm",
+    },
+    footer: {
+      productsHeading: "Products",
+      companyHeading: "Company",
+      contactHeading: "Contact",
+      addressLabel: "Address",
+      phoneLabel: "Phone",
+      emailLabel: "Email",
+      rights: "All rights reserved.",
+    },
+    breadcrumb: {
+      home: "Home",
+      products: "Products",
+    },
+    category: {
+      filtersHeading: "Filters",
+      subcategoryLabel: "Subcategory",
+      brandLabel: "Brand",
+      clearFilters: "Clear filters",
+      applyFilters: "Apply",
+      resultsLabel: "products",
+      relatedHeading: "Related categories",
+      noSpecs: "Specifications coming soon.",
+      emptyGeneric: "No products match the selected filters.",
+      emptyBrandTemplate:
+        "No {brand} products listed yet in this category — contact us for current availability.",
+      emptyContactCta: "Contact us",
+      emptyCallCta: "Call the store",
+    },
+    product: {
+      requestQuote: "Request Quote",
+      callStore: "Call Store",
+      descriptionHeading: "Description",
+      specsHeading: "Specifications",
+      downloadsHeading: "Downloads",
+      specSheetLabel: "Spec sheet (PDF)",
+      manufacturerLinkLabel: "Manufacturer page",
+      relatedHeading: "Related products",
+      quotePrefillTemplate: "Inquiry about: {product}\n\n",
+    },
+    form: {
+      nameLabel: "Full name",
+      companyLabel: "Company name",
+      emailLabel: "Email",
+      phoneLabel: "Phone",
+      messageLabel: "Message",
+      categoriesLabel: "Categories of interest",
+      brandLabel: "Brand (optional)",
+      issueLabel: "Issue description",
+      departmentLabel: "Department",
+      optional: "optional",
+      submit: "Send inquiry",
+      submitting: "Sending...",
+      successTitle: "Inquiry sent",
+      successBody: "Thanks — we'll get back to you shortly.",
+      errorTitle: "Something went wrong",
+      errorBody: "Your inquiry wasn't sent. Please try again or call us directly.",
+      requiredError: "This field is required.",
+      emailError: "Enter a valid email address.",
+      sendAnother: "Send another inquiry",
+    },
+    brandsPage: {
+      heading: "Brands",
+      intro:
+        "Authorized distributor for leading global manufacturers of tools, machinery and garden & household equipment.",
+      viewProducts: "View products",
+      noProductsYet: "Products coming soon",
+    },
+    wholesalePage: {
+      heading: "Wholesale",
+      intro:
+        "We supply businesses, tradespeople and job sites with tools, machinery and equipment — in small and large quantities, on competitive wholesale terms.",
+      stepsHeading: "How it works",
+      steps: [
+        {
+          title: "Inquire",
+          body: "Send an inquiry with your company details and the categories you're interested in.",
+        },
+        {
+          title: "Quote",
+          body: "Our team prepares a personalized quote tailored to your needs.",
+        },
+        {
+          title: "Account setup",
+          body: "We set up your wholesale account and agree on terms.",
+        },
+      ],
+      formHeading: "Send a wholesale inquiry",
+    },
+    servicePage: {
+      heading: "Service",
+      intro: "Our own service workshop for repairing and maintaining tools and machinery from leading brands.",
+      whatWeServiceHeading: "What we service",
+      categoriesLabel: "Categories",
+      brandsLabel: "Brands",
+      dropOffHeading: "Dropping off equipment",
+      dropOffBody: "You can bring equipment in person to either of our two stores.",
+      formHeading: "Send a service inquiry",
+    },
+    aboutPage: {
+      heading: "About",
+      intro: "Centrometal is a distributor and retailer of tools, machinery and garden & household equipment in Podgorica.",
+      storyHeading: "Our story",
+      storyParagraphs: [
+        "Centrometal operates as a distributor and retailer of tools, machinery and garden & household equipment in Podgorica, with retail, wholesale and service all under one roof.",
+        "Today we represent 30+ world brands — from professional electric and cordless tools, through machinery and generators, to garden and household equipment — supplying both individuals and businesses.",
+        "Alongside our two stores in Podgorica, we run our own service workshop for repairing and maintaining tools and machinery, so customers have support after the purchase too.",
+      ],
+      statsLocations: "Stores in Podgorica",
+      statsBrands: "Brands represented",
+      statsService: "In-house service",
+      locationsHeading: "Our locations",
+    },
+    contactPage: {
+      heading: "Contact",
+      intro: "For any questions, inquiries or orders, reach us by phone, email or the form below.",
+      formHeading: "Send an inquiry",
+      departmentRetail: "Retail",
+      departmentWholesale: "Wholesale",
+      departmentService: "Service",
+      locationsHeading: "Locations",
+    },
+  },
+} satisfies Record<Locale, unknown>;
+
+export type Dictionary = (typeof dictionary)["mne"];
+
+export function getDictionary(locale: Locale): Dictionary {
+  return dictionary[locale];
+}
