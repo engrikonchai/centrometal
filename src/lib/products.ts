@@ -1,5 +1,6 @@
 import type { SanityImageSource } from "@sanity/image-url";
 import type { Localized } from "./i18n";
+import { categories } from "./taxonomy";
 
 export interface ProductSpec {
   label: Localized;
@@ -203,20 +204,47 @@ export function getRelatedProducts(product: Product, limit = 4): Product[] {
   return [...sameSubcategory, ...rest].slice(0, limit);
 }
 
-/** Exact name match ranks first, then a name starting with the term, then any other substring match. */
+/** MNE category/subcategory slug -> both locale names, so a query can match "Bušilice" without the caller resolving the taxonomy itself. */
+const categoryNamesBySlug = new Map<string, string[]>();
+for (const category of categories) {
+  categoryNamesBySlug.set(category.slug.mne, [category.name.mne, category.name.en]);
+  for (const sub of category.subcategories) {
+    categoryNamesBySlug.set(sub.slug.mne, [sub.name.mne, sub.name.en]);
+  }
+}
+
+/** Strips diacritics (š -> s, č -> c, ...) and lowercases, so users don't need to type accents to match them. */
+function normalizeForSearch(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim();
+}
+
+/** Name, category/subcategory names (both locales) and description — everything a query can match against. */
+function searchableText(p: Product): string {
+  const categoryNames = categoryNamesBySlug.get(p.categorySlug) ?? [];
+  const subcategoryNames = categoryNamesBySlug.get(p.subcategorySlug) ?? [];
+  return normalizeForSearch(
+    [p.name, ...categoryNames, ...subcategoryNames, p.description.mne, p.description.en].join(" "),
+  );
+}
+
+/** Exact name match ranks first, then a name starting with the term, then any other substring match (category/description hits included). */
 function relevanceRank(name: string, query: string): number {
-  const lower = name.toLowerCase();
-  if (lower === query) return 0;
-  if (lower.startsWith(query)) return 1;
+  const normalized = normalizeForSearch(name);
+  if (normalized === query) return 0;
+  if (normalized.startsWith(query)) return 1;
   return 2;
 }
 
 /** Shared by the seed path and the Sanity path in lib/data.ts so both rank results the same way. */
 export function rankProductsByQuery(list: Product[], query: string): Product[] {
-  const q = query.trim().toLowerCase();
+  const q = normalizeForSearch(query);
   if (!q) return [];
   return list
-    .filter((p) => p.name.toLowerCase().includes(q))
+    .filter((p) => searchableText(p).includes(q))
     .sort((a, b) => relevanceRank(a.name, q) - relevanceRank(b.name, q));
 }
 
