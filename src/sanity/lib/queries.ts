@@ -39,6 +39,13 @@ export const productsByCategoryQuery = /* groq */ `
   }
 `;
 
+/** Fetched in full and ranked client-side (see lib/data.ts searchProducts) — catalog is small enough that this beats standing up a search index. */
+export const allProductsQuery = /* groq */ `
+  *[_type == "product"] {
+    ${productProjection}
+  }
+`;
+
 export const featuredProductsQuery = /* groq */ `
   *[_type == "product" && featured == true] {
     ${productProjection}

@@ -203,6 +203,27 @@ export function getRelatedProducts(product: Product, limit = 4): Product[] {
   return [...sameSubcategory, ...rest].slice(0, limit);
 }
 
+/** Exact name match ranks first, then a name starting with the term, then any other substring match. */
+function relevanceRank(name: string, query: string): number {
+  const lower = name.toLowerCase();
+  if (lower === query) return 0;
+  if (lower.startsWith(query)) return 1;
+  return 2;
+}
+
+/** Shared by the seed path and the Sanity path in lib/data.ts so both rank results the same way. */
+export function rankProductsByQuery(list: Product[], query: string): Product[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  return list
+    .filter((p) => p.name.toLowerCase().includes(q))
+    .sort((a, b) => relevanceRank(a.name, q) - relevanceRank(b.name, q));
+}
+
+export function searchProducts(query: string): Product[] {
+  return rankProductsByQuery(products, query);
+}
+
 /** The category (MNE slug) with the most products from this brand, if any. */
 export function getPrimaryCategoryForBrand(brandSlug: string): string | undefined {
   const counts = new Map<string, number>();

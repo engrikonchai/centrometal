@@ -53,6 +53,17 @@ export function alternateCategoryPath(
     : categoryPath("mne", categorySlugMne);
 }
 
+export function searchPath(locale: Locale, query?: string): string {
+  const base = locale === "mne" ? "/proizvodi/pretraga" : "/en/products/search";
+  const trimmed = query?.trim();
+  return trimmed ? `${base}?q=${encodeURIComponent(trimmed)}` : base;
+}
+
+/** Search term is not carried across languages — see brief's cross-language rule. */
+export function alternateSearchPath(locale: Locale): string {
+  return searchPath(otherLocale(locale));
+}
+
 const staticPagePaths = {
   brands: brandsPath,
   wholesale: wholesalePath,

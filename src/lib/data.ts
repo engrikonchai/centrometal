@@ -14,12 +14,15 @@ import {
   productsByCategoryQuery,
   featuredProductsQuery,
   productBySlugQuery,
+  allProductsQuery,
 } from "@/sanity/lib/queries";
 import {
   getProductsByCategory as seedGetProductsByCategory,
   getFeaturedProducts as seedGetFeaturedProducts,
   getProductBySlug as seedGetProductBySlug,
   getRelatedProducts as seedGetRelatedProducts,
+  searchProducts as seedSearchProducts,
+  rankProductsByQuery,
   type Product,
 } from "./products";
 
@@ -65,6 +68,25 @@ export async function getProductBySlug(
   } catch (err) {
     console.error("[data] Sanity fetch failed for getProductBySlug, falling back to seed data", err);
     return seedGetProductBySlug(categorySlugMne, productSlug);
+  }
+}
+
+/**
+ * Ranked by relevance (exact name match, then prefix match, then substring).
+ * Safe to call from a client component too — the Sanity client here only
+ * uses NEXT_PUBLIC_* env vars and the read-only CDN, so this runs the same
+ * way in the browser as it does on the server.
+ */
+export async function searchProducts(query: string): Promise<Product[]> {
+  const q = query.trim();
+  if (!q) return [];
+  if (!sanityConfigured || !client) return seedSearchProducts(q);
+  try {
+    const docs = await client.fetch<Product[]>(allProductsQuery);
+    return rankProductsByQuery(docs ?? [], q);
+  } catch (err) {
+    console.error("[data] Sanity fetch failed for searchProducts, falling back to seed data", err);
+    return seedSearchProducts(q);
   }
 }
 

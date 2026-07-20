@@ -18,6 +18,7 @@ import { categories } from "@/lib/taxonomy";
 import { categoryPath } from "@/lib/paths";
 import { MegaMenu } from "./MegaMenu";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { SearchBox } from "./SearchBox";
 
 const MEGA_MENU_ID = "products-mega-menu";
 
@@ -101,6 +102,7 @@ export function Header({
         </nav>
 
         <div className="hidden items-center gap-6 lg:flex">
+          <SearchBox locale={locale} variant="inline" />
           <a
             href="tel:+38220260528"
             className="flex items-center gap-2 text-sm font-semibold transition hover:text-orange-on-dark"
@@ -111,20 +113,22 @@ export function Header({
           <LanguageSwitch locale={locale} alternateHref={alternateHref} />
         </div>
 
-        <button
-          type="button"
-          className="lg:hidden"
-          aria-expanded={mobileOpen}
-          aria-controls="mobile-nav"
-          onClick={() => setMobileOpen((open) => !open)}
-        >
-          {mobileOpen ? (
-            <X className="size-6" aria-hidden="true" />
-          ) : (
-            <Menu className="size-6" aria-hidden="true" />
-          )}
-          <span className="sr-only">Menu</span>
-        </button>
+        <div className="flex items-center gap-4 lg:hidden">
+          <SearchBox locale={locale} variant="collapsible" />
+          <button
+            type="button"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            onClick={() => setMobileOpen((open) => !open)}
+          >
+            {mobileOpen ? (
+              <X className="size-6" aria-hidden="true" />
+            ) : (
+              <Menu className="size-6" aria-hidden="true" />
+            )}
+            <span className="sr-only">Menu</span>
+          </button>
+        </div>
       </div>
 
       {productsOpen && (
