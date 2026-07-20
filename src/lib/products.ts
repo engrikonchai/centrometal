@@ -70,7 +70,7 @@ export const products: Product[] = [
       { label: { mne: "Energija udarca", en: "Impact energy" }, value: "2.4 J" },
     ],
     featured: true,
-    localImage: "/products/makita-hr2470.jpg",
+    localImage: "/products/makita-hr2470.png",
   },
   {
     slug: "einhell-te-cd-18-li",
@@ -82,7 +82,7 @@ export const products: Product[] = [
       mne: "Kompaktna akumulatorska bušilica-zavrtač iz Power X-Change sistema, pogodna za kućnu i profesionalnu upotrebu.",
       en: "Compact cordless drill driver from the Power X-Change platform, suited to both home and professional use.",
     },
-    localImage: "/products/einhell-te-cd-18-li.jpg",
+    localImage: "/products/einhell-te-cd-18-li.png",
   },
   {
     slug: "telwin-tecnica-211-s",
@@ -99,7 +99,7 @@ export const products: Product[] = [
       { label: { mne: "Napajanje", en: "Power supply" }, value: "230 V" },
     ],
     featured: true,
-    localImage: "/products/telwin-tecnica-211-s.jpg",
+    localImage: "/products/telwin-tecnica-211-s.png",
   },
   {
     slug: "knipex-cobra-xl",
@@ -111,7 +111,7 @@ export const products: Product[] = [
       mne: "Vodopumpne klješta velikog raspona hvatanja, kovane iz jednog komada čelika.",
       en: "Water pump pliers with an extra-wide gripping range, forged from a single piece of steel.",
     },
-    localImage: "/products/knipex-cobra-xl.jpg",
+    localImage: "/products/knipex-cobra-xl.png",
   },
   {
     slug: "bosch-gws-750",
@@ -139,7 +139,7 @@ export const products: Product[] = [
       mne: "Benzinska rezačica za beton i metal, sa snažnim dvotaktnim motorom za intenzivnu upotrebu.",
       en: "Petrol-powered disc cutter for concrete and metal, with a powerful two-stroke engine for heavy use.",
     },
-    localImage: "/products/makita-ek7651h.jpg",
+    localImage: "/products/makita-ek7651h.png",
   },
   {
     slug: "bosch-glm-50-c",
@@ -155,7 +155,7 @@ export const products: Product[] = [
       { label: { mne: "Domet", en: "Range" }, value: "0.05–50 m" },
       { label: { mne: "Preciznost", en: "Accuracy" }, value: "± 1.5 mm" },
     ],
-    localImage: "/products/bosch-glm-50-c.jpg",
+    localImage: "/products/bosch-glm-50-c.png",
   },
   {
     slug: "knipex-86-03-250",
@@ -167,7 +167,7 @@ export const products: Product[] = [
       mne: "Klješta-ključ sa podesivim rasponom, za brzo i precizno stezanje bez podešavanja navojem.",
       en: "Pliers wrench with a self-adjusting jaw for fast, precise clamping without a threaded adjustment.",
     },
-    localImage: "/products/knipex-86-03-250.jpg",
+    localImage: "/products/knipex-86-03-250.png",
   },
   {
     slug: "claber-aquauno-video-6",
