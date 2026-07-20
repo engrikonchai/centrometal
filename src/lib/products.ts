@@ -127,6 +127,7 @@ export const products: Product[] = [
       { label: { mne: "Snaga", en: "Power" }, value: "750 W" },
       { label: { mne: "Disk", en: "Disc diameter" }, value: "125 mm" },
     ],
+    featured: true,
     localImage: "/products/bosch-gws-750.jpg",
   },
   {
@@ -179,7 +180,6 @@ export const products: Product[] = [
       mne: "Programator za navodnjavanje sa displejem, do 6 nezavisnih ciklusa zalivanja dnevno.",
       en: "Irrigation timer with a display, supporting up to 6 independent watering cycles per day.",
     },
-    featured: true,
   },
 ];
 

@@ -11,6 +11,7 @@ import { brands as allBrands, getBrandBySlug } from "@/lib/brands";
 import { contactPath } from "@/lib/paths";
 import { ProductCard } from "../product/ProductCard";
 import { Button } from "../ui/Button";
+import { Reveal } from "../ui/Reveal";
 
 export function CategoryBrowser({
   locale,
@@ -145,8 +146,10 @@ export function CategoryBrowser({
 
         {filteredProducts.length > 0 ? (
           <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.slug} product={product} locale={locale} />
+            {filteredProducts.map((product, i) => (
+              <Reveal key={product.slug} delay={(i % 4) * 75} className="h-full">
+                <ProductCard product={product} locale={locale} />
+              </Reveal>
             ))}
           </div>
         ) : (

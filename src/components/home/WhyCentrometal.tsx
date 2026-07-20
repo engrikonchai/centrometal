@@ -3,6 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import { Container } from "../ui/Container";
 import { SectionHeading } from "../ui/SectionHeading";
+import { Reveal } from "../ui/Reveal";
 
 const icons = [BadgeCheck, Truck, Wrench, Store];
 
@@ -17,11 +18,19 @@ export function WhyCentrometal({ locale }: { locale: Locale }) {
           {dict.why.points.map((point, i) => {
             const Icon = icons[i];
             return (
-              <div key={point.title}>
-                <Icon className="size-8 text-orange" strokeWidth={1.5} aria-hidden="true" />
-                <h3 className="mt-4 font-heading text-h3 font-semibold">{point.title}</h3>
-                <p className="mt-2 text-sm text-white/75">{point.body}</p>
-              </div>
+              <Reveal key={point.title} delay={(i % 4) * 75} className="relative overflow-hidden">
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -top-4 -left-1 select-none font-heading text-7xl font-bold text-white/10"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="relative">
+                  <Icon className="size-8 text-orange" strokeWidth={1.5} aria-hidden="true" />
+                  <h3 className="mt-4 font-heading text-h3 font-semibold">{point.title}</h3>
+                  <p className="mt-2 text-sm text-white/75">{point.body}</p>
+                </div>
+              </Reveal>
             );
           })}
         </div>

@@ -1,23 +1,45 @@
-import { Hammer, Wrench, Zap, Drill } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import { categoryPath, wholesalePath } from "@/lib/paths";
 import { categories } from "@/lib/taxonomy";
+import { getFeaturedProducts } from "@/lib/data";
+import { getBrandBySlug } from "@/lib/brands";
+import { urlForImage } from "@/sanity/lib/image";
 import { Container } from "../ui/Container";
 import { Button } from "../ui/Button";
+import { HeroCarousel, type HeroSlide } from "./HeroCarousel";
 
-export function Hero({ locale }: { locale: Locale }) {
+export async function Hero({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const firstCategoryHref = categoryPath(locale, categories[0].slug[locale]);
 
+  const featured = await getFeaturedProducts();
+  const slides: HeroSlide[] = featured
+    .map((product): HeroSlide | null => {
+      const src = product.image
+        ? urlForImage(product.image).width(1200).height(900).fit("crop").auto("format").url()
+        : product.localImage;
+      if (!src) return null;
+      const brand = getBrandBySlug(product.brandSlug);
+      return { src, alt: `${brand?.name ?? ""} ${product.name}`.trim() };
+    })
+    .filter((slide): slide is HeroSlide => slide !== null);
+
+  // Fall back to the original single hero image if no featured products resolve.
+  const carouselSlides =
+    slides.length > 0 ? slides : [{ src: "/products/bosch-gsb-18v-55.jpg", alt: "Bosch GSB 18V-55" }];
+
+  const carouselLabel = locale === "en" ? "Featured products" : "Istaknuti proizvodi";
+
   return (
-    <section className="bg-navy text-white">
-      <Container className="grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-24">
+    <section className="relative overflow-hidden bg-navy text-white">
+      <div className="grain-overlay" aria-hidden="true" />
+      <Container className="relative grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-24">
         <div>
           <p className="text-label font-semibold uppercase tracking-wide text-orange-on-dark">
             {dict.hero.eyebrow}
           </p>
-          <h1 className="mt-4 font-heading text-h1 font-bold leading-[1.05]">
+          <h1 className="mt-4 font-heading text-[3.5rem] font-bold leading-[1.02] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:text-[4.5rem]">
             {dict.hero.headline}
           </h1>
           <p className="mt-6 max-w-lg text-lg text-white/80">{dict.hero.subhead}</p>
@@ -36,25 +58,7 @@ export function Hero({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        {/* Placeholder for real product/store photography — see brief: "real photography not carousel". */}
-        <div
-          role="img"
-          aria-label={
-            locale === "mne"
-              ? "Prodavnica i skladište alata Centrometal"
-              : "Centrometal tool store and warehouse"
-          }
-          className="relative isolate aspect-[4/3] overflow-hidden rounded-button border border-steel bg-steel"
-        >
-          <div className="absolute inset-0 bg-[linear-gradient(135deg,transparent_45%,var(--color-orange)_45%,var(--color-orange)_47%,transparent_47%)]" />
-          <div className="grid h-full grid-cols-2 gap-px bg-steel p-px">
-            {[Wrench, Drill, Zap, Hammer].map((Icon, i) => (
-              <div key={i} className="flex items-center justify-center bg-navy">
-                <Icon className="size-12 text-white/25" strokeWidth={1.25} aria-hidden="true" />
-              </div>
-            ))}
-          </div>
-        </div>
+        <HeroCarousel slides={carouselSlides} label={carouselLabel} />
       </Container>
     </section>
   );

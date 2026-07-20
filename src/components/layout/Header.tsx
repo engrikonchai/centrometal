@@ -72,20 +72,20 @@ export function Header({
           Centrometal
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-0.5 xl:gap-1 lg:flex" aria-label="Primary">
           <button
             type="button"
             aria-expanded={productsOpen}
             aria-controls={MEGA_MENU_ID}
             onClick={() => setProductsOpen((open) => !open)}
             className={clsx(
-              "flex items-center gap-1 border-b-2 px-3 py-5 text-sm font-semibold uppercase tracking-wide transition",
+              "flex items-center gap-1 whitespace-nowrap border-b-2 px-2 py-5 text-sm font-semibold uppercase tracking-wide transition xl:px-3",
               productsOpen ? "border-orange" : "border-transparent hover:border-orange",
             )}
           >
             {dict.nav.products}
             <ChevronDown
-              className={clsx("size-4 transition-transform", productsOpen && "rotate-180")}
+              className={clsx("size-4 shrink-0 transition-transform", productsOpen && "rotate-180")}
               strokeWidth={2}
               aria-hidden="true"
             />
@@ -94,21 +94,21 @@ export function Header({
             <Link
               key={link.href}
               href={link.href}
-              className="border-b-2 border-transparent px-3 py-5 text-sm font-semibold uppercase tracking-wide transition hover:border-orange"
+              className="whitespace-nowrap border-b-2 border-transparent px-2 py-5 text-sm font-semibold uppercase tracking-wide transition hover:border-orange xl:px-3"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-6 lg:flex">
+        <div className="hidden items-center gap-3 xl:gap-5 lg:flex">
           <SearchBox locale={locale} variant="inline" />
           <a
             href="tel:+38220260528"
-            className="flex items-center gap-2 text-sm font-semibold transition hover:text-orange-on-dark"
+            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold transition hover:text-orange-on-dark"
           >
-            <Phone className="size-4" strokeWidth={2} aria-hidden="true" />
-            +382 20 260 528
+            <Phone className="size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
+            +382 20 260-528
           </a>
           <LanguageSwitch locale={locale} alternateHref={alternateHref} />
         </div>
@@ -169,7 +169,7 @@ export function Header({
           <div className="mt-3 flex items-center justify-between border-t border-steel px-2 pt-3">
             <a href="tel:+38220260528" className="flex items-center gap-2 text-sm font-semibold">
               <Phone className="size-4" strokeWidth={2} aria-hidden="true" />
-              +382 20 260 528
+              +382 20 260-528
             </a>
             <LanguageSwitch locale={locale} alternateHref={alternateHref} />
           </div>

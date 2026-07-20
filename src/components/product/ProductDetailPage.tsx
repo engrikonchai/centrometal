@@ -16,6 +16,7 @@ import { ProductGallery } from "./ProductGallery";
 import { SpecSummary } from "./SpecSummary";
 import { SpecTable } from "./SpecTable";
 import { RelatedProducts } from "./RelatedProducts";
+import { StickyInquiryBar } from "./StickyInquiryBar";
 
 export async function ProductDetailPage({
   locale,
@@ -147,7 +148,11 @@ export async function ProductDetailPage({
         </Container>
 
         <RelatedProducts locale={locale} products={related} />
+
+        {/* Spacer so the sticky mobile CTA never permanently covers the last content. */}
+        <div className="h-20 md:hidden" aria-hidden="true" />
       </main>
+      <StickyInquiryBar href={quoteHref} label={dict.product.requestQuote} />
       <Footer locale={locale} />
     </>
   );

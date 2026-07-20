@@ -5,6 +5,7 @@ import { categories, type Category } from "@/lib/taxonomy";
 import { categoryPath } from "@/lib/paths";
 import { Container } from "../ui/Container";
 import { Card } from "../ui/Card";
+import { Reveal } from "../ui/Reveal";
 
 export function RelatedCategories({
   locale,
@@ -23,18 +24,20 @@ export function RelatedCategories({
           {dict.category.relatedHeading}
         </h2>
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {related.map((category) => {
+          {related.map((category, i) => {
             const Icon = category.icon;
             return (
-              <Card key={category.slug.mne}>
-                <Link
-                  href={categoryPath(locale, category.slug[locale])}
-                  className="flex flex-col items-start gap-3 p-5"
-                >
-                  <Icon className="size-6 text-orange" strokeWidth={1.5} aria-hidden="true" />
-                  <span className="text-sm font-semibold text-navy">{category.name[locale]}</span>
-                </Link>
-              </Card>
+              <Reveal key={category.slug.mne} delay={(i % 4) * 75} className="h-full">
+                <Card className="h-full">
+                  <Link
+                    href={categoryPath(locale, category.slug[locale])}
+                    className="flex flex-col items-start gap-3 p-5"
+                  >
+                    <Icon className="size-6 text-orange" strokeWidth={1.5} aria-hidden="true" />
+                    <span className="text-sm font-semibold text-navy">{category.name[locale]}</span>
+                  </Link>
+                </Card>
+              </Reveal>
             );
           })}
         </div>

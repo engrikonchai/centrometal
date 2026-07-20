@@ -5,6 +5,7 @@ import { getCategoryBySlug } from "@/lib/taxonomy";
 import { Container } from "../ui/Container";
 import { SectionHeading } from "../ui/SectionHeading";
 import { Button } from "../ui/Button";
+import { Reveal } from "../ui/Reveal";
 import { ProductCard } from "../product/ProductCard";
 import { categoryPath } from "@/lib/paths";
 
@@ -19,8 +20,10 @@ export async function FeaturedProducts({ locale }: { locale: Locale }) {
           <SectionHeading heading={dict.featured.heading} subheading={dict.featured.subheading} />
         </div>
         <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
-          {featured.map((product) => (
-            <ProductCard key={product.slug} product={product} locale={locale} />
+          {featured.map((product, i) => (
+            <Reveal key={product.slug} delay={(i % 4) * 75} className="h-full">
+              <ProductCard product={product} locale={locale} />
+            </Reveal>
           ))}
         </div>
         {featured[0] &&

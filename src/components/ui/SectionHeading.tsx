@@ -1,4 +1,5 @@
 import { clsx } from "clsx";
+import { Reveal } from "./Reveal";
 
 export function SectionHeading({
   eyebrow,
@@ -26,14 +27,16 @@ export function SectionHeading({
           {eyebrow}
         </p>
       )}
-      <h2
+      <Reveal
+        as="h2"
+        variant="left"
         className={clsx(
           "font-heading text-h2 font-bold",
           invert ? "text-white" : "text-navy",
         )}
       >
         {heading}
-      </h2>
+      </Reveal>
       {subheading && (
         <p className={clsx("mt-2 max-w-2xl", invert ? "text-white/75" : "text-muted")}>
           {subheading}
