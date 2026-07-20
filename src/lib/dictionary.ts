@@ -11,6 +11,8 @@ export const dictionary = {
       contact: "Kontakt",
       viewAllProducts: "Svi proizvodi",
       callUs: "Pozovite nas",
+      openMenu: "Otvori meni",
+      closeMenu: "Zatvori meni",
     },
     hero: {
       eyebrow: "Ovlašćeni distributer • Podgorica, Crna Gora",
@@ -220,6 +222,8 @@ export const dictionary = {
       contact: "Contact",
       viewAllProducts: "All products",
       callUs: "Call us",
+      openMenu: "Open menu",
+      closeMenu: "Close menu",
     },
     hero: {
       eyebrow: "Authorized dealer • Podgorica, Montenegro",

@@ -64,10 +64,27 @@ export function Header({
 
   return (
     <header ref={headerRef} className="sticky top-0 z-40 bg-navy text-white">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:flex lg:justify-between lg:px-8">
+        <div className="flex items-center justify-self-start lg:hidden">
+          <button
+            type="button"
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-nav"
+            aria-label={mobileOpen ? dict.nav.closeMenu : dict.nav.openMenu}
+            onClick={() => setMobileOpen((open) => !open)}
+            className="-ml-2 grid size-11 place-items-center"
+          >
+            {mobileOpen ? (
+              <X className="size-6" aria-hidden="true" />
+            ) : (
+              <Menu className="size-6" aria-hidden="true" />
+            )}
+          </button>
+        </div>
+
         <Link
           href={homePath(locale)}
-          className="font-heading text-xl font-bold uppercase tracking-wide text-white"
+          className="justify-self-center font-heading text-xl font-bold uppercase tracking-wide text-white lg:justify-self-auto"
         >
           Centrometal
         </Link>
@@ -113,21 +130,15 @@ export function Header({
           <LanguageSwitch locale={locale} alternateHref={alternateHref} />
         </div>
 
-        <div className="flex items-center gap-4 lg:hidden">
+        <div className="flex items-center justify-self-end lg:hidden">
           <SearchBox locale={locale} variant="collapsible" />
-          <button
-            type="button"
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-nav"
-            onClick={() => setMobileOpen((open) => !open)}
+          <a
+            href="tel:+38220260528"
+            aria-label={dict.nav.callUs}
+            className="-mr-2 grid size-11 place-items-center transition hover:text-orange-on-dark"
           >
-            {mobileOpen ? (
-              <X className="size-6" aria-hidden="true" />
-            ) : (
-              <Menu className="size-6" aria-hidden="true" />
-            )}
-            <span className="sr-only">Menu</span>
-          </button>
+            <Phone className="size-5" strokeWidth={2} aria-hidden="true" />
+          </a>
         </div>
       </div>
 
@@ -146,7 +157,7 @@ export function Header({
                 <Link
                   href={categoryPath(locale, category.slug[locale])}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-button px-2 py-2 text-sm hover:bg-steel"
+                  className="block rounded-button px-2 py-3 text-sm hover:bg-steel"
                 >
                   {category.name[locale]}
                 </Link>

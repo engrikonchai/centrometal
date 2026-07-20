@@ -203,7 +203,11 @@ export function SearchBox({
       aria-controls={listId}
       aria-autocomplete="list"
       autoComplete="off"
-      className={clsx(inputBase, "py-2 pl-9 pr-3 text-sm")}
+      className={clsx(
+        inputBase,
+        "pl-9 pr-3",
+        variant === "collapsible" ? "h-11 py-0 text-base" : "py-2 text-sm",
+      )}
     />
   );
 
@@ -233,6 +237,7 @@ export function SearchBox({
           type="button"
           onClick={() => setExpanded(true)}
           aria-label={dict.search.openLabel}
+          className="grid size-11 place-items-center"
         >
           <Search className="size-6" strokeWidth={2} aria-hidden="true" />
         </button>
@@ -254,7 +259,7 @@ export function SearchBox({
                   closeAndCollapse();
                 }}
                 aria-label={dict.search.closeLabel}
-                className="text-white"
+                className="grid size-11 shrink-0 place-items-center text-white"
               >
                 <X className="size-6" strokeWidth={2} aria-hidden="true" />
               </button>

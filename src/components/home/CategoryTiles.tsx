@@ -31,14 +31,22 @@ export function CategoryTiles({ locale }: { locale: Locale }) {
     <section className="py-16 sm:py-24">
       <Container>
         <SectionHeading heading={dict.categories.heading} subheading={dict.categories.subheading} />
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div
+          data-testid="category-grid"
+          className="no-scrollbar mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible lg:grid-cols-4"
+        >
           {categories.map((category, i) => {
             const Icon = category.icon;
             return (
-              <Reveal key={category.slug.mne} delay={(i % 4) * 75}>
+              <Reveal
+                key={category.slug.mne}
+                delay={(i % 4) * 75}
+                className="w-[31%] shrink-0 snap-start sm:w-auto sm:shrink"
+              >
                 <Link
                   href={categoryPath(locale, category.slug[locale])}
-                  className="group relative flex h-full flex-col items-start gap-4 overflow-hidden rounded-lg p-6 transition hover:-translate-y-0.5"
+                  data-testid="category-card"
+                  className="group relative flex h-full min-h-[44px] flex-col items-start gap-4 overflow-hidden rounded-lg p-6 transition hover:-translate-y-0.5"
                   style={{ background: categoryGradients[category.slug.mne] }}
                 >
                   <div

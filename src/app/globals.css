@@ -161,6 +161,16 @@ h4 {
   }
 }
 
+/* Hides the scrollbar on horizontally-scrollable mobile rows (categories, brands) while keeping the element scrollable via touch/wheel. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Low-opacity grain texture for the hero (visual depth, not a real image). */
 .grain-overlay {
   position: absolute;

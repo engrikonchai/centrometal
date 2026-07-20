@@ -19,7 +19,7 @@ export async function FeaturedProducts({ locale }: { locale: Locale }) {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <SectionHeading heading={dict.featured.heading} subheading={dict.featured.subheading} />
         </div>
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((product, i) => (
             <Reveal key={product.slug} delay={(i % 4) * 75} className="h-full">
               <ProductCard product={product} locale={locale} />
