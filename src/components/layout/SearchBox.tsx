@@ -12,11 +12,22 @@ import type { Product } from "@/lib/products";
 import { getBrandBySlug } from "@/lib/brands";
 import { getCategoryBySlug } from "@/lib/taxonomy";
 import { productPath, searchPath } from "@/lib/paths";
-import { inputBase } from "../forms/fields";
 
 const MAX_SUGGESTIONS = 8;
 const MAX_QUERY_LENGTH = 100;
 const DEBOUNCE_MS = 200;
+
+/**
+ * Minimal-line style — sits directly on the navy header, so (unlike the
+ * boxed inputBase used by the on-white contact/wholesale/service forms)
+ * this stays transparent with white text and only a teal underline.
+ * The global :focus-visible ring (globals.css) still applies on top of
+ * this — it's unlayered CSS, so it always wins over any focus:outline-none
+ * utility here, which is why this doesn't bother trying to suppress it.
+ */
+const searchInputBase =
+  "w-full border-b border-teal bg-transparent pl-9 text-white transition-[border-width] duration-200 " +
+  "placeholder:text-white/50 focus:border-b-2";
 
 function productHref(locale: Locale, product: Product): string {
   const categorySlug =
@@ -27,9 +38,12 @@ function productHref(locale: Locale, product: Product): string {
 export function SearchBox({
   locale,
   variant,
+  className,
 }: {
   locale: Locale;
   variant: "inline" | "collapsible";
+  /** Inline variant only — overrides the desktop nav's default fixed/expanding width (e.g. "w-full" for a full-width mobile placement). */
+  className?: string;
 }) {
   const dict = getDictionary(locale);
   const router = useRouter();
@@ -162,7 +176,7 @@ export function SearchBox({
                   >
                     <span>{product.name}</span>
                     {brand && (
-                      <span className="shrink-0 rounded-full bg-orange px-2 py-0.5 text-xs font-semibold text-white">
+                      <span className="shrink-0 rounded-full bg-teal px-2 py-0.5 text-xs font-semibold text-white">
                         {brand.name}
                       </span>
                     )}
@@ -174,7 +188,7 @@ export function SearchBox({
           <Link
             href={searchPath(locale, query)}
             onClick={handleSuggestionClick}
-            className="block border-t border-line px-4 py-2.5 text-center text-sm font-semibold text-navy transition hover:text-orange"
+            className="block border-t border-line px-4 py-2.5 text-center text-sm font-semibold text-navy transition hover:text-teal"
           >
             {dict.search.viewAllResults}
           </Link>
@@ -204,9 +218,10 @@ export function SearchBox({
       aria-autocomplete="list"
       autoComplete="off"
       className={clsx(
-        inputBase,
-        "pl-9 pr-3",
-        variant === "collapsible" ? "h-11 py-0 text-base" : "py-2 text-sm",
+        searchInputBase,
+        variant === "collapsible"
+          ? "h-11 py-0 pr-3 text-base"
+          : "py-1.5 pr-2.5 text-[13px] lg:py-2 lg:pr-3 lg:text-sm",
       )}
     />
   );
@@ -215,11 +230,14 @@ export function SearchBox({
     return (
       <div
         ref={wrapperRef}
-        className="relative w-44 shrink-0 transition-[width] duration-200 focus-within:w-64"
+        className={clsx(
+          "relative shrink-0",
+          className ?? "w-44 transition-[width] duration-200 focus-within:w-64",
+        )}
       >
         <form onSubmit={handleSubmit}>
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
+            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/50"
             strokeWidth={2}
             aria-hidden="true"
           />
@@ -247,7 +265,7 @@ export function SearchBox({
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <div className="relative flex-1">
                 <Search
-                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
+                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/50"
                   strokeWidth={2}
                   aria-hidden="true"
                 />

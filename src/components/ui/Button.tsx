@@ -3,7 +3,7 @@ import { Loader2 } from "lucide-react";
 import { clsx } from "clsx";
 
 type CommonProps = {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "accent";
   size?: "md" | "lg";
   loading?: boolean;
   className?: string;
@@ -30,9 +30,10 @@ const sizes = {
 };
 
 const variants = {
-  primary: "bg-orange text-white hover:brightness-90 active:brightness-75",
+  primary: "bg-teal text-white hover:brightness-90 active:brightness-75",
   secondary:
-    "border border-navy text-navy bg-transparent hover:bg-navy hover:text-white active:brightness-90",
+    "border border-teal text-teal bg-transparent hover:bg-teal hover:text-white active:brightness-90",
+  accent: "bg-teal text-white hover:brightness-90 active:brightness-75",
 };
 
 export function Button({

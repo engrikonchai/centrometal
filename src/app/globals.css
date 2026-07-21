@@ -14,29 +14,27 @@
   --color-steel: #2e4756;
   --color-warehouse: #f5f5f2;
 
-  /* Accent — brief: --safety-orange, --industrial-green */
-  /* Brief's raw #D9531E is ~4.0:1 against white text (fails AA 4.5:1 for
-     normal-weight body text). Darkened to #C94B1A (~4.7:1) per the brief's
-     own instruction to "verify AA contrast w/ white text, darken slightly
-     if needed." Same hue, same role (primary CTAs only). */
-  --color-orange: #c94b1a;
+  /* Accent — brief: --industrial-green (status only, not a brand accent) */
   --color-green: #4a7856;
-
-  /* Same accent, lightened for use as TEXT on navy/steel backgrounds
-     (e.g. active language switch, hero eyebrow). --color-orange is tuned
-     dark enough to sit under white CTA-button text and to sit on light
-     backgrounds, which makes it too dark to pass AA as text on navy
-     (3.1:1, caught by an axe-core audit). This variant hits ~4.8:1 on
-     navy. Icons stay on --color-orange since decorative/aria-hidden icons
-     are exempt from text-contrast rules. */
-  --color-orange-on-dark: #ed7038;
 
   /* Not in the brief's palette — needed for accessible inline form error
      states (brief calls for "inline error/success states" but only
-     specifies a success color). Kept clearly distinct from --color-orange
-     so it doesn't read as another CTA; AA contrast verified at 6.5:1 on
+     specifies a success color). AA contrast verified at 6.5:1 on
      white/warehouse backgrounds. */
   --color-error: #b91c1c;
+
+  /* Global redesign: single brand accent for every button, link, icon and
+     interactive element (replaces the old safety-orange accent). White
+     text on this teal is ~4.9:1 on white (AA for normal text). */
+  --color-teal: #1c79a0;
+
+  /* Same accent, lightened for use as TEXT on navy/steel backgrounds
+     (e.g. active language switch, hero eyebrow, footer link hover).
+     --color-teal is too close in luminance to navy to pass AA as text
+     there (~3.0:1). This variant verified at ~7.4:1 on navy and ~5.0:1 on
+     steel. Icons stay on --color-teal since decorative/aria-hidden icons
+     are exempt from text-contrast rules. */
+  --color-teal-on-dark: #63c5e8;
 
   /* Neutrals — brief: --text-body, --text-muted, --border, --surface-white */
   --color-ink: #0f1720;
@@ -69,7 +67,10 @@
 }
 
 body {
-  background-color: var(--color-warehouse);
+  /* Global redesign: page background is pure white; --color-warehouse
+     remains available as the light-gray tone for alternating sections
+     and image letterboxing. */
+  background-color: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: 1rem;
@@ -85,7 +86,7 @@ h4 {
 
 /* Visible focus states everywhere — never suppressed (brief: Accessibility) */
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-teal);
   outline-offset: 2px;
 }
 

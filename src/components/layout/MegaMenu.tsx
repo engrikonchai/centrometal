@@ -28,7 +28,7 @@ export function MegaMenu({
               className="group flex items-start gap-3 rounded-button p-2 transition hover:bg-steel"
             >
               <Icon
-                className="mt-0.5 size-5 shrink-0 text-orange"
+                className="mt-0.5 size-5 shrink-0 text-teal"
                 strokeWidth={1.75}
                 aria-hidden="true"
               />

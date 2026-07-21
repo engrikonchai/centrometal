@@ -147,7 +147,7 @@ export function HeroCarousel({
                 <span
                   className={clsx(
                     "block h-2 rounded-full transition-all",
-                    i === index ? "w-6 bg-orange-on-dark" : "w-2 bg-white/40",
+                    i === index ? "w-6 bg-teal-on-dark" : "w-2 bg-white/40",
                   )}
                 />
               </button>

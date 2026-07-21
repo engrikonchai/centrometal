@@ -6,8 +6,8 @@ import { Footer } from "../layout/Footer";
 import { LocationsSection } from "../shared/LocationsSection";
 import { Hero } from "./Hero";
 import { TrustBar } from "./TrustBar";
-import { CategoryTiles } from "./CategoryTiles";
-import { FeaturedProducts } from "./FeaturedProducts";
+import { ProductsOnSale } from "./ProductsOnSale";
+import { AktuelnoSection } from "./AktuelnoSection";
 import { BrandsGrid } from "./BrandsGrid";
 import { WhyCentrometal } from "./WhyCentrometal";
 import { WholesaleCtaBand } from "./WholesaleCtaBand";
@@ -21,8 +21,8 @@ export function HomePage({ locale }: { locale: Locale }) {
       <main>
         <Hero locale={locale} />
         <TrustBar locale={locale} />
-        <CategoryTiles locale={locale} />
-        <FeaturedProducts locale={locale} />
+        <ProductsOnSale locale={locale} />
+        <AktuelnoSection locale={locale} />
         <BrandsGrid locale={locale} />
         <WhyCentrometal locale={locale} />
         <WholesaleCtaBand locale={locale} />

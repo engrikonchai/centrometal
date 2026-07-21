@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
+import { CartProvider } from "@/contexts/CartContext";
+import { FavoritesProvider } from "@/contexts/FavoritesContext";
+import { AppShell } from "@/components/AppShell";
 import "./globals.css";
 
 const barlowCondensed = Barlow_Condensed({
@@ -35,8 +38,12 @@ export default function RootLayout({
       lang="sr-ME"
       className={`${barlowCondensed.variable} ${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-warehouse text-ink">
-        {children}
+      <body className="flex min-h-full flex-col bg-warehouse text-ink">
+        <CartProvider>
+          <FavoritesProvider>
+            <AppShell>{children}</AppShell>
+          </FavoritesProvider>
+        </CartProvider>
       </body>
     </html>
   );

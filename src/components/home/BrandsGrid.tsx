@@ -33,8 +33,8 @@ export function BrandsGrid({ locale }: { locale: Locale }) {
                     logo={brand.logo}
                     className={
                       isAnchor
-                        ? "h-20 w-28 text-sm transition hover:scale-105 hover:border-orange"
-                        : "h-14 w-20 text-xs transition hover:scale-105 hover:border-orange"
+                        ? "h-20 w-28 text-sm transition hover:scale-105 hover:border-teal"
+                        : "h-14 w-20 text-xs transition hover:scale-105 hover:border-teal"
                     }
                     imageClassName={isAnchor ? "h-8 w-20" : "h-5 w-12"}
                   />

@@ -13,7 +13,7 @@ function LocaleLink({
 }) {
   if (isActive) {
     return (
-      <span aria-current="page" className="px-1.5 py-0.5 text-orange-on-dark">
+      <span aria-current="page" className="px-1.5 py-0.5 text-teal-on-dark">
         {children}
       </span>
     );

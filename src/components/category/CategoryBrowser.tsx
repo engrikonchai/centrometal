@@ -114,7 +114,7 @@ export function CategoryBrowser({
             <SlidersHorizontal className="size-4" strokeWidth={2} aria-hidden="true" />
             {dict.category.filtersHeading}
             {activeCount > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-orange text-xs text-white">
+              <span className="flex size-5 items-center justify-center rounded-full bg-teal text-xs text-white">
                 {activeCount}
               </span>
             )}
@@ -128,7 +128,7 @@ export function CategoryBrowser({
                 key={chip.key}
                 type="button"
                 onClick={chip.onRemove}
-                className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-navy transition hover:border-orange"
+                className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-navy transition hover:border-teal"
               >
                 {chip.label}
                 <X className="size-3.5" strokeWidth={2} aria-hidden="true" />
@@ -137,7 +137,7 @@ export function CategoryBrowser({
             <button
               type="button"
               onClick={clearFilters}
-              className="px-2 py-1.5 text-sm font-semibold text-muted underline-offset-2 transition hover:text-orange hover:underline"
+              className="px-2 py-1.5 text-sm font-semibold text-muted underline-offset-2 transition hover:text-teal hover:underline"
             >
               {dict.category.clearFilters}
             </button>
@@ -201,7 +201,7 @@ export function CategoryBrowser({
             <button
               type="button"
               onClick={() => setMobileFiltersOpen(false)}
-              className="sticky bottom-0 mt-6 w-full rounded-button bg-orange py-3 text-label font-semibold uppercase tracking-wide text-white"
+              className="sticky bottom-0 mt-6 w-full rounded-button bg-teal py-3 text-label font-semibold uppercase tracking-wide text-white"
             >
               {dict.category.applyFilters} ({filteredProducts.length})
             </button>
@@ -243,7 +243,7 @@ function FilterPanel({
               <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink">
                 <input
                   type="checkbox"
-                  className="size-4 accent-orange"
+                  className="size-4 accent-teal"
                   checked={selectedSubcategories.includes(sub.slug.mne)}
                   onChange={() => onToggleSubcategory(sub.slug.mne)}
                 />
@@ -264,7 +264,7 @@ function FilterPanel({
               <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink">
                 <input
                   type="checkbox"
-                  className="size-4 accent-orange"
+                  className="size-4 accent-teal"
                   checked={selectedBrands.includes(brand.slug)}
                   onChange={() => onToggleBrand(brand.slug)}
                 />

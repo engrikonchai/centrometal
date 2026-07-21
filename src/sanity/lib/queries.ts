@@ -30,7 +30,8 @@ const productProjection = /* groq */ `
   subcategorySlug,
   "description": { "mne": description_mne, "en": description_en },
   image,
-  featured
+  featured,
+  onSale
 `;
 
 export const productsByCategoryQuery = /* groq */ `
@@ -48,6 +49,12 @@ export const allProductsQuery = /* groq */ `
 
 export const featuredProductsQuery = /* groq */ `
   *[_type == "product" && featured == true] {
+    ${productProjection}
+  }
+`;
+
+export const onSaleProductsQuery = /* groq */ `
+  *[_type == "product" && onSale == true] {
     ${productProjection}
   }
 `;

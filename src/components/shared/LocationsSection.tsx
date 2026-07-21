@@ -30,18 +30,18 @@ export function LocationsSection({
             <Card key={store.name} className="p-6">
               <h3 className="font-heading text-h3 font-semibold text-navy">{store.name}</h3>
               <p className="mt-3 flex items-start gap-2 text-sm text-muted">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <MapPin className="mt-0.5 size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 {store.address}
               </p>
               <p className="mt-2 flex items-center gap-2 text-sm text-muted">
-                <Clock className="size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <Clock className="size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 {dict.locations.hours}
               </p>
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.address)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-block text-sm font-semibold text-navy transition hover:text-orange"
+                className="mt-4 inline-block text-sm font-semibold text-navy transition hover:text-teal"
               >
                 {dict.locations.viewOnMap} →
               </a>

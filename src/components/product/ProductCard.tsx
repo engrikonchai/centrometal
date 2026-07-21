@@ -1,12 +1,18 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { Heart } from "lucide-react";
+import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
 import { getBrandBySlug } from "@/lib/brands";
 import { getCategoryBySlug } from "@/lib/taxonomy";
-import { contactPath, productPath } from "@/lib/paths";
+import { productPath } from "@/lib/paths";
 import { getDictionary } from "@/lib/dictionary";
 import { urlForImage } from "@/sanity/lib/image";
+import { useCart, cartItemId } from "@/contexts/CartContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
 import { BrandMark } from "../ui/BrandMark";
@@ -23,18 +29,26 @@ export function ProductCard({
   const category = getCategoryBySlug("mne", product.categorySlug);
   const dict = getDictionary(locale);
   const href = productPath(locale, category?.slug[locale] ?? product.categorySlug, product.slug);
-  const quoteHref = `${contactPath(locale)}?product=${encodeURIComponent(product.name)}`;
   const alt = `${brand?.name ?? ""} ${product.name}`.trim();
   const specs = product.specs?.slice(0, 3) ?? [];
 
+  const { add: addToCart } = useCart();
+  const { toggle: toggleFavorite, isFavorited } = useFavorites();
+  const favorited = isFavorited(cartItemId(product));
+
   return (
-    <Card className="group flex h-full flex-col overflow-hidden">
+    <Card className="group relative flex h-full flex-col overflow-hidden">
       <Link
         href={href}
         className="flex flex-1 flex-col"
         aria-label={product.name}
         data-testid="product-result"
       >
+        {product.onSale && (
+          <span className="absolute left-2 top-2 z-10 rounded-full bg-teal px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
+            {dict.featured.onSaleBadge}
+          </span>
+        )}
         {product.image || product.localImage ? (
           <div className="relative aspect-[4/3] w-full border-b border-line bg-warehouse">
             <Image
@@ -74,9 +88,29 @@ export function ProductCard({
           )}
         </div>
       </Link>
+
+      <button
+        type="button"
+        onClick={() => toggleFavorite(product)}
+        aria-pressed={favorited}
+        aria-label={favorited ? dict.featured.removeFromFavorites : dict.featured.addToFavorites}
+        className={clsx(
+          "absolute right-2 top-2 z-10 grid size-9 place-items-center rounded-full bg-white/90 shadow transition hover:bg-white",
+          favorited ? "text-teal" : "text-muted",
+        )}
+      >
+        <Heart className="size-5" strokeWidth={2} fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
+      </button>
+
       <div className="p-4 pt-3">
-        <Button href={quoteHref} variant="primary" size="lg" className="w-full">
-          {dict.featured.requestQuote}
+        <Button
+          type="button"
+          variant="accent"
+          size="lg"
+          className="w-full"
+          onClick={() => addToCart(product, dict.featured.addedToCart)}
+        >
+          {dict.featured.addToCart}
         </Button>
       </div>
     </Card>

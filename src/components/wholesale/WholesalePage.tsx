@@ -29,7 +29,7 @@ export function WholesalePage({ locale }: { locale: Locale }) {
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
             {dict.wholesalePage.steps.map((step, i) => (
               <Card key={step.title} className="p-6">
-                <span className="flex size-8 items-center justify-center rounded-full bg-orange text-sm font-bold text-white">
+                <span className="flex size-8 items-center justify-center rounded-full bg-teal text-sm font-bold text-white">
                   {i + 1}
                 </span>
                 <h3 className="mt-4 font-heading text-lg font-semibold text-navy">{step.title}</h3>

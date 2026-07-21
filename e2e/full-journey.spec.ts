@@ -44,7 +44,9 @@ test.describe("Centrometal E2E", () => {
   test('should search for "bušilica" and show results', async ({ page }) => {
     await page.goto("/");
 
-    const searchBox = page.locator('input[placeholder*="Pretraži"]');
+    // The header now renders both a mobile and a desktop search input (one hidden via
+    // CSS depending on viewport) — :visible scopes this to whichever one is actually shown.
+    const searchBox = page.locator('input[placeholder*="Pretraži"]:visible');
     await searchBox.fill("bušilica");
     await searchBox.press("Enter");
 
@@ -56,7 +58,9 @@ test.describe("Centrometal E2E", () => {
   test('should search for "busilica" (no diacritics) and show the same results', async ({ page }) => {
     await page.goto("/");
 
-    const searchBox = page.locator('input[placeholder*="Pretraži"]');
+    // The header now renders both a mobile and a desktop search input (one hidden via
+    // CSS depending on viewport) — :visible scopes this to whichever one is actually shown.
+    const searchBox = page.locator('input[placeholder*="Pretraži"]:visible');
     await searchBox.fill("busilica");
     await searchBox.press("Enter");
 

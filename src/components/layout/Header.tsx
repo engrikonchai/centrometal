@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import Image from "next/image";
+import { ChevronDown, Heart, Phone, ShoppingCart, X } from "lucide-react";
 import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
@@ -16,11 +17,32 @@ import {
 } from "@/lib/paths";
 import { categories } from "@/lib/taxonomy";
 import { categoryPath } from "@/lib/paths";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
+import { useCart } from "@/contexts/CartContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { MegaMenu } from "./MegaMenu";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { SearchBox } from "./SearchBox";
+import { CartModal } from "../mobile/CartModal";
+import { FavoritesModal } from "../mobile/FavoritesModal";
+
+function HeaderBadge({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <span
+      aria-hidden="true"
+      className="absolute -right-1 -top-1 grid min-w-4 place-items-center rounded-full bg-teal px-1 text-[10px] font-bold leading-4 text-white"
+    >
+      {count}
+    </span>
+  );
+}
 
 const MEGA_MENU_ID = "products-mega-menu";
+/** Ignore small scroll jitter (mobile URL bar collapse, momentum scroll) below this delta. */
+const SCROLL_HIDE_THRESHOLD = 4;
+/** Never hide the header this close to the top. */
+const SCROLL_HIDE_MIN_Y = 80;
 
 export function Header({
   locale,
@@ -32,7 +54,14 @@ export function Header({
   const dict = getDictionary(locale);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [favoritesOpen, setFavoritesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const { count: cartCount } = useCart();
+  const { count: favoritesCount } = useFavorites();
+
+  useBodyScrollLock(mobileOpen);
 
   useEffect(() => {
     function handleClick(event: MouseEvent) {
@@ -54,6 +83,26 @@ export function Header({
     };
   }, []);
 
+  useEffect(() => {
+    let lastY = window.scrollY;
+    function onScroll() {
+      const currentY = window.scrollY;
+      const delta = currentY - lastY;
+      if (currentY < SCROLL_HIDE_MIN_Y) {
+        setHidden(false);
+      } else if (delta > SCROLL_HIDE_THRESHOLD) {
+        setHidden(true);
+      } else if (delta < -SCROLL_HIDE_THRESHOLD) {
+        setHidden(false);
+      }
+      lastY = currentY;
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const keepVisible = productsOpen || mobileOpen;
+
   const navLinks = [
     { label: dict.nav.brands, href: brandsPath(locale) },
     { label: dict.nav.wholesale, href: wholesalePath(locale) },
@@ -63,8 +112,15 @@ export function Header({
   ];
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-40 bg-navy text-white">
-      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:flex lg:justify-between lg:px-8">
+    <>
+    <header
+      ref={headerRef}
+      className={clsx(
+        "fixed inset-x-0 top-0 z-40 bg-navy text-white transition-transform duration-300 ease-out motion-reduce:transition-none",
+        hidden && !keepVisible ? "-translate-y-full" : "translate-y-0",
+      )}
+    >
+      <div className="mx-auto grid h-14 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:flex lg:h-16 lg:justify-between lg:px-8">
         <div className="flex items-center justify-self-start lg:hidden">
           <button
             type="button"
@@ -77,16 +133,66 @@ export function Header({
             {mobileOpen ? (
               <X className="size-6" aria-hidden="true" />
             ) : (
-              <Menu className="size-6" aria-hidden="true" />
+              <span className="flex flex-col items-center justify-center gap-1.5" aria-hidden="true">
+                <span className="h-0.5 w-7 bg-white" />
+                <span className="h-0.5 w-7 bg-white" />
+                <span className="h-0.5 w-7 bg-white" />
+              </span>
             )}
           </button>
         </div>
 
+        <SearchBox locale={locale} variant="inline" className="w-full min-w-0 lg:hidden" />
+
+        <div className="flex items-center justify-self-end gap-2 lg:hidden">
+          <button
+            type="button"
+            onClick={() => setCartOpen(true)}
+            aria-label={`${dict.mobileHeader.cartLabel} (${cartCount})`}
+            className={clsx("relative grid size-8 place-items-center", cartCount > 0 ? "text-teal" : "text-white/50")}
+          >
+            <ShoppingCart className="size-6" strokeWidth={2} aria-hidden="true" />
+            <HeaderBadge count={cartCount} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setFavoritesOpen(true)}
+            aria-label={`${dict.mobileHeader.favoritesLabel} (${favoritesCount})`}
+            className={clsx(
+              "relative grid size-8 place-items-center",
+              favoritesCount > 0 ? "text-teal" : "text-white/50",
+            )}
+          >
+            <Heart
+              className="size-6"
+              strokeWidth={2}
+              fill={favoritesCount > 0 ? "currentColor" : "none"}
+              aria-hidden="true"
+            />
+            <HeaderBadge count={favoritesCount} />
+          </button>
+          <a
+            href="tel:+38220260528"
+            aria-label={dict.nav.callUs}
+            className="grid size-8 place-items-center text-teal"
+          >
+            <Phone className="size-6" strokeWidth={2} aria-hidden="true" />
+          </a>
+        </div>
+
         <Link
           href={homePath(locale)}
-          className="justify-self-center font-heading text-xl font-bold uppercase tracking-wide text-white lg:justify-self-auto"
+          aria-label="Centrometal"
+          className="relative hidden h-8 w-[130px] lg:block"
         >
-          Centrometal
+          <Image
+            src="/logos/centrometal_logo.png"
+            alt="Centrometal"
+            fill
+            sizes="130px"
+            priority
+            className="object-contain object-left"
+          />
         </Link>
 
         <nav className="hidden items-center gap-0.5 xl:gap-1 lg:flex" aria-label="Primary">
@@ -97,7 +203,7 @@ export function Header({
             onClick={() => setProductsOpen((open) => !open)}
             className={clsx(
               "flex items-center gap-1 whitespace-nowrap border-b-2 px-2 py-5 text-sm font-semibold uppercase tracking-wide transition xl:px-3",
-              productsOpen ? "border-orange" : "border-transparent hover:border-orange",
+              productsOpen ? "border-teal" : "border-transparent hover:border-teal",
             )}
           >
             {dict.nav.products}
@@ -111,7 +217,7 @@ export function Header({
             <Link
               key={link.href}
               href={link.href}
-              className="whitespace-nowrap border-b-2 border-transparent px-2 py-5 text-sm font-semibold uppercase tracking-wide transition hover:border-orange xl:px-3"
+              className="whitespace-nowrap border-b-2 border-transparent px-2 py-5 text-sm font-semibold uppercase tracking-wide transition hover:border-teal xl:px-3"
             >
               {link.label}
             </Link>
@@ -122,70 +228,93 @@ export function Header({
           <SearchBox locale={locale} variant="inline" />
           <a
             href="tel:+38220260528"
-            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold transition hover:text-orange-on-dark"
+            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold transition hover:text-teal-on-dark"
           >
             <Phone className="size-4 shrink-0" strokeWidth={2} aria-hidden="true" />
             +382 20 260-528
           </a>
           <LanguageSwitch locale={locale} alternateHref={alternateHref} />
         </div>
-
-        <div className="flex items-center justify-self-end lg:hidden">
-          <SearchBox locale={locale} variant="collapsible" />
-          <a
-            href="tel:+38220260528"
-            aria-label={dict.nav.callUs}
-            className="-mr-2 grid size-11 place-items-center transition hover:text-orange-on-dark"
-          >
-            <Phone className="size-5" strokeWidth={2} aria-hidden="true" />
-          </a>
-        </div>
       </div>
 
       {productsOpen && (
         <MegaMenu locale={locale} id={MEGA_MENU_ID} onNavigate={() => setProductsOpen(false)} />
       )}
-
-      {mobileOpen && (
-        <div id="mobile-nav" className="border-t border-steel bg-navy px-4 py-4 lg:hidden">
-          <p className="mb-2 px-2 text-label font-semibold uppercase tracking-wide text-white/60">
-            {dict.nav.products}
-          </p>
-          <ul className="mb-4 grid grid-cols-2 gap-1">
-            {categories.map((category) => (
-              <li key={category.slug.mne}>
-                <Link
-                  href={categoryPath(locale, category.slug[locale])}
-                  onClick={() => setMobileOpen(false)}
-                  className="block rounded-button px-2 py-3 text-sm hover:bg-steel"
-                >
-                  {category.name[locale]}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <ul className="border-t border-steel pt-3">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block rounded-button px-2 py-3 text-sm font-semibold uppercase tracking-wide hover:bg-steel"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-3 flex items-center justify-between border-t border-steel px-2 pt-3">
-            <a href="tel:+38220260528" className="flex items-center gap-2 text-sm font-semibold">
-              <Phone className="size-4" strokeWidth={2} aria-hidden="true" />
-              +382 20 260-528
-            </a>
-            <LanguageSwitch locale={locale} alternateHref={alternateHref} />
-          </div>
-        </div>
-      )}
     </header>
+
+    <CartModal locale={locale} open={cartOpen} onClose={() => setCartOpen(false)} />
+    <FavoritesModal locale={locale} open={favoritesOpen} onClose={() => setFavoritesOpen(false)} />
+
+    {/*
+      Always mounted (not conditionally rendered) so both the open AND close transitions
+      can play as plain CSS — toggling classes on an existing element animates; mounting
+      an element already in its "open" state does not. `inert` when closed keeps the
+      drawer's links out of tab order / AT while it's invisible.
+    */}
+    <div
+      onClick={() => setMobileOpen(false)}
+      aria-hidden="true"
+      className={clsx(
+        "fixed inset-0 z-[999] bg-black/50 transition-opacity duration-300 ease-in lg:hidden",
+        mobileOpen ? "opacity-100" : "pointer-events-none opacity-0",
+      )}
+    />
+    <div
+      id="mobile-nav"
+      inert={!mobileOpen}
+      className={clsx(
+        "fixed inset-y-0 left-0 z-[1000] flex w-[75vw] max-w-sm flex-col overflow-y-auto bg-navy shadow-[2px_0_8px_rgba(0,0,0,0.15)] transition-transform duration-300 lg:hidden",
+        mobileOpen ? "translate-x-0 ease-[cubic-bezier(0.34,1.56,0.64,1)]" : "-translate-x-full ease-in",
+      )}
+    >
+      <button
+        type="button"
+        onClick={() => setMobileOpen(false)}
+        aria-label={dict.nav.closeMenu}
+        className="absolute right-2 top-2 grid size-11 place-items-center text-white"
+      >
+        <X className="size-6" strokeWidth={2} aria-hidden="true" />
+      </button>
+
+      <nav aria-label="Mobile" className="flex flex-1 flex-col px-4 pb-8 pt-14">
+        <p className="mb-2 px-2 text-label font-semibold uppercase tracking-wide text-white/60">
+          {dict.nav.products}
+        </p>
+        <ul className="mb-4 grid grid-cols-2 gap-1">
+          {categories.map((category) => (
+            <li key={category.slug.mne}>
+              <Link
+                href={categoryPath(locale, category.slug[locale])}
+                onClick={() => setMobileOpen(false)}
+                className="flex min-h-12 items-center rounded-button px-2 text-sm text-white transition-colors hover:bg-white/10 active:bg-teal"
+              >
+                {category.name[locale]}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <ul className="border-t border-white/20 pt-3">
+          {navLinks.map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="flex min-h-12 items-center rounded-button px-2 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-white/10 active:bg-teal"
+              >
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-3 flex items-center justify-between border-t border-white/20 px-2 pt-3">
+          <a href="tel:+38220260528" className="flex min-h-12 items-center gap-2 text-sm font-semibold text-white">
+            <Phone className="size-4" strokeWidth={2} aria-hidden="true" />
+            +382 20 260-528
+          </a>
+          <LanguageSwitch locale={locale} alternateHref={alternateHref} />
+        </div>
+      </nav>
+    </div>
+    </>
   );
 }

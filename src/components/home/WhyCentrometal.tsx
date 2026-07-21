@@ -26,7 +26,7 @@ export function WhyCentrometal({ locale }: { locale: Locale }) {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="relative">
-                  <Icon className="size-8 text-orange" strokeWidth={1.5} aria-hidden="true" />
+                  <Icon className="size-8 text-teal" strokeWidth={1.5} aria-hidden="true" />
                   <h3 className="mt-4 font-heading text-h3 font-semibold">{point.title}</h3>
                   <p className="mt-2 text-sm text-white/75">{point.body}</p>
                 </div>

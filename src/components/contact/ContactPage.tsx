@@ -29,23 +29,23 @@ export function ContactPage({ locale }: { locale: Locale }) {
             <div className="space-y-3">
               <a
                 href="tel:+38220260528"
-                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-orange"
+                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-teal"
               >
-                <Phone className="size-5 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <Phone className="size-5 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 +382 20 260 528
               </a>
               <a
                 href="tel:+38269372823"
-                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-orange"
+                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-teal"
               >
-                <Phone className="size-5 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <Phone className="size-5 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 +382 69 372 823
               </a>
               <a
                 href="mailto:info@centrometal.me"
-                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-orange"
+                className="flex items-center gap-3 rounded-button border border-line bg-surface p-4 text-sm font-semibold text-navy transition hover:border-teal"
               >
-                <Mail className="size-5 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <Mail className="size-5 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 info@centrometal.me
               </a>
             </div>

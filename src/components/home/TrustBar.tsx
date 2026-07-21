@@ -28,10 +28,10 @@ export function TrustBar({ locale }: { locale: Locale }) {
           return (
             <Reveal key={label} delay={i * 100} className="px-4 py-3 first:pl-0 sm:flex sm:justify-center">
               <div className="flex items-center gap-3">
-                <Icon className="size-6 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+                <Icon className="size-6 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 {number ? (
                   <span className="flex flex-col leading-none">
-                    <span className="font-heading text-2xl font-bold text-orange-on-dark sm:text-3xl">
+                    <span className="font-heading text-2xl font-bold text-teal-on-dark sm:text-3xl">
                       {number}
                     </span>
                     <span className="mt-1 text-xs font-medium uppercase tracking-wide text-white/75">

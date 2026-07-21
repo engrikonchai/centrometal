@@ -16,7 +16,7 @@ export function focusFirstError<K extends string>(
 
 export const inputBase =
   "w-full rounded-button border bg-surface px-3.5 py-2.5 text-sm text-ink transition " +
-  "placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-orange";
+  "placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-teal";
 
 function FieldLabel({
   htmlFor,
@@ -187,7 +187,7 @@ export function CheckboxGroupField({
           <label key={option.value} className="flex cursor-pointer items-center gap-2 text-sm text-ink">
             <input
               type="checkbox"
-              className="size-4 accent-orange"
+              className="size-4 accent-teal"
               checked={selected.includes(option.value)}
               onChange={() => onToggle(option.value)}
               aria-describedby={error ? errorId : undefined}

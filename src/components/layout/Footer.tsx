@@ -40,7 +40,7 @@ export function Footer({ locale }: { locale: Locale }) {
               <li key={category.slug.mne}>
                 <Link
                   href={categoryPath(locale, category.slug[locale])}
-                  className="text-sm text-white/85 transition hover:text-orange-on-dark"
+                  className="text-sm text-white/85 transition hover:text-teal-on-dark"
                 >
                   {category.name[locale]}
                 </Link>
@@ -55,27 +55,27 @@ export function Footer({ locale }: { locale: Locale }) {
           </h3>
           <ul className="mt-4 space-y-2">
             <li>
-              <Link href={brandsPath(locale)} className="text-sm text-white/85 transition hover:text-orange-on-dark">
+              <Link href={brandsPath(locale)} className="text-sm text-white/85 transition hover:text-teal-on-dark">
                 {dict.nav.brands}
               </Link>
             </li>
             <li>
-              <Link href={wholesalePath(locale)} className="text-sm text-white/85 transition hover:text-orange-on-dark">
+              <Link href={wholesalePath(locale)} className="text-sm text-white/85 transition hover:text-teal-on-dark">
                 {dict.nav.wholesale}
               </Link>
             </li>
             <li>
-              <Link href={servicePath(locale)} className="text-sm text-white/85 transition hover:text-orange-on-dark">
+              <Link href={servicePath(locale)} className="text-sm text-white/85 transition hover:text-teal-on-dark">
                 {dict.nav.service}
               </Link>
             </li>
             <li>
-              <Link href={aboutPath(locale)} className="text-sm text-white/85 transition hover:text-orange-on-dark">
+              <Link href={aboutPath(locale)} className="text-sm text-white/85 transition hover:text-teal-on-dark">
                 {dict.nav.about}
               </Link>
             </li>
             <li>
-              <Link href={contactPath(locale)} className="text-sm text-white/85 transition hover:text-orange-on-dark">
+              <Link href={contactPath(locale)} className="text-sm text-white/85 transition hover:text-teal-on-dark">
                 {dict.nav.contact}
               </Link>
             </li>
@@ -88,24 +88,24 @@ export function Footer({ locale }: { locale: Locale }) {
           </h3>
           <ul className="mt-4 space-y-3 text-sm text-white/85">
             <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
               <span>Bulevar 21. Maja broj 23, 81000 Podgorica</span>
             </li>
             <li className="flex items-center gap-2">
-              <Phone className="size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
-              <a href="tel:+38220260528" className="transition hover:text-orange-on-dark">
+              <Phone className="size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
+              <a href="tel:+38220260528" className="transition hover:text-teal-on-dark">
                 +382 20 260 528
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Phone className="size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
-              <a href="tel:+38269372823" className="transition hover:text-orange-on-dark">
+              <Phone className="size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
+              <a href="tel:+38269372823" className="transition hover:text-teal-on-dark">
                 +382 69 372 823
               </a>
             </li>
             <li className="flex items-center gap-2">
-              <Mail className="size-4 shrink-0 text-orange" strokeWidth={2} aria-hidden="true" />
-              <a href="mailto:info@centrometal.me" className="transition hover:text-orange-on-dark">
+              <Mail className="size-4 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
+              <a href="mailto:info@centrometal.me" className="transition hover:text-teal-on-dark">
                 info@centrometal.me
               </a>
             </li>

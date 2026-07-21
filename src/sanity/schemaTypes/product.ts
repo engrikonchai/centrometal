@@ -113,6 +113,14 @@ export const product = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "onSale",
+      title: "On sale (homepage)",
+      type: "boolean",
+      group: "content",
+      description: "Shows an \"on sale\" badge in the homepage Products on Sale section. No discount amount is stored — this catalog has no price data.",
+      initialValue: false,
+    }),
+    defineField({
       name: "specs",
       title: "Spec table",
       type: "array",

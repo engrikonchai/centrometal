@@ -45,7 +45,7 @@ export function ServicePage({ locale }: { locale: Locale }) {
                   const Icon = category.icon;
                   return (
                     <li key={category.slug.mne} className="flex items-center gap-2.5 text-sm text-ink">
-                      <Icon className="size-4 text-orange" strokeWidth={1.75} aria-hidden="true" />
+                      <Icon className="size-4 text-teal" strokeWidth={1.75} aria-hidden="true" />
                       {category.name[locale]}
                     </li>
                   );

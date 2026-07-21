@@ -32,7 +32,7 @@ export function AboutPage({ locale }: { locale: Locale }) {
           <div className="grid gap-4 sm:grid-cols-3">
             {stats.map(({ icon: Icon, value, label }) => (
               <div key={label} className="rounded-button border border-line bg-surface p-6 text-center">
-                <Icon className="mx-auto size-6 text-orange" strokeWidth={1.75} aria-hidden="true" />
+                <Icon className="mx-auto size-6 text-teal" strokeWidth={1.75} aria-hidden="true" />
                 <p className="mt-3 font-heading text-h2 font-bold text-navy">{value}</p>
                 <p className="mt-1 text-sm text-muted">{label}</p>
               </div>

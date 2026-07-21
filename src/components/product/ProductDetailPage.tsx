@@ -16,7 +16,7 @@ import { ProductGallery } from "./ProductGallery";
 import { SpecSummary } from "./SpecSummary";
 import { SpecTable } from "./SpecTable";
 import { RelatedProducts } from "./RelatedProducts";
-import { StickyInquiryBar } from "./StickyInquiryBar";
+import { AddToCartButton } from "./AddToCartButton";
 
 export async function ProductDetailPage({
   locale,
@@ -88,7 +88,12 @@ export async function ProductDetailPage({
               <p className="mt-5 max-w-lg text-ink">{product.description[locale]}</p>
 
               <div className="mt-8 flex flex-wrap gap-4">
-                <Button href={quoteHref} variant="primary" size="lg">
+                <AddToCartButton
+                  product={product}
+                  label={dict.featured.addToCart}
+                  addedLabel={dict.featured.addedToCart}
+                />
+                <Button href={quoteHref} variant="secondary" size="lg">
                   {dict.product.requestQuote}
                 </Button>
                 <Button href="tel:+38220260528" variant="secondary" size="lg">
@@ -122,7 +127,7 @@ export async function ProductDetailPage({
                       href={product.specPdfUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-semibold text-navy transition hover:text-orange"
+                      className="flex items-center gap-2 text-sm font-semibold text-navy transition hover:text-teal"
                     >
                       <FileText className="size-4" strokeWidth={2} aria-hidden="true" />
                       {dict.product.specSheetLabel}
@@ -135,7 +140,7 @@ export async function ProductDetailPage({
                       href={product.manufacturerUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-sm font-semibold text-navy transition hover:text-orange"
+                      className="flex items-center gap-2 text-sm font-semibold text-navy transition hover:text-teal"
                     >
                       <ExternalLink className="size-4" strokeWidth={2} aria-hidden="true" />
                       {dict.product.manufacturerLinkLabel}
@@ -148,11 +153,7 @@ export async function ProductDetailPage({
         </Container>
 
         <RelatedProducts locale={locale} products={related} />
-
-        {/* Spacer so the sticky mobile CTA never permanently covers the last content. */}
-        <div className="h-20 md:hidden" aria-hidden="true" />
       </main>
-      <StickyInquiryBar href={quoteHref} label={dict.product.requestQuote} />
       <Footer locale={locale} />
     </>
   );

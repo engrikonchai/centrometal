@@ -36,7 +36,7 @@ export async function Hero({ locale }: { locale: Locale }) {
       <div className="grain-overlay" aria-hidden="true" />
       <Container className="relative grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-24">
         <div>
-          <p className="text-label font-semibold uppercase tracking-wide text-orange-on-dark">
+          <p className="text-label font-semibold uppercase tracking-wide text-teal-on-dark">
             {dict.hero.eyebrow}
           </p>
           <h1 className="mt-4 font-heading text-[3.5rem] font-bold leading-[1.02] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:text-[4.5rem]">

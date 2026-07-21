@@ -28,16 +28,19 @@ export const dictionary = {
       brands: "30+ zastupanih brendova",
       experience: "Dugogodišnje iskustvo u struci",
     },
-    categories: {
-      heading: "Kupujte po kategoriji",
-      subheading: "Osam kategorija, stotine proizvoda — pronađite ono što vam treba.",
+    aktuelno: {
+      heading: "AKTUELNO",
+    },
+    onSale: {
+      heading: "Proizvodi na popustu",
+      viewAll: "Vidi sve na popustu",
     },
     featured: {
-      heading: "Izdvojeni proizvodi",
-      subheading: "Novo u ponudi i najtraženije iz naših prodavnica.",
-      viewAll: "Pogledajte sve",
-      requestQuote: "Zatražite ponudu",
-      viewDetails: "Detalji proizvoda",
+      addToCart: "Dodaj u korpu",
+      addedToCart: "Dodato u korpu ✓",
+      addToFavorites: "Dodaj u omiljene",
+      removeFromFavorites: "Ukloni iz omiljenih",
+      onSaleBadge: "Na popustu",
     },
     brandsSection: {
       heading: "Brendovi koje zastupamo",
@@ -115,6 +118,23 @@ export const dictionary = {
       resultsForTemplate: '{count} rezultata za „{query}"',
       enterTerm: "Unesite termin za pretragu.",
       emptyHeadingTemplate: 'Nema proizvoda koji odgovaraju pretrazi „{query}".',
+    },
+    cart: {
+      heading: "Korpa",
+      empty: "Vaša korpa je prazna.",
+      remove: "Ukloni",
+      quantityLabel: "Količina",
+      checkout: "Nastavi na naplatu",
+      checkoutComingSoon: "Naplata je uskoro dostupna — kontaktirajte nas za ponudu na osnovu korpe.",
+    },
+    favorites: {
+      heading: "Omiljeno",
+      empty: "Nemate omiljenih proizvoda.",
+      remove: "Ukloni",
+    },
+    mobileHeader: {
+      cartLabel: "Korpa",
+      favoritesLabel: "Omiljeno",
     },
     product: {
       requestQuote: "Zatražite ponudu",
@@ -239,16 +259,19 @@ export const dictionary = {
       brands: "30+ brands represented",
       experience: "Years of experience in the trade",
     },
-    categories: {
-      heading: "Shop by Category",
-      subheading: "Eight categories, hundreds of products — find what you need.",
+    aktuelno: {
+      heading: "TRENDING NOW",
+    },
+    onSale: {
+      heading: "Products on Sale",
+      viewAll: "View all on sale",
     },
     featured: {
-      heading: "Featured Products",
-      subheading: "New arrivals and best sellers from our stores.",
-      viewAll: "View all",
-      requestQuote: "Request Quote",
-      viewDetails: "Product details",
+      addToCart: "Add to Cart",
+      addedToCart: "Added to cart ✓",
+      addToFavorites: "Add to favorites",
+      removeFromFavorites: "Remove from favorites",
+      onSaleBadge: "On Sale",
     },
     brandsSection: {
       heading: "Brands We Represent",
@@ -325,6 +348,23 @@ export const dictionary = {
       resultsForTemplate: '{count} results for "{query}"',
       enterTerm: "Enter a search term.",
       emptyHeadingTemplate: 'No products match the search "{query}".',
+    },
+    cart: {
+      heading: "Cart",
+      empty: "Your cart is empty.",
+      remove: "Remove",
+      quantityLabel: "Quantity",
+      checkout: "Proceed to Checkout",
+      checkoutComingSoon: "Checkout is coming soon — contact us for a quote based on your cart.",
+    },
+    favorites: {
+      heading: "Favorites",
+      empty: "You don't have any favorite products.",
+      remove: "Remove",
+    },
+    mobileHeader: {
+      cartLabel: "Cart",
+      favoritesLabel: "Favorites",
     },
     product: {
       requestQuote: "Request Quote",

@@ -21,7 +21,7 @@ export function SectionHeading({
         <p
           className={clsx(
             "mb-2 text-label font-semibold uppercase tracking-wide",
-            invert ? "text-orange-on-dark" : "text-orange",
+            invert ? "text-teal-on-dark" : "text-teal",
           )}
         >
           {eyebrow}

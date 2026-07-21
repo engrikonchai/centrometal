@@ -20,6 +20,8 @@ export interface Product {
   specPdfUrl?: string;
   manufacturerUrl?: string;
   featured?: boolean;
+  /** Shown with an "on sale" badge in the homepage Products on Sale section — no price data exists in this catalog, so this is a flag only, not a discount amount. */
+  onSale?: boolean;
   /**
    * Raw Sanity image reference — only present when fetched from a live
    * Sanity dataset with a photo uploaded. Resolve with urlForImage().
@@ -54,6 +56,7 @@ export const products: Product[] = [
       { label: { mne: "Težina", en: "Weight" }, value: "1.6 kg" },
     ],
     featured: true,
+    onSale: true,
     localImage: "/products/bosch-gsb-18v-55.jpg",
   },
   {
@@ -100,6 +103,7 @@ export const products: Product[] = [
       { label: { mne: "Napajanje", en: "Power supply" }, value: "230 V" },
     ],
     featured: true,
+    onSale: true,
     localImage: "/products/telwin-tecnica-211-s.png",
   },
   {
@@ -141,6 +145,7 @@ export const products: Product[] = [
       mne: "Benzinska rezačica za beton i metal, sa snažnim dvotaktnim motorom za intenzivnu upotrebu.",
       en: "Petrol-powered disc cutter for concrete and metal, with a powerful two-stroke engine for heavy use.",
     },
+    onSale: true,
     localImage: "/products/makita-ek7651h.png",
   },
   {
@@ -181,6 +186,7 @@ export const products: Product[] = [
       mne: "Programator za navodnjavanje sa displejem, do 6 nezavisnih ciklusa zalivanja dnevno.",
       en: "Irrigation timer with a display, supporting up to 6 independent watering cycles per day.",
     },
+    onSale: true,
   },
 ];
 
@@ -190,6 +196,10 @@ export function getProductsByCategory(categorySlugMne: string): Product[] {
 
 export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.featured);
+}
+
+export function getOnSaleProducts(): Product[] {
+  return products.filter((p) => p.onSale);
 }
 
 export function getProductBySlug(categorySlugMne: string, productSlug: string): Product | undefined {

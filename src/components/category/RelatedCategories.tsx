@@ -33,7 +33,7 @@ export function RelatedCategories({
                     href={categoryPath(locale, category.slug[locale])}
                     className="flex flex-col items-start gap-3 p-5"
                   >
-                    <Icon className="size-6 text-orange" strokeWidth={1.5} aria-hidden="true" />
+                    <Icon className="size-6 text-teal" strokeWidth={1.5} aria-hidden="true" />
                     <span className="text-sm font-semibold text-navy">{category.name[locale]}</span>
                   </Link>
                 </Card>

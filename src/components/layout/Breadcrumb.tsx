@@ -41,7 +41,7 @@ export function Breadcrumb({
             >
               {i > 0 && <ChevronRight className="size-3.5" strokeWidth={2} aria-hidden="true" />}
               {item.href && !isLast ? (
-                <Link href={item.href} className="transition hover:text-orange">
+                <Link href={item.href} className="transition hover:text-teal">
                   {item.label}
                 </Link>
               ) : (
