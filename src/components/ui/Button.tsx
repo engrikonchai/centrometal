@@ -25,8 +25,8 @@ const base =
   "text-label tracking-wide transition disabled:pointer-events-none disabled:opacity-50";
 
 const sizes = {
-  md: "h-11 px-6",
-  lg: "h-12 px-8",
+  md: "min-h-11 px-6",
+  lg: "min-h-12 px-8",
 };
 
 const variants = {

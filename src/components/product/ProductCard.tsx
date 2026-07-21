@@ -107,7 +107,7 @@ export function ProductCard({
           type="button"
           variant="accent"
           size="lg"
-          className="w-full"
+          className="w-full font-medium!"
           onClick={() => addToCart(product, dict.featured.addedToCart)}
         >
           {dict.featured.addToCart}

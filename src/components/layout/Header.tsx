@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronDown, Heart, Phone, ShoppingCart, X } from "lucide-react";
 import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
@@ -11,7 +10,6 @@ import {
   aboutPath,
   brandsPath,
   contactPath,
-  homePath,
   servicePath,
   wholesalePath,
 } from "@/lib/paths";
@@ -179,21 +177,6 @@ export function Header({
             <Phone className="size-6" strokeWidth={2} aria-hidden="true" />
           </a>
         </div>
-
-        <Link
-          href={homePath(locale)}
-          aria-label="Centrometal"
-          className="relative hidden h-8 w-[130px] lg:block"
-        >
-          <Image
-            src="/logos/centrometal_logo.png"
-            alt="Centrometal"
-            fill
-            sizes="130px"
-            priority
-            className="object-contain object-left"
-          />
-        </Link>
 
         <nav className="hidden items-center gap-0.5 xl:gap-1 lg:flex" aria-label="Primary">
           <button

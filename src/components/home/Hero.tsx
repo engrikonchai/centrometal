@@ -34,24 +34,29 @@ export async function Hero({ locale }: { locale: Locale }) {
   return (
     <section className="relative overflow-hidden bg-navy text-white">
       <div className="grain-overlay" aria-hidden="true" />
-      <Container className="relative grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-24">
+      <Container className="relative grid grid-cols-1 gap-6 pt-4 pb-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:py-24">
         <div>
           <p className="text-label font-semibold uppercase tracking-wide text-teal-on-dark">
             {dict.hero.eyebrow}
           </p>
-          <h1 className="mt-4 font-heading text-[3.5rem] font-bold leading-[1.02] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:text-[4.5rem]">
+          <h1 className="mt-3 font-heading text-[1.75rem] font-bold leading-[1.3] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:mt-4 lg:text-[4.5rem] lg:leading-[1.02]">
             {dict.hero.headline}
           </h1>
-          <p className="mt-6 max-w-lg text-lg text-white/80">{dict.hero.subhead}</p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Button href={firstCategoryHref} variant="primary" size="lg">
+          <p className="mt-4 max-w-lg text-sm text-white/80 lg:mt-6 lg:text-lg">{dict.hero.subhead}</p>
+          <div className="mt-6 flex flex-wrap gap-3 lg:mt-8 lg:gap-4">
+            <Button
+              href={firstCategoryHref}
+              variant="primary"
+              size="lg"
+              className="max-lg:h-10 max-lg:px-6 max-lg:text-sm"
+            >
               {dict.hero.ctaPrimary}
             </Button>
             <Button
               href={wholesalePath(locale)}
               variant="secondary"
               size="lg"
-              className="border-white text-white hover:bg-white hover:text-navy"
+              className="max-lg:h-10 max-lg:px-6 max-lg:text-sm border-white text-white hover:bg-white hover:text-navy"
             >
               {dict.hero.ctaSecondary}
             </Button>

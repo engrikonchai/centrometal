@@ -6,7 +6,7 @@ import { Minus, Plus, ShoppingCart, X } from "lucide-react";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import { getCategoryBySlug } from "@/lib/taxonomy";
-import { productPath } from "@/lib/paths";
+import { contactPath, productPath } from "@/lib/paths";
 import { useCart } from "@/contexts/CartContext";
 import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import { Button } from "../ui/Button";
@@ -104,10 +104,15 @@ export function CartModal({
 
       {items.length > 0 && (
         <div className="border-t border-line p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-          <Button variant="primary" size="lg" className="w-full" disabled title={dict.cart.checkoutComingSoon}>
-            {dict.cart.checkout}
+          <Button
+            href={`${contactPath(locale)}?quote=cart`}
+            onClick={onClose}
+            variant="primary"
+            size="lg"
+            className="w-full"
+          >
+            {dict.cart.requestQuote}
           </Button>
-          <p className="mt-2 text-center text-xs text-muted">{dict.cart.checkoutComingSoon}</p>
         </div>
       )}
     </div>

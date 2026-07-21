@@ -124,8 +124,8 @@ export const dictionary = {
       empty: "Vaša korpa je prazna.",
       remove: "Ukloni",
       quantityLabel: "Količina",
-      checkout: "Nastavi na naplatu",
-      checkoutComingSoon: "Naplata je uskoro dostupna — kontaktirajte nas za ponudu na osnovu korpe.",
+      requestQuote: "Zatražite ponudu",
+      quoteMessageHeading: "Upit za proizvode iz korpe:",
     },
     favorites: {
       heading: "Omiljeno",
@@ -354,8 +354,8 @@ export const dictionary = {
       empty: "Your cart is empty.",
       remove: "Remove",
       quantityLabel: "Quantity",
-      checkout: "Proceed to Checkout",
-      checkoutComingSoon: "Checkout is coming soon — contact us for a quote based on your cart.",
+      requestQuote: "Request a Quote",
+      quoteMessageHeading: "Inquiry about products in cart:",
     },
     favorites: {
       heading: "Favorites",

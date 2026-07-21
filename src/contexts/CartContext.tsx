@@ -21,10 +21,12 @@ export interface CartItem {
 interface CartContextValue {
   items: CartItem[];
   count: number;
+  hydrated: boolean;
   add: (product: Product, toastMessage?: string) => void;
   remove: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   isInCart: (id: string) => boolean;
+  clear: () => void;
 }
 
 /** Product.slug is only unique within its category, not globally — matches the productPath() URL segments. */
@@ -107,10 +109,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const isInCart = useCallback((id: string) => items.some((item) => item.id === id), [items]);
 
+  const clear = useCallback(() => {
+    setItems([]);
+  }, []);
+
   const count = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, count, add, remove, updateQuantity, isInCart }}>
+    <CartContext.Provider
+      value={{ items, count, hydrated, add, remove, updateQuantity, isInCart, clear }}
+    >
       {children}
       <div
         aria-live="polite"

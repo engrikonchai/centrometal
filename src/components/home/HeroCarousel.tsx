@@ -58,7 +58,7 @@ export function HeroCarousel({
 
   return (
     <div
-      className="hero-carousel relative isolate aspect-[4/3]"
+      className="hero-carousel relative isolate max-lg:h-[280px] max-lg:w-full lg:aspect-[4/3]"
       role="group"
       aria-roledescription="carousel"
       aria-label={label}
@@ -121,7 +121,7 @@ export function HeroCarousel({
             type="button"
             onClick={() => go(index - 1)}
             aria-label="Prethodni proizvod"
-            className="absolute left-1 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white"
+            className="absolute left-1 top-1/2 hidden size-11 -translate-y-1/2 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white lg:grid"
           >
             <ChevronLeft className="size-6" aria-hidden="true" />
           </button>
@@ -129,7 +129,7 @@ export function HeroCarousel({
             type="button"
             onClick={() => go(index + 1)}
             aria-label="Sljedeći proizvod"
-            className="absolute right-1 top-1/2 grid size-11 -translate-y-1/2 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white"
+            className="absolute right-1 top-1/2 hidden size-11 -translate-y-1/2 place-items-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white lg:grid"
           >
             <ChevronRight className="size-6" aria-hidden="true" />
           </button>

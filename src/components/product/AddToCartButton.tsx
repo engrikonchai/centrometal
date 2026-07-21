@@ -17,7 +17,7 @@ export function AddToCartButton({
   const { add } = useCart();
 
   return (
-    <Button variant="accent" size="lg" onClick={() => add(product, addedLabel)}>
+    <Button variant="accent" size="lg" className="font-medium!" onClick={() => add(product, addedLabel)}>
       {label}
     </Button>
   );

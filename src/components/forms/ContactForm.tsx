@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
 import { isValidEmail, submitInquiry, type Department } from "@/lib/inquiry";
+import { useCart } from "@/contexts/CartContext";
 import { TextField, TextareaField, SelectField, focusFirstError } from "./fields";
 import { FormStatusBanner } from "./FormStatusBanner";
 import { Button } from "../ui/Button";
@@ -29,6 +30,9 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const searchParams = useSearchParams();
   const quoteProduct = searchParams.get("product");
+  const quoteFromCart = searchParams.get("quote") === "cart";
+  const cart = useCart();
+  const cartPrefilled = useRef(false);
   const [values, setValues] = useState<Values>(() =>
     quoteProduct
       ? { ...initialValues, message: dict.product.quotePrefillTemplate.replace("{product}", quoteProduct) }
@@ -36,6 +40,17 @@ export function ContactForm({ locale }: { locale: Locale }) {
   );
   const [errors, setErrors] = useState<Partial<Record<keyof Values, string>>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  useEffect(() => {
+    if (!quoteFromCart || cartPrefilled.current || !cart.hydrated || cart.items.length === 0) return;
+    cartPrefilled.current = true;
+    const lines = cart.items.map((item) => `- ${item.name} × ${item.quantity}`);
+    setValues((prev) => ({
+      ...prev,
+      department: "wholesale",
+      message: `${dict.cart.quoteMessageHeading}\n\n${lines.join("\n")}\n\n`,
+    }));
+  }, [quoteFromCart, cart.hydrated, cart.items, dict.cart.quoteMessageHeading]);
 
   function setValue<K extends keyof Values>(name: K, value: Values[K]) {
     setValues((prev) => ({ ...prev, [name]: value }));
@@ -68,6 +83,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         phone: values.phone || undefined,
         message: values.message,
       });
+      if (quoteFromCart) cart.clear();
       setStatus("success");
     } catch {
       setStatus("error");

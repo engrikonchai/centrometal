@@ -145,12 +145,6 @@ h4 {
 }
 
 @media (max-width: 767px) {
-  /* Brief: ~20% shorter carousel + faster transition on mobile.
-     4/3 height reduced ~20% at the same width lands at a 5/3 ratio. */
-  .hero-carousel {
-    aspect-ratio: 5 / 3;
-  }
-
   .hero-carousel-track {
     transition-duration: 400ms;
   }
