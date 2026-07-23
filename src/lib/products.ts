@@ -186,6 +186,7 @@ export const products: Product[] = [
       mne: "Programator za navodnjavanje sa displejem, do 6 nezavisnih ciklusa zalivanja dnevno.",
       en: "Irrigation timer with a display, supporting up to 6 independent watering cycles per day.",
     },
+    localImage: "/products/Claber-Aquauno-Video-6.png",
     onSale: true,
   },
 ];

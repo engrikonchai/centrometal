@@ -26,8 +26,8 @@ export function TrustBar({ locale }: { locale: Locale }) {
         {items.map(({ icon: Icon, label }, i) => {
           const { number, rest } = splitStat(label);
           return (
-            <Reveal key={label} delay={i * 100} className="px-4 py-3 first:pl-0 sm:flex sm:justify-center">
-              <div className="flex items-center gap-3">
+            <Reveal key={label} delay={i * 100} className="flex justify-center px-4 py-3">
+              <div className="flex w-full max-w-xs items-center gap-3 sm:w-auto">
                 <Icon className="size-6 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
                 {number ? (
                   <span className="flex flex-col leading-none">

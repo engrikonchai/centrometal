@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -14,7 +14,6 @@ import { urlForImage } from "@/sanity/lib/image";
 import { useCart, cartItemId } from "@/contexts/CartContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
 import { Card } from "../ui/Card";
-import { Button } from "../ui/Button";
 import { BrandMark } from "../ui/BrandMark";
 import { ProductImagePlaceholder } from "../ui/ProductImagePlaceholder";
 
@@ -38,80 +37,99 @@ export function ProductCard({
 
   return (
     <Card className="group relative flex h-full flex-col overflow-hidden">
+      {/*
+        Badge + favorite sit in a top bar within the card's padding, above the
+        inset image panel — so neither ever overlaps the product artwork
+        (the root cause of the v1 overlap). Kept outside the <Link> so the
+        heart stays its own control.
+      */}
+      <div className="flex items-start justify-between px-2 pt-2">
+        {product.onSale ? (
+          <span className="rounded-md bg-teal px-2.5 py-1.5 text-[11px] font-semibold uppercase leading-none tracking-tight text-white shadow-sm">
+            {dict.featured.onSaleBadge}
+          </span>
+        ) : (
+          <span aria-hidden="true" />
+        )}
+        <button
+          type="button"
+          onClick={() => toggleFavorite(product)}
+          aria-pressed={favorited}
+          aria-label={favorited ? dict.featured.removeFromFavorites : dict.featured.addToFavorites}
+          className={clsx(
+            "-mr-1 grid size-9 place-items-center rounded-full transition hover:bg-black/5",
+            favorited ? "text-teal" : "text-muted",
+          )}
+        >
+          <Heart className="size-5" strokeWidth={2} fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
+        </button>
+      </div>
+
       <Link
         href={href}
         className="flex flex-1 flex-col"
         aria-label={product.name}
         data-testid="product-result"
       >
-        {product.onSale && (
-          <span className="absolute left-2 top-2 z-10 rounded-full bg-teal px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-            {dict.featured.onSaleBadge}
-          </span>
-        )}
-        {product.image || product.localImage ? (
-          <div className="relative aspect-[4/3] w-full border-b border-line bg-warehouse">
-            <Image
-              src={
-                product.image
-                  ? urlForImage(product.image).width(480).height(360).fit("crop").auto("format").url()
-                  : product.localImage!
-              }
+        {/*
+          Image wrapper is the flex-grow element, so any extra card height (from
+          equal-height stretching) inflates the IMAGE rather than opening a gap
+          of white space below the specs. min-h keeps it dominant even on the
+          shortest card. 8px gutter (px-2) + a small inner inset.
+        */}
+        <div className="flex flex-1 px-2 pt-1">
+          {product.image || product.localImage ? (
+            <div className="relative min-h-[240px] w-full flex-1 overflow-hidden rounded-lg bg-warehouse">
+              <Image
+                src={
+                  product.image
+                    ? urlForImage(product.image).width(640).height(640).fit("crop").auto("format").url()
+                    : product.localImage!
+                }
+                alt={alt}
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className="object-contain p-1.5"
+              />
+            </div>
+          ) : (
+            <ProductImagePlaceholder
               alt={alt}
-              fill
-              sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-contain p-3"
+              icon={category?.icon}
+              className="min-h-[240px] w-full flex-1 rounded-lg"
             />
-          </div>
-        ) : (
-          <ProductImagePlaceholder
-            alt={alt}
-            icon={category?.icon}
-            className="aspect-[4/3] w-full border-b border-line"
-          />
-        )}
-        <div className="flex flex-1 flex-col gap-1.5 p-4 pb-0">
+          )}
+        </div>
+
+        <div className="flex flex-col gap-1 px-3 pb-1 pt-2">
           {brand && <BrandMark name={brand.name} logo={brand.logo} className="self-start px-2 py-1 text-xs" />}
-          <h3 className="font-heading text-lg font-semibold leading-tight text-navy">
+          <h3 className="line-clamp-2 font-heading text-base font-semibold leading-tight text-navy">
             {product.name}
           </h3>
           {specs.length > 0 ? (
-            <ul className="mt-0.5 space-y-0.5 text-xs leading-normal text-muted">
+            <ul className="space-y-0 text-[11px] leading-tight text-muted">
               {specs.map((spec) => (
-                <li key={spec.label[locale]}>
+                <li key={spec.label[locale]} className="line-clamp-1">
                   {spec.label[locale]}: {spec.value}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="line-clamp-2 text-sm text-muted">{product.description[locale]}</p>
+            <p className="line-clamp-2 text-[11px] leading-tight text-muted">{product.description[locale]}</p>
           )}
         </div>
       </Link>
 
-      <button
-        type="button"
-        onClick={() => toggleFavorite(product)}
-        aria-pressed={favorited}
-        aria-label={favorited ? dict.featured.removeFromFavorites : dict.featured.addToFavorites}
-        className={clsx(
-          "absolute right-2 top-2 z-10 grid size-9 place-items-center rounded-full bg-white/90 shadow transition hover:bg-white",
-          favorited ? "text-teal" : "text-muted",
-        )}
-      >
-        <Heart className="size-5" strokeWidth={2} fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
-      </button>
-
-      <div className="p-4 pt-3">
-        <Button
+      <div className="flex justify-end px-3 pb-3 pt-1">
+        <button
           type="button"
-          variant="accent"
-          size="lg"
-          className="w-full font-medium!"
           onClick={() => addToCart(product, dict.featured.addedToCart)}
+          aria-label={dict.featured.addToCart}
+          title={dict.featured.addToCart}
+          className="grid size-11 place-items-center rounded-button bg-teal text-white transition hover:brightness-90 active:brightness-75"
         >
-          {dict.featured.addToCart}
-        </Button>
+          <ShoppingCart className="size-5" strokeWidth={2} aria-hidden="true" />
+        </button>
       </div>
     </Card>
   );

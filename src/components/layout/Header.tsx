@@ -10,6 +10,7 @@ import {
   aboutPath,
   brandsPath,
   contactPath,
+  homePath,
   servicePath,
   wholesalePath,
 } from "@/lib/paths";
@@ -177,6 +178,14 @@ export function Header({
             <Phone className="size-6" strokeWidth={2} aria-hidden="true" />
           </a>
         </div>
+
+        <Link
+          href={homePath(locale)}
+          aria-label="Centrometal"
+          className="hidden shrink-0 items-center font-heading text-xl font-bold uppercase tracking-wide text-white transition hover:text-teal-on-dark lg:flex"
+        >
+          Centro<span className="text-teal-on-dark">metal</span>
+        </Link>
 
         <nav className="hidden items-center gap-0.5 xl:gap-1 lg:flex" aria-label="Primary">
           <button

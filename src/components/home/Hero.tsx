@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
-import { categoryPath, wholesalePath } from "@/lib/paths";
+import { categoryPath } from "@/lib/paths";
 import { categories } from "@/lib/taxonomy";
 import { getFeaturedProducts } from "@/lib/data";
 import { getBrandBySlug } from "@/lib/brands";
@@ -36,14 +36,13 @@ export async function Hero({ locale }: { locale: Locale }) {
       <div className="grain-overlay" aria-hidden="true" />
       <Container className="relative grid grid-cols-1 gap-6 pt-4 pb-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:py-24">
         <div>
-          <p className="text-label font-semibold uppercase tracking-wide text-teal-on-dark">
-            {dict.hero.eyebrow}
+          <p className="font-heading text-2xl font-bold uppercase tracking-[0.18em] text-white lg:text-3xl">
+            Centro<span className="text-teal-on-dark">metal</span>
           </p>
-          <h1 className="mt-3 font-heading text-[1.75rem] font-bold leading-[1.3] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:mt-4 lg:text-[4.5rem] lg:leading-[1.02]">
+          <h1 className="mt-4 font-heading text-[1.75rem] font-bold leading-[1.3] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:mt-6 lg:text-[4.5rem] lg:leading-[1.02]">
             {dict.hero.headline}
           </h1>
-          <p className="mt-4 max-w-lg text-sm text-white/80 lg:mt-6 lg:text-lg">{dict.hero.subhead}</p>
-          <div className="mt-6 flex flex-wrap gap-3 lg:mt-8 lg:gap-4">
+          <div className="mt-6 lg:mt-8">
             <Button
               href={firstCategoryHref}
               variant="primary"
@@ -51,14 +50,6 @@ export async function Hero({ locale }: { locale: Locale }) {
               className="max-lg:h-10 max-lg:px-6 max-lg:text-sm"
             >
               {dict.hero.ctaPrimary}
-            </Button>
-            <Button
-              href={wholesalePath(locale)}
-              variant="secondary"
-              size="lg"
-              className="max-lg:h-10 max-lg:px-6 max-lg:text-sm border-white text-white hover:bg-white hover:text-navy"
-            >
-              {dict.hero.ctaSecondary}
             </Button>
           </div>
         </div>

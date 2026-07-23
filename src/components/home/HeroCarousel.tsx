@@ -10,17 +10,21 @@ export interface HeroSlide {
   alt: string;
 }
 
-const AUTOPLAY_MS = 4000;
-/** Brief: autoplay is disabled below 768px (save battery, let users tap dots). */
-const DESKTOP_QUERY = "(min-width: 768px)";
+const AUTOPLAY_MS = 3000;
+/** Autoplay is suppressed for users who prefer reduced motion. */
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+/** Minimum horizontal travel (px) for a touch to count as a swipe, not a tap. */
+const SWIPE_THRESHOLD = 40;
 
 /**
  * Featured-product hero carousel. Slide-left transition (new image slides in
  * from the right) is CSS-driven via a translateX track in globals.css, so
  * prefers-reduced-motion and the mobile timing tweak live there and can never
- * flash. Autoplay runs only on desktop widths and only when the carousel isn't
- * hovered/focused. Only the current + next images are eagerly loaded; the rest
- * stay lazy to save bandwidth on slow connections.
+ * flash. Autoplay runs on every viewport (every 3s) except when the user
+ * prefers reduced motion, and pauses while the carousel is hovered, focused,
+ * or being touched. Touch swipe (left/right) changes slides on mobile. Only
+ * the current + next images are eagerly loaded; the rest stay lazy to save
+ * bandwidth on slow connections.
  */
 export function HeroCarousel({
   slides,
@@ -30,14 +34,15 @@ export function HeroCarousel({
   label: string;
 }) {
   const [index, setIndex] = useState(0);
-  const [canAutoplay, setCanAutoplay] = useState(false);
+  const [canAutoplay, setCanAutoplay] = useState(true);
   const pausedRef = useRef(false);
+  const touchStartX = useRef<number | null>(null);
   const count = slides.length;
 
   useEffect(() => {
     if (count <= 1) return;
-    const mq = window.matchMedia(DESKTOP_QUERY);
-    const apply = () => setCanAutoplay(mq.matches);
+    const mq = window.matchMedia(REDUCED_MOTION_QUERY);
+    const apply = () => setCanAutoplay(!mq.matches);
     apply();
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
@@ -55,6 +60,21 @@ export function HeroCarousel({
 
   const go = (i: number) => setIndex(((i % count) + count) % count);
   const nextIndex = (index + 1) % count;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+    pausedRef.current = true; // pause autoplay while the finger is down
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const startX = touchStartX.current;
+    touchStartX.current = null;
+    pausedRef.current = false;
+    if (startX === null || count <= 1) return;
+    const delta = (e.changedTouches[0]?.clientX ?? startX) - startX;
+    if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+    // Swipe left (negative delta) advances; swipe right goes back.
+    go(delta < 0 ? index + 1 : index - 1);
+  };
 
   return (
     <div
@@ -74,6 +94,8 @@ export function HeroCarousel({
       onBlurCapture={() => {
         pausedRef.current = false;
       }}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
     >
       <div className="absolute inset-0 overflow-hidden">
         <div
