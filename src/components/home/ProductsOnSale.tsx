@@ -21,7 +21,7 @@ export async function ProductsOnSale({ locale }: { locale: Locale }) {
     <section className="py-16 sm:py-24">
       <Container>
         <SectionHeading heading={dict.onSale.heading} />
-        <div className="no-scrollbar mt-10 flex snap-x snap-proximity gap-4 overflow-x-auto scroll-px-4 lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible">
+        <div className="no-scrollbar mt-10 flex snap-x snap-proximity gap-4 overflow-x-auto overflow-y-hidden scroll-px-4 [touch-action:pan-x] lg:grid lg:grid-cols-4 lg:gap-6 lg:overflow-visible">
           {onSale.map((product, i) => (
             <Reveal
               key={product.slug}
