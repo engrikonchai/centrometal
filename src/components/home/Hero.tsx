@@ -5,9 +5,10 @@ import { categories } from "@/lib/taxonomy";
 import { getFeaturedProducts } from "@/lib/data";
 import { getBrandBySlug } from "@/lib/brands";
 import { urlForImage } from "@/sanity/lib/image";
+import Link from "next/link";
 import { Container } from "../ui/Container";
-import { Button } from "../ui/Button";
 import { HeroCarousel, type HeroSlide } from "./HeroCarousel";
+import { HeroSearch } from "./HeroSearch";
 
 export async function Hero({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -50,15 +51,16 @@ export async function Hero({ locale }: { locale: Locale }) {
           <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:mt-6 lg:text-lg">
             {dict.hero.subhead}
           </p>
-          <div className="mt-5 flex flex-wrap gap-3 lg:mt-8">
-            <Button
+          <div className="mt-5 lg:mt-8">
+            <HeroSearch locale={locale} />
+          </div>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
               href={firstCategoryHref}
-              variant="primary"
-              size="lg"
-              className="max-lg:h-10 max-lg:px-6 max-lg:text-sm"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-button border border-white/40 px-6 text-label font-semibold uppercase tracking-wide text-white transition hover:bg-white hover:text-navy active:brightness-90 lg:min-h-12 lg:px-8"
             >
               {dict.hero.ctaPrimary}
-            </Button>
+            </Link>
           </div>
         </div>
 
