@@ -121,6 +121,14 @@ export const product = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "isNew",
+      title: "New arrival (homepage)",
+      type: "boolean",
+      group: "content",
+      description: "Shows a \"Novo\" badge in the homepage New Arrivals (\"Novo u ponudi\") section. On-sale items are excluded from that row so the two rows stay distinct.",
+      initialValue: false,
+    }),
+    defineField({
       name: "specs",
       title: "Spec table",
       type: "array",

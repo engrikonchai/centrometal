@@ -32,11 +32,14 @@ export const dictionary = {
       locations: "Dvije lokacije u Podgorici",
     },
     aktuelno: {
-      heading: "AKTUELNO",
+      heading: "Kategorije",
     },
     onSale: {
       heading: "Proizvodi na popustu",
       viewAll: "Vidi sve na popustu",
+    },
+    newArrivals: {
+      heading: "Novo u ponudi",
     },
     featured: {
       addToCart: "Dodaj u korpu",
@@ -44,33 +47,15 @@ export const dictionary = {
       addToFavorites: "Dodaj u omiljene",
       removeFromFavorites: "Ukloni iz omiljenih",
       onSaleBadge: "Na popustu",
+      newBadge: "Novo",
+      viewDetails: "Vidi detalje",
+      priceOnRequest: "Cijena na upit",
     },
     brandsSection: {
       heading: "Brendovi koje zastupamo",
       subheading:
         "Ovlašćeni distributer vodećih svjetskih proizvođača alata i opreme.",
       viewAll: "Svi brendovi",
-    },
-    why: {
-      heading: "Zašto Centrometal",
-      points: [
-        {
-          title: "Ovlašćeni distributer",
-          body: "Zvanično zastupamo brendove poput Bosch, Makita, Einhell i Telwin.",
-        },
-        {
-          title: "Maloprodaja i veleprodaja",
-          body: "Snabdijevamo pojedince, majstore i preduzeća, u malim i velikim količinama.",
-        },
-        {
-          title: "Sopstveni servis",
-          body: "Popravka i održavanje alata i mašina u našoj servisnoj radionici.",
-        },
-        {
-          title: "Dvije lokacije",
-          body: "Prodavnice na 4 Jula 68 i Cetinjskom putu bb u Podgorici.",
-        },
-      ],
     },
     wholesaleCta: {
       heading: "Snabdijevate firmu ili gradilište?",
@@ -266,11 +251,14 @@ export const dictionary = {
       locations: "Two locations in Podgorica",
     },
     aktuelno: {
-      heading: "TRENDING NOW",
+      heading: "Categories",
     },
     onSale: {
       heading: "Products on Sale",
       viewAll: "View all on sale",
+    },
+    newArrivals: {
+      heading: "New Arrivals",
     },
     featured: {
       addToCart: "Add to Cart",
@@ -278,32 +266,14 @@ export const dictionary = {
       addToFavorites: "Add to favorites",
       removeFromFavorites: "Remove from favorites",
       onSaleBadge: "On Sale",
+      newBadge: "New",
+      viewDetails: "View details",
+      priceOnRequest: "Price on request",
     },
     brandsSection: {
       heading: "Brands We Represent",
       subheading: "Authorized distributor for leading global tool and equipment manufacturers.",
       viewAll: "All brands",
-    },
-    why: {
-      heading: "Why Centrometal",
-      points: [
-        {
-          title: "Authorized dealer",
-          body: "We officially represent brands including Bosch, Makita, Einhell and Telwin.",
-        },
-        {
-          title: "Retail & wholesale",
-          body: "We supply individuals, tradespeople and businesses, in small and large quantities.",
-        },
-        {
-          title: "In-house service",
-          body: "Tool and machinery repair and maintenance at our own service workshop.",
-        },
-        {
-          title: "Two locations",
-          body: "Stores at 4 Jula 68 and Cetinjski put bb in Podgorica.",
-        },
-      ],
     },
     wholesaleCta: {
       heading: "Supplying a business or job site?",

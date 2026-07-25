@@ -31,7 +31,8 @@ const productProjection = /* groq */ `
   "description": { "mne": description_mne, "en": description_en },
   image,
   featured,
-  onSale
+  onSale,
+  isNew
 `;
 
 export const productsByCategoryQuery = /* groq */ `
@@ -55,6 +56,13 @@ export const featuredProductsQuery = /* groq */ `
 
 export const onSaleProductsQuery = /* groq */ `
   *[_type == "product" && onSale == true] {
+    ${productProjection}
+  }
+`;
+
+/** New arrivals, excluding on-sale items so the homepage rows stay distinct. */
+export const newProductsQuery = /* groq */ `
+  *[_type == "product" && isNew == true && onSale != true] {
     ${productProjection}
   }
 `;

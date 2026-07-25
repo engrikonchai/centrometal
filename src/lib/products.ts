@@ -22,6 +22,8 @@ export interface Product {
   featured?: boolean;
   /** Shown with an "on sale" badge in the homepage Products on Sale section — no price data exists in this catalog, so this is a flag only, not a discount amount. */
   onSale?: boolean;
+  /** Shown with a "Novo" badge in the homepage New Arrivals ("Novo u ponudi") section. Kept distinct from onSale so the two homepage rows don't duplicate each other. */
+  isNew?: boolean;
   /**
    * Raw Sanity image reference — only present when fetched from a live
    * Sanity dataset with a photo uploaded. Resolve with urlForImage().
@@ -86,6 +88,7 @@ export const products: Product[] = [
       mne: "Kompaktna akumulatorska bušilica-zavrtač iz Power X-Change sistema, pogodna za kućnu i profesionalnu upotrebu.",
       en: "Compact cordless drill driver from the Power X-Change platform, suited to both home and professional use.",
     },
+    isNew: true,
     localImage: "/products/einhell-te-cd-18-li.png",
   },
   {
@@ -116,6 +119,7 @@ export const products: Product[] = [
       mne: "Vodopumpne klješta velikog raspona hvatanja, kovane iz jednog komada čelika.",
       en: "Water pump pliers with an extra-wide gripping range, forged from a single piece of steel.",
     },
+    isNew: true,
     localImage: "/products/knipex-cobra-xl.png",
   },
   {
@@ -133,6 +137,7 @@ export const products: Product[] = [
       { label: { mne: "Disk", en: "Disc diameter" }, value: "125 mm" },
     ],
     featured: true,
+    isNew: true,
     localImage: "/products/bosch-gws-750.jpg",
   },
   {
@@ -162,6 +167,7 @@ export const products: Product[] = [
       { label: { mne: "Domet", en: "Range" }, value: "0.05–50 m" },
       { label: { mne: "Preciznost", en: "Accuracy" }, value: "± 1.5 mm" },
     ],
+    isNew: true,
     localImage: "/products/bosch-glm-50-c.png",
   },
   {
@@ -201,6 +207,11 @@ export function getFeaturedProducts(): Product[] {
 
 export function getOnSaleProducts(): Product[] {
   return products.filter((p) => p.onSale);
+}
+
+/** Newest arrivals for the homepage "Novo u ponudi" row — excludes on-sale items so it never duplicates the discount row. */
+export function getNewProducts(): Product[] {
+  return products.filter((p) => p.isNew && !p.onSale);
 }
 
 export function getProductBySlug(categorySlugMne: string, productSlug: string): Product | undefined {

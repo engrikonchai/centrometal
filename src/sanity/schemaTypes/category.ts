@@ -75,6 +75,22 @@ export const category = defineType({
       type: "number",
     }),
     defineField({
+      name: "tileImage",
+      title: "Tile image",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Background photo for the homepage category tile. The front end falls " +
+        "back to a stock stand-in until this is set.",
+      fields: [
+        defineField({
+          name: "alt",
+          title: "Alt text",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
       name: "subcategories",
       title: "Subcategories",
       type: "array",

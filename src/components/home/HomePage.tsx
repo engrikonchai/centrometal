@@ -7,9 +7,9 @@ import { LocationsSection } from "../shared/LocationsSection";
 import { Hero } from "./Hero";
 import { TrustBar } from "./TrustBar";
 import { ProductsOnSale } from "./ProductsOnSale";
+import { NewArrivals } from "./NewArrivals";
 import { AktuelnoSection } from "./AktuelnoSection";
 import { BrandsGrid } from "./BrandsGrid";
-import { WhyCentrometal } from "./WhyCentrometal";
 import { WholesaleCtaBand } from "./WholesaleCtaBand";
 
 export function HomePage({ locale }: { locale: Locale }) {
@@ -22,9 +22,9 @@ export function HomePage({ locale }: { locale: Locale }) {
         <Hero locale={locale} />
         <TrustBar locale={locale} />
         <ProductsOnSale locale={locale} />
+        <NewArrivals locale={locale} />
         <AktuelnoSection locale={locale} />
         <BrandsGrid locale={locale} />
-        <WhyCentrometal locale={locale} />
         <WholesaleCtaBand locale={locale} />
         <LocationsSection
           locale={locale}

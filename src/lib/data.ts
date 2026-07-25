@@ -14,6 +14,7 @@ import {
   productsByCategoryQuery,
   featuredProductsQuery,
   onSaleProductsQuery,
+  newProductsQuery,
   productBySlugQuery,
   allProductsQuery,
 } from "@/sanity/lib/queries";
@@ -21,6 +22,7 @@ import {
   getProductsByCategory as seedGetProductsByCategory,
   getFeaturedProducts as seedGetFeaturedProducts,
   getOnSaleProducts as seedGetOnSaleProducts,
+  getNewProducts as seedGetNewProducts,
   getProductBySlug as seedGetProductBySlug,
   getRelatedProducts as seedGetRelatedProducts,
   searchProducts as seedSearchProducts,
@@ -66,6 +68,17 @@ export async function getOnSaleProducts(): Promise<Product[]> {
   } catch (err) {
     console.error("[data] Sanity fetch failed for getOnSaleProducts, falling back to seed data", err);
     return seedGetOnSaleProducts();
+  }
+}
+
+export async function getNewProducts(): Promise<Product[]> {
+  if (!sanityConfigured || !client) return seedGetNewProducts();
+  try {
+    const docs = await client.fetch<Product[]>(newProductsQuery);
+    return docs ?? [];
+  } catch (err) {
+    console.error("[data] Sanity fetch failed for getNewProducts, falling back to seed data", err);
+    return seedGetNewProducts();
   }
 }
 

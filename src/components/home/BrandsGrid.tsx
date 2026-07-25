@@ -40,7 +40,6 @@ export function BrandsGrid({ locale }: { locale: Locale }) {
           align="center"
           invert
           heading={dict.brandsSection.heading}
-          subheading={dict.brandsSection.subheading}
         />
       </Container>
       <Reveal className="brand-marquee-viewport no-scrollbar mt-12 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
