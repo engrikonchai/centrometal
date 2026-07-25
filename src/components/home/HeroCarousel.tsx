@@ -10,17 +10,17 @@ export interface HeroSlide {
   alt: string;
 }
 
-const AUTOPLAY_MS = 3000;
+const AUTOPLAY_MS = 4500;
 /** Autoplay is suppressed for users who prefer reduced motion. */
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 /** Minimum horizontal travel (px) for a touch to count as a swipe, not a tap. */
 const SWIPE_THRESHOLD = 40;
 
 /**
- * Featured-product hero carousel. Slide-left transition (new image slides in
- * from the right) is CSS-driven via a translateX track in globals.css, so
+ * Featured-product hero carousel. Slow crossfade transition (opacity only,
+ * slides stacked via absolute inset-0) is CSS-driven in globals.css, so
  * prefers-reduced-motion and the mobile timing tweak live there and can never
- * flash. Autoplay runs on every viewport (every 3s) except when the user
+ * flash. Autoplay runs on every viewport (every 4.5s) except when the user
  * prefers reduced motion, and pauses while the carousel is hovered, focused,
  * or being touched. Touch swipe (left/right) changes slides on mobile. Only
  * the current + next images are eagerly loaded; the rest stay lazy to save
@@ -78,7 +78,7 @@ export function HeroCarousel({
 
   return (
     <div
-      className="hero-carousel relative isolate max-lg:h-[280px] max-lg:w-full lg:aspect-[4/3]"
+      className="hero-carousel relative isolate max-lg:h-[210px] max-lg:w-full lg:aspect-[4/3]"
       role="group"
       aria-roledescription="carousel"
       aria-label={label}
@@ -98,34 +98,32 @@ export function HeroCarousel({
       onTouchEnd={onTouchEnd}
     >
       <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="hero-carousel-track flex h-full w-full"
-          style={{ transform: `translateX(-${index * 100}%)` }}
-        >
-          {slides.map((slide, i) => {
-            const isCurrent = i === index;
-            // Slide 0 is the LCP candidate — priority handles its eager load.
-            // Otherwise eager-load only the current + next slide.
-            const eager = isCurrent || i === nextIndex;
-            return (
-              <div
-                key={slide.src}
-                className="relative h-full w-full shrink-0"
-                aria-hidden={!isCurrent}
-              >
-                <Image
-                  src={slide.src}
-                  alt={isCurrent ? slide.alt : ""}
-                  fill
-                  priority={i === 0}
-                  loading={i === 0 ? undefined : eager ? "eager" : "lazy"}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-contain p-10 drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)] sm:p-14"
-                />
-              </div>
-            );
-          })}
-        </div>
+        {slides.map((slide, i) => {
+          const isCurrent = i === index;
+          // Slide 0 is the LCP candidate — priority handles its eager load.
+          // Otherwise eager-load only the current + next slide.
+          const eager = isCurrent || i === nextIndex;
+          return (
+            <div
+              key={slide.src}
+              className={clsx(
+                "hero-carousel-slide absolute inset-0 h-full w-full",
+                isCurrent && "is-current",
+              )}
+              aria-hidden={!isCurrent}
+            >
+              <Image
+                src={slide.src}
+                alt={isCurrent ? slide.alt : ""}
+                fill
+                priority={i === 0}
+                loading={i === 0 ? undefined : eager ? "eager" : "lazy"}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-contain p-6 drop-shadow-[0_25px_35px_rgba(0,0,0,0.5)] sm:p-14"
+              />
+            </div>
+          );
+        })}
       </div>
 
       <div

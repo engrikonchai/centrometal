@@ -133,26 +133,70 @@ h4 {
 }
 
 /*
-  Hero carousel slide-left transition. The track holds every slide side by
-  side and is shifted with translateX, so advancing the index slides the next
-  image in from the right (GPU-accelerated transform only). Timing lives here
-  (600ms desktop, 400ms mobile) and prefers-reduced-motion snaps instantly —
-  same CSS-first approach as .reveal so motion prefs can never be un-applied.
+  Hero carousel slow crossfade. Every slide is stacked (absolute inset-0) and
+  only opacity animates, so advancing the index fades the next product in
+  over the previous one (GPU-accelerated, no layout shift). 1200ms desktop,
+  slightly snappier on mobile; prefers-reduced-motion snaps instantly — same
+  CSS-first approach as .reveal so motion prefs can never be un-applied.
 */
-.hero-carousel-track {
-  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+.hero-carousel-slide {
+  opacity: 0;
+  transition: opacity 1200ms ease-in-out;
+  will-change: opacity;
+}
+
+.hero-carousel-slide.is-current {
+  opacity: 1;
 }
 
 @media (max-width: 767px) {
-  .hero-carousel-track {
-    transition-duration: 400ms;
+  .hero-carousel-slide {
+    transition-duration: 800ms;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-carousel-track {
+  .hero-carousel-slide {
     transition: none;
+  }
+}
+
+/*
+  Brand logo marquee. The strip renders the brand list twice back-to-back and
+  translates exactly -50% over one loop, so it wraps seamlessly regardless of
+  brand count. Paused on hover so visitors can stop to read/click a logo;
+  reduced-motion users get a static (manually scrollable) row instead of an
+  animation they can't stop.
+*/
+.brand-marquee-viewport {
+  overflow: hidden;
+}
+
+.brand-marquee-track {
+  animation: brand-marquee 36s linear infinite;
+}
+
+.brand-marquee-track:hover,
+.brand-marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee-viewport {
+    overflow-x: auto;
+  }
+
+  .brand-marquee-track {
+    animation: none;
   }
 }
 
@@ -164,6 +208,33 @@ h4 {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/*
+  Very low-opacity diagonal hazard-stripe texture — a workshop/industrial cue
+  behind the "Zašto Centrometal" cards without competing with their contrast.
+*/
+.workshop-texture {
+  position: relative;
+}
+
+.workshop-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #fff 0,
+    #fff 2px,
+    transparent 2px,
+    transparent 14px
+  );
+}
+
+.workshop-texture > * {
+  position: relative;
 }
 
 /* Low-opacity grain texture for the hero (visual depth, not a real image). */
