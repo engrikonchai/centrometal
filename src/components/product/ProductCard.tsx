@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Heart, MoreVertical, ShoppingCart } from "lucide-react";
 import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -33,6 +34,31 @@ export function ProductCard({
   const { add: addToCart } = useCart();
   const { toggle: toggleFavorite, isFavorited } = useFavorites();
   const favorited = isFavorited(cartItemId(product));
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    function onPointerDown(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) setMenuOpen(false);
+    }
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setMenuOpen(false);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  // Kebab menu — extensible: add more { label, href } items here later
+  // (e.g. Podijeli / Share, Uporedi / Compare).
+  const menuItems: { label: string; href: string }[] = [
+    { label: dict.featured.viewDetails, href },
+  ];
 
   // On-sale takes precedence over "new" so the badge matches the section a card
   // most likely appears in; only one badge ever shows.
@@ -106,20 +132,47 @@ export function ProductCard({
 
         <div className="mt-auto pt-3">
           <p className="text-sm font-bold text-teal">{dict.featured.priceOnRequest}</p>
-          <button
-            type="button"
-            onClick={() => addToCart(product, dict.featured.addedToCart)}
-            className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-button bg-teal text-label font-semibold uppercase tracking-wide text-white transition hover:brightness-90 active:brightness-75"
-          >
-            <ShoppingCart className="size-4" strokeWidth={2} aria-hidden="true" />
-            {dict.featured.addToCart}
-          </button>
-          <Link
-            href={href}
-            className="mt-2 flex min-h-11 w-full items-center justify-center rounded-button border border-teal text-label font-semibold uppercase tracking-wide text-teal transition hover:bg-teal hover:text-white active:brightness-90"
-          >
-            {dict.featured.viewDetails}
-          </Link>
+          <div className="mt-2 flex items-stretch gap-2">
+            <button
+              type="button"
+              onClick={() => addToCart(product, dict.featured.addedToCart)}
+              aria-label={dict.featured.addToCart}
+              title={dict.featured.addToCart}
+              className="flex min-h-11 flex-1 items-center justify-center rounded-button bg-teal text-white transition hover:brightness-90 active:brightness-75"
+            >
+              <ShoppingCart className="size-5" strokeWidth={2} aria-hidden="true" />
+            </button>
+            <div ref={menuRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setMenuOpen((open) => !open)}
+                aria-label={dict.featured.moreOptions}
+                aria-haspopup="menu"
+                aria-expanded={menuOpen}
+                className="grid min-h-11 min-w-11 place-items-center rounded-button border border-line text-navy transition hover:border-teal hover:text-teal"
+              >
+                <MoreVertical className="size-5" strokeWidth={2} aria-hidden="true" />
+              </button>
+              {menuOpen && (
+                <div
+                  role="menu"
+                  className="absolute bottom-full right-0 z-20 mb-2 min-w-36 overflow-hidden rounded-button border border-line bg-white py-1 shadow-lg"
+                >
+                  {menuItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      href={item.href}
+                      role="menuitem"
+                      onClick={() => setMenuOpen(false)}
+                      className="block whitespace-nowrap px-4 py-2.5 text-sm text-ink transition hover:bg-warehouse"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Card>

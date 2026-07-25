@@ -49,6 +49,7 @@ export const dictionary = {
       onSaleBadge: "Na popustu",
       newBadge: "Novo",
       viewDetails: "Vidi detalje",
+      moreOptions: "Više opcija",
       priceOnRequest: "Cijena na upit",
     },
     brandsSection: {
@@ -268,6 +269,7 @@ export const dictionary = {
       onSaleBadge: "On Sale",
       newBadge: "New",
       viewDetails: "View details",
+      moreOptions: "More options",
       priceOnRequest: "Price on request",
     },
     brandsSection: {
