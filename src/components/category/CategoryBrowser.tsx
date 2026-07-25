@@ -26,7 +26,17 @@ export function CategoryBrowser({
   const category = getCategoryBySlug("mne", categorySlug)!;
   const searchParams = useSearchParams();
   const brandParam = searchParams.get("brand");
-  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
+  // Deep-linked from the mega-menu / mobile drawer (e.g. ?sub=elektricni-alati).
+  // The param may carry either locale's slug; resolve it to the MNE slug used
+  // internally for filtering and product matching.
+  const subParam = searchParams.get("sub");
+  const initialSubcategory = subParam
+    ? category.subcategories
+        .filter((s) => s.slug.mne === subParam || s.slug.en === subParam)
+        .map((s) => s.slug.mne)
+    : [];
+  const [selectedSubcategories, setSelectedSubcategories] =
+    useState<string[]>(initialSubcategory);
   const [selectedBrands, setSelectedBrands] = useState<string[]>(
     brandParam ? [brandParam] : [],
   );

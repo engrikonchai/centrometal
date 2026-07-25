@@ -18,6 +18,19 @@ export function productPath(
   return `${categoryPath(locale, categorySlug)}/${productSlug}`;
 }
 
+/**
+ * A department page pre-filtered to one subcategory (mega-menu / drawer links).
+ * The `?sub=` value carries the locale-appropriate subcategory slug; the
+ * CategoryBrowser resolves it back to the MNE slug it filters on.
+ */
+export function subcategoryPath(
+  locale: Locale,
+  categorySlug: string,
+  subcategorySlug: string,
+): string {
+  return `${categoryPath(locale, categorySlug)}?sub=${encodeURIComponent(subcategorySlug)}`;
+}
+
 export function brandsPath(locale: Locale): string {
   return locale === "mne" ? "/brendovi" : "/en/brands";
 }

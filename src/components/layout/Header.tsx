@@ -15,7 +15,7 @@ import {
   wholesalePath,
 } from "@/lib/paths";
 import { categories } from "@/lib/taxonomy";
-import { categoryPath } from "@/lib/paths";
+import { categoryPath, subcategoryPath } from "@/lib/paths";
 import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import { useCart } from "@/contexts/CartContext";
 import { useFavorites } from "@/contexts/FavoritesContext";
@@ -55,6 +55,7 @@ export function Header({
   const dict = getDictionary(locale);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [expandedDept, setExpandedDept] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
@@ -104,6 +105,11 @@ export function Header({
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  function closeMobile() {
+    setMobileOpen(false);
+    setExpandedDept(null);
+  }
 
   const keepVisible = productsOpen || mobileOpen;
   // Mega menu / mobile drawer need solid contrast behind them even at the top of the page.
@@ -257,7 +263,7 @@ export function Header({
       drawer's links out of tab order / AT while it's invisible.
     */}
     <div
-      onClick={() => setMobileOpen(false)}
+      onClick={closeMobile}
       aria-hidden="true"
       className={clsx(
         "fixed inset-0 z-[999] bg-black/50 transition-opacity duration-300 ease-in lg:hidden",
@@ -274,7 +280,7 @@ export function Header({
     >
       <button
         type="button"
-        onClick={() => setMobileOpen(false)}
+        onClick={closeMobile}
         aria-label={dict.nav.closeMenu}
         className="absolute right-2 top-2 grid size-11 place-items-center text-white"
       >
@@ -285,25 +291,69 @@ export function Header({
         <p className="mb-2 px-2 text-label font-semibold uppercase tracking-wide text-white/60">
           {dict.nav.products}
         </p>
-        <ul className="mb-4 grid grid-cols-2 gap-1">
-          {categories.map((category) => (
-            <li key={category.slug.mne}>
-              <Link
-                href={categoryPath(locale, category.slug[locale])}
-                onClick={() => setMobileOpen(false)}
-                className="flex min-h-12 items-center rounded-button px-2 text-sm text-white transition-colors hover:bg-white/10 active:bg-teal"
-              >
-                {category.name[locale]}
-              </Link>
-            </li>
-          ))}
+        <ul className="mb-4">
+          {categories.map((category) => {
+            const Icon = category.icon;
+            const isExpanded = expandedDept === category.slug.mne;
+            const panelId = `dept-${category.slug.mne}`;
+            return (
+              <li key={category.slug.mne} className="border-b border-white/10">
+                <button
+                  type="button"
+                  aria-expanded={isExpanded}
+                  aria-controls={panelId}
+                  onClick={() =>
+                    setExpandedDept((prev) =>
+                      prev === category.slug.mne ? null : category.slug.mne,
+                    )
+                  }
+                  className="flex min-h-12 w-full items-center gap-2.5 rounded-button px-2 text-left text-sm font-semibold text-white transition-colors hover:bg-white/10"
+                >
+                  <Icon className="size-5 shrink-0 text-teal" strokeWidth={2} aria-hidden="true" />
+                  <span className="flex-1">{category.name[locale]}</span>
+                  <ChevronDown
+                    className={clsx(
+                      "size-4 shrink-0 text-white/60 transition-transform",
+                      isExpanded && "rotate-180",
+                    )}
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                </button>
+                {isExpanded && (
+                  <ul id={panelId} className="pb-2 pl-9">
+                    <li>
+                      <Link
+                        href={categoryPath(locale, category.slug[locale])}
+                        onClick={closeMobile}
+                        className="flex min-h-11 items-center rounded-button px-2 text-sm font-semibold text-teal-on-dark transition-colors hover:bg-white/10"
+                      >
+                        {dict.nav.viewAll} →
+                      </Link>
+                    </li>
+                    {category.subcategories.map((sub) => (
+                      <li key={sub.slug.mne}>
+                        <Link
+                          href={subcategoryPath(locale, category.slug[locale], sub.slug[locale])}
+                          onClick={closeMobile}
+                          className="flex min-h-11 items-center rounded-button px-2 text-sm text-white/80 transition-colors hover:bg-white/10 active:bg-teal"
+                        >
+                          {sub.name[locale]}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
         </ul>
         <ul className="border-t border-white/20 pt-3">
           {navLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                onClick={() => setMobileOpen(false)}
+                onClick={closeMobile}
                 className="flex min-h-12 items-center rounded-button px-2 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-white/10 active:bg-teal"
               >
                 {link.label}
