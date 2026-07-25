@@ -12,7 +12,7 @@ export function Card({
   return (
     <As
       className={clsx(
-        "rounded-button border border-line bg-surface transition hover:-translate-y-0.5 hover:border-teal",
+        "rounded-button border border-line bg-surface shadow-sm transition hover:-translate-y-0.5 hover:border-teal hover:shadow-lg",
         className,
       )}
     >

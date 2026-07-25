@@ -36,21 +36,14 @@ export function ProductCard({
   const favorited = isFavorited(cartItemId(product));
 
   return (
-    <Card className="group relative flex h-full flex-col overflow-hidden">
+    <Card className="group relative flex h-full flex-col overflow-hidden hover:shadow-xl">
       {/*
-        Badge + favorite sit in a top bar within the card's padding, above the
-        inset image panel — so neither ever overlaps the product artwork
-        (the root cause of the v1 overlap). Kept outside the <Link> so the
-        heart stays its own control.
+        Favorite sits in a top bar within the card's padding, above the inset
+        image panel — so it never overlaps the product artwork. Kept outside
+        the <Link> so the heart stays its own control. The sale badge lives on
+        the image itself (see below) so it reads as a corner ribbon.
       */}
-      <div className="flex items-start justify-between px-2 pt-2">
-        {product.onSale ? (
-          <span className="rounded-md bg-teal px-2.5 py-1.5 text-[11px] font-semibold uppercase leading-none tracking-tight text-white shadow-sm">
-            {dict.featured.onSaleBadge}
-          </span>
-        ) : (
-          <span aria-hidden="true" />
-        )}
+      <div className="flex items-start justify-end px-2 pt-2">
         <button
           type="button"
           onClick={() => toggleFavorite(product)}
@@ -80,6 +73,11 @@ export function ProductCard({
         <div className="flex flex-1 px-2 pt-1">
           {product.image || product.localImage ? (
             <div className="relative min-h-[240px] w-full flex-1 overflow-hidden rounded-lg bg-warehouse">
+              {product.onSale && (
+                <span className="absolute left-2 top-2 z-10 rounded-full bg-teal px-3 py-1 text-[11px] font-semibold uppercase leading-none tracking-tight text-white shadow-md">
+                  {dict.featured.onSaleBadge}
+                </span>
+              )}
               <Image
                 src={
                   product.image
@@ -89,7 +87,7 @@ export function ProductCard({
                 alt={alt}
                 fill
                 sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-contain p-1.5"
+                className="object-contain p-1.5 transition duration-300 group-hover:scale-105"
               />
             </div>
           ) : (
@@ -101,21 +99,42 @@ export function ProductCard({
           )}
         </div>
 
-        <div className="flex flex-col gap-1 px-3 pb-1 pt-2">
-          {brand && <BrandMark name={brand.name} logo={brand.logo} className="self-start px-2 py-1 text-xs" />}
-          <h3 className="line-clamp-2 font-heading text-base font-semibold leading-tight text-navy">
+        {/*
+          Mobile keeps cards light: tighter vertical gaps, a smaller brand
+          badge, and only the first two specs (the 3rd is hidden < md and a
+          "…" hints that more specs exist on the product page). md+ keeps the
+          fuller three-spec layout.
+        */}
+        <div className="flex flex-col gap-0.5 px-3.5 pb-1.5 pt-2 sm:gap-1">
+          {brand && (
+            <BrandMark
+              name={brand.name}
+              logo={brand.logo}
+              className="self-start px-1.5 py-0.5 text-[11px] sm:px-2 sm:py-1 sm:text-xs"
+            />
+          )}
+          <h3 className="line-clamp-2 font-heading text-[0.95rem] font-semibold leading-tight text-navy sm:text-base">
             {product.name}
           </h3>
           {specs.length > 0 ? (
-            <ul className="space-y-0 text-[11px] leading-tight text-muted">
-              {specs.map((spec) => (
-                <li key={spec.label[locale]} className="line-clamp-1">
+            <ul className="space-y-0 text-[11px] leading-snug text-muted">
+              {specs.map((spec, i) => (
+                <li
+                  key={spec.label[locale]}
+                  className={clsx(
+                    "line-clamp-1",
+                    // Lighten mobile cards: show at most 2 specs; a 3rd (if any)
+                    // is trailed by a "…" affordance and revealed from md up.
+                    i === 1 && specs.length > 2 && "max-md:after:text-muted/70 max-md:after:content-['_…']",
+                    i >= 2 && "max-md:hidden",
+                  )}
+                >
                   {spec.label[locale]}: {spec.value}
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="line-clamp-2 text-[11px] leading-tight text-muted">{product.description[locale]}</p>
+            <p className="line-clamp-2 text-[11px] leading-snug text-muted">{product.description[locale]}</p>
           )}
         </div>
       </Link>

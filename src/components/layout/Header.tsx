@@ -42,6 +42,8 @@ const MEGA_MENU_ID = "products-mega-menu";
 const SCROLL_HIDE_THRESHOLD = 4;
 /** Never hide the header this close to the top. */
 const SCROLL_HIDE_MIN_Y = 80;
+/** Header switches from its large/transparent resting state to the shrunk/blurred one past this scroll depth. */
+const SCROLL_SHRINK_Y = 24;
 
 export function Header({
   locale,
@@ -54,6 +56,7 @@ export function Header({
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [favoritesOpen, setFavoritesOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -94,13 +97,17 @@ export function Header({
       } else if (delta < -SCROLL_HIDE_THRESHOLD) {
         setHidden(false);
       }
+      setScrolled(currentY > SCROLL_SHRINK_Y);
       lastY = currentY;
     }
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const keepVisible = productsOpen || mobileOpen;
+  // Mega menu / mobile drawer need solid contrast behind them even at the top of the page.
+  const solid = scrolled || keepVisible;
 
   const navLinks = [
     { label: dict.nav.brands, href: brandsPath(locale) },
@@ -115,11 +122,17 @@ export function Header({
     <header
       ref={headerRef}
       className={clsx(
-        "fixed inset-x-0 top-0 z-40 bg-navy text-white transition-transform duration-300 ease-out motion-reduce:transition-none",
+        "fixed inset-x-0 top-0 z-40 text-white transition-all duration-300 ease-out motion-reduce:transition-none",
+        solid ? "bg-navy shadow-lg backdrop-blur-md" : "bg-navy/55 backdrop-blur-sm",
         hidden && !keepVisible ? "-translate-y-full" : "translate-y-0",
       )}
     >
-      <div className="mx-auto grid h-14 max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:flex lg:h-16 lg:justify-between lg:px-8">
+      <div
+        className={clsx(
+          "mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 px-4 transition-[height] duration-300 ease-out motion-reduce:transition-none sm:px-6 lg:flex lg:justify-between lg:px-8",
+          solid ? "h-14 lg:h-16" : "h-16 lg:h-24",
+        )}
+      >
         <div className="flex items-center justify-self-start lg:hidden">
           <button
             type="button"

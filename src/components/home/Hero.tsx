@@ -34,15 +34,23 @@ export async function Hero({ locale }: { locale: Locale }) {
   return (
     <section className="relative overflow-hidden bg-navy text-white">
       <div className="grain-overlay" aria-hidden="true" />
-      <Container className="relative grid grid-cols-1 gap-6 pt-4 pb-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:py-24">
-        <div>
+      <Container className="relative grid grid-cols-1 gap-5 pt-5 pb-6 lg:grid-cols-2 lg:items-center lg:gap-10 lg:py-24">
+        {/* Extra horizontal breathing room on phones (px-1) so the smaller
+            headline no longer wraps hard against the screen edges. */}
+        <div className="max-lg:px-1">
           <p className="font-heading text-2xl font-bold uppercase tracking-[0.18em] text-white lg:text-3xl">
             Centro<span className="text-teal-on-dark">metal</span>
           </p>
-          <h1 className="mt-4 font-heading text-[1.75rem] font-bold leading-[1.3] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:mt-6 lg:text-[4.5rem] lg:leading-[1.02]">
+          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-teal-on-dark lg:mt-4 lg:text-sm">
+            {dict.hero.eyebrow}
+          </p>
+          <h1 className="mt-3 font-heading text-[1.5rem] font-bold leading-[1.28] [text-shadow:0_2px_10px_rgba(0,0,0,0.35)] lg:mt-4 lg:text-[4.5rem] lg:leading-[1.02]">
             {dict.hero.headline}
           </h1>
-          <div className="mt-6 lg:mt-8">
+          <p className="mt-3 max-w-md text-sm leading-relaxed text-white/80 lg:mt-6 lg:text-lg">
+            {dict.hero.subhead}
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3 lg:mt-8">
             <Button
               href={firstCategoryHref}
               variant="primary"
@@ -54,7 +62,18 @@ export async function Hero({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <HeroCarousel slides={carouselSlides} label={carouselLabel} />
+        {/*
+          On phones the carousel reads as its own deliberate section: a labelled
+          strip set off from the CTA above by a top divider + spacing, rather
+          than leftover space. Desktop (lg:) drops the divider/label and keeps
+          the original side-by-side layout untouched.
+        */}
+        <div className="max-lg:border-t max-lg:border-white/10 max-lg:pt-4">
+          <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-[0.18em] text-teal-on-dark lg:hidden">
+            {carouselLabel}
+          </p>
+          <HeroCarousel slides={carouselSlides} label={carouselLabel} />
+        </div>
       </Container>
     </section>
   );
