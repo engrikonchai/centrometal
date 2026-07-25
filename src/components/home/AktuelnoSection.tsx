@@ -14,16 +14,17 @@ import { Reveal } from "../ui/Reveal";
  * "tileImage" field is populated in Sanity these become the fallback.
  * Departments without a stand-in photo render a branded gradient + icon tile.
  *
- * The last two are downloaded local files (public/categories/) rather than
- * remote Unsplash hotlinks — drop a replacement at the same path to swap them.
+ * All are local files under public/categories/ (filename = department slug), so
+ * the homepage has no remote image dependencies — drop a replacement at the
+ * same path to swap any tile.
  */
 const categoryImages: Record<string, string> = {
-  "alati-i-oprema": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop&q=80",
-  "masine-i-agregati": "https://images.unsplash.com/photo-1516937941344-00b4e0337589?w=400&h=400&fit=crop&q=80",
-  "basta-i-eksterijer": "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop&q=80",
-  "zastita-na-radu-htz": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop&q=80",
-  "gradjevina-ograde-i-okov": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=400&fit=crop&q=80",
-  "dom-kupatilo-i-vodovod": "https://images.unsplash.com/photo-1620626011761-996317b8d101?w=400&h=400&fit=crop&q=80",
+  "alati-i-oprema": "/categories/alati-i-oprema.jpg",
+  "masine-i-agregati": "/categories/masine-i-agregati.jpg",
+  "basta-i-eksterijer": "/categories/basta-i-eksterijer.jpg",
+  "zastita-na-radu-htz": "/categories/zastita-na-radu-htz.jpg",
+  "gradjevina-ograde-i-okov": "/categories/gradjevina-ograde-i-okov.jpg",
+  "dom-kupatilo-i-vodovod": "/categories/dom-kupatilo-i-vodovod.jpg",
   "skladistenje-i-sigurnost": "/categories/skladistenje-i-sigurnost.jpg",
   "boje-i-zavrsni-radovi": "/categories/boje-i-zavrsni-radovi.jpg",
 };
