@@ -9,10 +9,13 @@ import { SectionHeading } from "../ui/SectionHeading";
 import { Reveal } from "../ui/Reveal";
 
 /**
- * Unsplash stock photography stand-in for real category photos (per global
- * redesign brief) — one image per department, keyed by the MNE slug. Once the
- * category "tileImage" field is populated in Sanity these become the fallback.
+ * Stock photography stand-in for real category photos (per global redesign
+ * brief) — one image per department, keyed by the MNE slug. Once the category
+ * "tileImage" field is populated in Sanity these become the fallback.
  * Departments without a stand-in photo render a branded gradient + icon tile.
+ *
+ * The last two are downloaded local files (public/categories/) rather than
+ * remote Unsplash hotlinks — drop a replacement at the same path to swap them.
  */
 const categoryImages: Record<string, string> = {
   "alati-i-oprema": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=400&h=400&fit=crop&q=80",
@@ -21,6 +24,8 @@ const categoryImages: Record<string, string> = {
   "zastita-na-radu-htz": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=400&h=400&fit=crop&q=80",
   "gradjevina-ograde-i-okov": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&h=400&fit=crop&q=80",
   "dom-kupatilo-i-vodovod": "https://images.unsplash.com/photo-1620626011761-996317b8d101?w=400&h=400&fit=crop&q=80",
+  "skladistenje-i-sigurnost": "/categories/skladistenje-i-sigurnost.jpg",
+  "boje-i-zavrsni-radovi": "/categories/boje-i-zavrsni-radovi.jpg",
 };
 
 export function AktuelnoSection({ locale }: { locale: Locale }) {
