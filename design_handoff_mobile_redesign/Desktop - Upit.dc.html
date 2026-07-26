@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0a7ea4; text-decoration: none; }
+  a:hover { color: #086a8b; }
+  input, textarea { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: rgba(60,60,67,0.5); }
+</style>
+</helmet>
+
+<div style="width: 1440px; margin: 0 auto; background: #fff; position: relative; font-size: 16px; line-height: 1.5; letter-spacing: -0.008em; color: #11151a;">
+
+  <div style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 1px 0 rgba(17,21,26,0.07);">
+    <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1280px; margin: 0 auto; height: 76px; padding: 0 32px;">
+      <div style="display: flex; align-items: center; gap: 48px;">
+        <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">Centro<span style="color: #0a7ea4;">metal</span></span>
+        <nav style="display: flex; align-items: center; gap: 34px;">
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Proizvodi</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Brendovi</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Veleprodaja</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Servis</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Kontakt</a>
+        </nav>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <a href="#" aria-label="Upit" style="display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(10,126,164,0.1); position: relative;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 7h13.3l-1.4 9.2a2 2 0 0 1-2 1.7H9.6a2 2 0 0 1-2-1.7L6.2 7z"></path><path d="M9.4 7a2.6 2.6 0 0 1 5.2 0"></path></svg>
+          <span style="position: absolute; top: -2px; right: -2px; min-width: 17px; height: 17px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 17px; text-align: center;">2</span>
+        </a>
+        <a href="#" style="display: grid; place-items: center; height: 42px; padding: 0 20px; border-radius: 12px; background: #14181d; color: #fff; font-size: 14.5px; font-weight: 600;">Pozovite</a>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width: 900px; margin: 0 auto; padding: 56px 32px 80px;">
+      <h1 style="margin: 0; font-size: 38px; font-weight: 700; letter-spacing: -0.032em;">Pošaljite upit</h1>
+      <p style="margin: 12px 0 0; font-size: 16.5px; line-height: 1.5; color: rgba(60,60,67,0.7); max-width: 520px;">Cijene dajemo na upit — pošaljite listu i odgovaramo sa ponudom, obično isti dan.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 24px; padding: 2px; border-radius: 12px; background: rgba(118,118,128,0.12); max-width: 460px;">
+        <button type="button" onClick="{{ selectType0 }}" style="border: 0; border-radius: 10px; height: 42px; font-family: inherit; font-size: 14.5px; font-weight: 600; background: {{ t0Bg }}; color: {{ t0Fg }}; box-shadow: {{ t0Shadow }};">Kupovina</button>
+        <button type="button" onClick="{{ selectType1 }}" style="border: 0; border-radius: 10px; height: 42px; font-family: inherit; font-size: 14.5px; font-weight: 600; background: {{ t1Bg }}; color: {{ t1Fg }}; box-shadow: {{ t1Shadow }};">Veleprodaja</button>
+        <button type="button" onClick="{{ selectType2 }}" style="border: 0; border-radius: 10px; height: 42px; font-family: inherit; font-size: 14.5px; font-weight: 600; background: {{ t2Bg }}; color: {{ t2Fg }}; box-shadow: {{ t2Shadow }};">Servis</button>
+      </div>
+      <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.5; color: rgba(60,60,67,0.7);">{{ typeHint }}</p>
+
+      <sc-if value="{{ isRetail }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top: 32px;">
+          <h2 style="margin: 0 0 14px; font-size: 20px; font-weight: 700; letter-spacing: -0.025em;">Vaša lista ({{ itemCount }})</h2>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <sc-for list="{{ items }}" as="it" hint-placeholder-count="2">
+              <div style="display: flex; align-items: center; gap: 16px; padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+                <img src="{{ it.img }}" alt="{{ it.name }}" style="width: 56px; height: 56px; flex-shrink: 0; object-fit: contain; border-radius: 12px; background: #fff;" />
+                <div style="flex: 1; min-width: 0;">
+                  <p style="margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -0.015em;">{{ it.name }}</p>
+                  <button type="button" onClick="{{ it.remove }}" style="margin-top: 3px; padding: 0; border: 0; background: transparent; font-family: inherit; font-size: 13.5px; color: #0a7ea4;">Ukloni</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 999px; background: #fff;">
+                  <button type="button" onClick="{{ it.dec }}" style="display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 999px; background: transparent; font-family: inherit; font-size: 19px; line-height: 1; color: #0a7ea4;">−</button>
+                  <span style="min-width: 20px; text-align: center; font-size: 15.5px; font-weight: 600;">{{ it.qty }}</span>
+                  <button type="button" onClick="{{ it.inc }}" style="display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 999px; background: transparent; font-family: inherit; font-size: 18px; line-height: 1; color: #0a7ea4;">+</button>
+                </div>
+              </div>
+            </sc-for>
+            <a href="#" style="display: flex; align-items: center; gap: 9px; padding: 14px 18px; border-radius: 16px; border: 1.5px dashed rgba(20,24,29,0.16); font-size: 15px; font-weight: 600; color: #0a7ea4;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              Dodajte još proizvoda
+            </a>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isWholesale }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top: 32px;">
+          <h2 style="margin: 0 0 14px; font-size: 20px; font-weight: 700; letter-spacing: -0.025em;">Šta vas zanima</h2>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="8">
+              <button type="button" onClick="{{ c.toggle }}" style="height: 38px; padding: 0 16px; border: 0; border-radius: 999px; font-family: inherit; font-size: 14.5px; font-weight: 500; background: {{ c.bg }}; color: {{ c.fg }};">{{ c.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <sc-if value="{{ isWholesale }}" hint-placeholder-val="{{ false }}">
+          <div style="grid-column: 1 / -1; padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+            <label for="company" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">Firma</label>
+            <input id="company" type="text" placeholder="Naziv firme" style="display: block; width: 100%; border: 0; outline: none; padding: 0; background: transparent; font-size: 16px; letter-spacing: -0.015em; color: #11151a;" />
+          </div>
+        </sc-if>
+        <div style="padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+          <label for="name" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">Ime</label>
+          <input id="name" type="text" placeholder="Ime i prezime" style="display: block; width: 100%; border: 0; outline: none; padding: 0; background: transparent; font-size: 16px; letter-spacing: -0.015em; color: #11151a;" />
+        </div>
+        <sc-if value="{{ isService }}" hint-placeholder-val="{{ false }}">
+          <div style="padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+            <label for="brand" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">Alat</label>
+            <input id="brand" type="text" placeholder="Brend i model" style="display: block; width: 100%; border: 0; outline: none; padding: 0; background: transparent; font-size: 16px; letter-spacing: -0.015em; color: #11151a;" />
+          </div>
+        </sc-if>
+        <div style="padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+          <label for="phone" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">Telefon</label>
+          <input id="phone" type="tel" placeholder="+382 6x xxx xxx" style="display: block; width: 100%; border: 0; outline: none; padding: 0; background: transparent; font-size: 16px; letter-spacing: -0.015em; color: #11151a;" />
+        </div>
+        <div style="padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+          <label for="email" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">E-mail</label>
+          <input id="email" type="email" placeholder="ime@primjer.me" style="display: block; width: 100%; border: 0; outline: none; padding: 0; background: transparent; font-size: 16px; letter-spacing: -0.015em; color: #11151a;" />
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <p style="margin: 0; font-size: 13.5px; color: rgba(60,60,67,0.62);">Telefon ili e-mail — dovoljno je jedno.</p>
+        </div>
+        <div style="grid-column: 1 / -1; padding: 14px 18px; border-radius: 16px; background: #f5f6f7;">
+          <label for="message" style="display: block; margin-bottom: 4px; font-size: 12.5px; font-weight: 600; color: #3c3c43;">{{ messageLabel }}</label>
+          <textarea id="message" placeholder="{{ messagePlaceholder }}" rows="4" style="display: block; width: 100%; border: 0; outline: none; resize: none; padding: 0; background: transparent; font-size: 16px; line-height: 1.5; letter-spacing: -0.015em; color: #11151a;"></textarea>
+        </div>
+      </div>
+
+      <button type="button" onClick="{{ send }}" style="display: grid; place-items: center; height: 54px; margin-top: 24px; padding: 0 32px; border: 0; border-radius: 999px; background: #14181d; color: #fff; font-family: inherit; font-size: 16px; font-weight: 600;">Pošaljite upit</button>
+      <p style="margin: 12px 0 0; font-size: 13.5px; color: rgba(60,60,67,0.62);">Odgovaramo radnim danima, obično isti dan.</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width: 560px; margin: 0 auto; padding: 100px 32px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 48px 40px; border-radius: 28px; background: #f5f6f7; text-align: center;">
+        <span style="display: grid; place-items: center; width: 64px; height: 64px; border-radius: 999px; background: rgba(52,199,89,0.14);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1c7c37" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+        </span>
+        <p style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.03em;">Upit je poslat</p>
+        <p style="margin: 0; font-size: 16px; line-height: 1.5; color: rgba(60,60,67,0.7);">Javljamo se sa ponudom radnim danima, obično isti dan. Ako vam treba odmah — pozovite nas.</p>
+        <a href="#" style="display: grid; place-items: center; height: 50px; padding: 0 28px; border-radius: 999px; background: #14181d; color: #fff; font-size: 15.5px; font-weight: 600;">Pozovite +382 20 260 528</a>
+        <button type="button" onClick="{{ reset }}" style="padding: 6px; border: 0; background: transparent; font-family: inherit; font-size: 15px; font-weight: 600; color: #0a7ea4;">Pošaljite novi upit</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  state = {
+    type: 0,
+    sent: false,
+    cats: [],
+    items: [
+      { name: "Bosch GSB 18V-55", img: "public/products/bosch-gsb-18v-55.jpg", qty: 1 },
+      { name: "Telwin Tecnica 211/S", img: "public/products/telwin-tecnica-211-s.png", qty: 2 },
+    ],
+  };
+
+  categories = [
+    "Alati i oprema", "Mašine i agregati", "Bašta i eksterijer", "Zaštita na radu",
+    "Građevina i okov", "Dom i vodovod", "Skladištenje", "Boje",
+  ];
+
+  setQty(i, delta) {
+    this.setState((s) => ({
+      items: s.items.map((it, idx) => (idx === i ? { ...it, qty: Math.max(1, it.qty + delta) } : it)),
+    }));
+  }
+
+  renderVals() {
+    const on = { bg: "#ffffff", fg: "#11151a", shadow: "0 1px 3px rgba(17,21,26,0.14)" };
+    const off = { bg: "transparent", fg: "rgba(60,60,67,0.7)", shadow: "none" };
+    const t = [0, 1, 2].map((i) => (this.state.type === i ? on : off));
+    const type = this.state.type;
+
+    const hints = [
+      "Pošaljite listu proizvoda i dobijate cijenu i dostupnost.",
+      "Za firme, gradilišta i majstore — veleprodajne cijene i ponuda u roku od 24h.",
+      "Opišite problem i donesite alat u jednu od prodavnica.",
+    ];
+
+    return {
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      send: () => this.setState({ sent: true }),
+      reset: () => this.setState({ sent: false }),
+      selectType0: () => this.setState({ type: 0 }),
+      selectType1: () => this.setState({ type: 1 }),
+      selectType2: () => this.setState({ type: 2 }),
+      t0Bg: t[0].bg, t0Fg: t[0].fg, t0Shadow: t[0].shadow,
+      t1Bg: t[1].bg, t1Fg: t[1].fg, t1Shadow: t[1].shadow,
+      t2Bg: t[2].bg, t2Fg: t[2].fg, t2Shadow: t[2].shadow,
+      typeHint: hints[type],
+      isRetail: type === 0,
+      isWholesale: type === 1,
+      isService: type === 2,
+      messageLabel: type === 2 ? "Opis problema" : "Poruka",
+      messagePlaceholder:
+        type === 2
+          ? "Šta se dešava sa alatom, kada je počelo…"
+          : type === 1
+            ? "Količine, rokovi, mjesto dostave…"
+            : "Dodatna pitanja ili napomene…",
+      itemCount: this.state.items.length,
+      items: this.state.items.map((it, i) => ({
+        name: it.name,
+        img: it.img,
+        qty: it.qty,
+        inc: () => this.setQty(i, 1),
+        dec: () => this.setQty(i, -1),
+        remove: () => this.setState((s) => ({ items: s.items.filter((_, idx) => idx !== i) })),
+      })),
+      catChips: this.categories.map((label) => {
+        const active = this.state.cats.includes(label);
+        return {
+          label,
+          bg: active ? "#14181d" : "#f5f6f7",
+          fg: active ? "#ffffff" : "#11151a",
+          toggle: () =>
+            this.setState((s) => ({
+              cats: s.cats.includes(label) ? s.cats.filter((c) => c !== label) : [...s.cats, label],
+            })),
+        };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>

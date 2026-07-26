@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f2f2f7; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0a7ea4; text-decoration: none; }
+  a:hover { color: #086a8b; }
+</style>
+</helmet>
+
+<div style="width: 1440px; margin: 0 auto; background: #fff; position: relative; font-size: 16px; line-height: 1.5; letter-spacing: -0.008em; color: #11151a;">
+
+  <div style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 1px 0 rgba(17,21,26,0.07);">
+    <div style="display: flex; align-items: center; justify-content: space-between; max-width: 1280px; margin: 0 auto; height: 76px; padding: 0 32px;">
+      <div style="display: flex; align-items: center; gap: 48px;">
+        <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em;">Centro<span style="color: #0a7ea4;">metal</span></span>
+        <nav style="display: flex; align-items: center; gap: 34px;">
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #0a7ea4;">Proizvodi</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Brendovi</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Veleprodaja</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Servis</a>
+          <a href="#" style="font-size: 15px; font-weight: 600; color: #11151a;">Kontakt</a>
+        </nav>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="display: flex; align-items: center; gap: 8px; width: 260px; height: 42px; padding: 0 14px; border-radius: 12px; background: rgba(118,118,128,0.1);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.6)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+          <span style="font-size: 14.5px; color: rgba(60,60,67,0.55);">Pretražite proizvode</span>
+        </div>
+        <a href="#" aria-label="Upit" style="display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(60,60,67,0.06); position: relative;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 7h13.3l-1.4 9.2a2 2 0 0 1-2 1.7H9.6a2 2 0 0 1-2-1.7L6.2 7z"></path><path d="M9.4 7a2.6 2.6 0 0 1 5.2 0"></path></svg>
+          <span style="position: absolute; top: -2px; right: -2px; min-width: 17px; height: 17px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 17px; text-align: center;">2</span>
+        </a>
+        <a href="#" style="display: grid; place-items: center; height: 42px; padding: 0 20px; border-radius: 12px; background: #14181d; color: #fff; font-size: 14.5px; font-weight: 600;">Pozovite</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width: 1280px; margin: 0 auto; padding: 36px 32px 0;">
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: rgba(60,60,67,0.62);">
+      <a href="#" style="color: rgba(60,60,67,0.62);">Proizvodi</a>
+      <span>/</span>
+      <span style="color: #11151a; font-weight: 500;">Alati i oprema</span>
+    </div>
+    <h1 style="margin: 12px 0 0; font-size: 38px; font-weight: 700; letter-spacing: -0.032em;">Alati i oprema</h1>
+    <p style="margin: 10px 0 0; font-size: 16px; line-height: 1.5; color: rgba(60,60,67,0.7); max-width: 560px;">Električni, akumulatorski i benzinski alati, oprema za zavarivanje i ručni alat.</p>
+  </div>
+
+  <div style="max-width: 1280px; margin: 0 auto; padding: 28px 32px 0; display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start;">
+
+    <aside style="position: sticky; top: 96px; display: flex; flex-direction: column; gap: 24px;">
+      <div>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <p style="margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(60,60,67,0.55);">Podkategorija</p>
+          <button type="button" onClick="{{ clearAll }}" style="border: 0; background: transparent; padding: 0; font-family: inherit; font-size: 13px; font-weight: 600; color: #0a7ea4;">Obriši</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 10px;">
+          <sc-for list="{{ subRows }}" as="r" hint-placeholder-count="8">
+            <button type="button" onClick="{{ r.toggle }}" style="display: flex; align-items: center; gap: 10px; width: 100%; height: 38px; padding: 0 10px; border: 0; border-radius: 10px; background: {{ r.bg }}; font-family: inherit; font-size: 14.5px; font-weight: 500; color: #14181d; text-align: left;">
+              <span style="display: grid; place-items: center; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid {{ r.borderColor }}; background: {{ r.checkBg }}; flex-shrink: 0;">
+                <sc-if value="{{ r.checked }}" hint-placeholder-val="{{ false }}">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+                </sc-if>
+              </span>
+              {{ r.label }}
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="height: 1px; background: rgba(20,24,29,0.08);"></div>
+      <div>
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(60,60,67,0.55);">Brend</p>
+        <div style="display: flex; flex-direction: column; gap: 4px;">
+          <sc-for list="{{ brandRows }}" as="r" hint-placeholder-count="5">
+            <button type="button" onClick="{{ r.toggle }}" style="display: flex; align-items: center; gap: 10px; width: 100%; height: 38px; padding: 0 10px; border: 0; border-radius: 10px; background: {{ r.bg }}; font-family: inherit; font-size: 14.5px; font-weight: 500; color: #14181d; text-align: left;">
+              <span style="display: grid; place-items: center; width: 16px; height: 16px; border-radius: 5px; border: 1.5px solid {{ r.borderColor }}; background: {{ r.checkBg }}; flex-shrink: 0;">
+                <sc-if value="{{ r.checked }}" hint-placeholder-val="{{ false }}">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+                </sc-if>
+              </span>
+              {{ r.label }}
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </aside>
+
+    <div>
+      <p style="margin: 0 0 18px; font-size: 15px; color: rgba(60,60,67,0.62);">{{ countLabel }}</p>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+        <sc-for list="{{ visible }}" as="p" hint-placeholder-count="8">
+          <a href="#" style="display: flex; flex-direction: column; background: #f5f6f7; border-radius: 20px; overflow: hidden; color: #11151a;">
+            <div style="position: relative;">
+              <sc-if value="{{ p.hasBadge }}" hint-placeholder-val="{{ true }}">
+                <span style="position: absolute; top: 12px; left: 12px; z-index: 2; padding: 4px 10px; border-radius: 999px; background: rgba(10,126,164,0.95); color: #fff; font-size: 11px; font-weight: 600;">{{ p.badge }}</span>
+              </sc-if>
+              <img src="{{ p.img }}" alt="{{ p.name }}" style="display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 22px;" />
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px; padding: 4px 16px 18px; flex: 1;">
+              <img src="{{ p.logo }}" alt="{{ p.brand }}" style="height: 13px; width: auto; max-width: 60px; object-fit: contain; object-position: left; opacity: 0.7;" />
+              <p style="margin: 0; font-size: 16px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em;">{{ p.name }}</p>
+              <p style="margin: 0; font-size: 13.5px; color: rgba(60,60,67,0.62);">{{ p.sub }}</p>
+              <p style="margin: 4px 0 0; font-size: 13.5px; font-weight: 500; color: rgba(60,60,67,0.62);">Cijena na upit</p>
+              <button type="button" style="margin-top: 10px; height: 40px; border: 0; border-radius: 999px; background: #14181d; color: #fff; font-family: inherit; font-size: 14px; font-weight: 600;">Dodaj u upit</button>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 60px 24px; border-radius: 20px; background: #f5f6f7; text-align: center;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.35)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7.5 12 3.5l8 4v9L12 20.5l-8-4z"></path><path d="M4 7.5 12 11.5l8-4M12 11.5v9"></path></svg>
+          <p style="margin: 0; font-size: 16px; line-height: 1.45; max-width: 380px;">Nema proizvoda za izabrane filtere. Pozovite nas — vjerovatno ga imamo u prodavnici.</p>
+          <a href="#" style="display: grid; place-items: center; height: 46px; padding: 0 22px; border-radius: 999px; background: #14181d; color: #fff; font-size: 15px; font-weight: 600;">Pozovite +382 20 260 528</a>
+        </div>
+      </sc-if>
+
+      <div style="margin-top: 32px; padding: 32px; border-radius: 24px; background: linear-gradient(165deg, #22374a 0%, #141f28 100%); color: #fff; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+        <div>
+          <p style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.025em;">Ne vidite što tražite?</p>
+          <p style="margin: 6px 0 0; font-size: 15px; color: rgba(255,255,255,0.66); max-width: 460px;">Katalog je širi od sajta — pitajte i provjeravamo zalihe u obje prodavnice.</p>
+        </div>
+        <a href="#" style="flex-shrink: 0; display: grid; place-items: center; height: 46px; padding: 0 24px; border-radius: 999px; background: #fff; color: #14181d; font-size: 15px; font-weight: 600;">Pošaljite upit</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 64px;"></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100}}">
+class Component extends DCLogic {
+  state = { subs: [], brands: [] };
+
+  products = [
+    { name: "Bosch GSB 18V-55", brand: "bosch", brandName: "Bosch", sub: "akumulatorski-alati", subName: "Akumulatorski alati", badge: "Na popustu", img: "public/products/bosch-gsb-18v-55.jpg", logo: "public/logos/bosch.png" },
+    { name: "Makita HR2470", brand: "makita", brandName: "Makita", sub: "elektricni-alati", subName: "Električni alati", badge: "", img: "public/products/makita-hr2470.png", logo: "public/logos/makita.png" },
+    { name: "Einhell TE-CD 18 Li", brand: "einhell", brandName: "Einhell", sub: "akumulatorski-alati", subName: "Akumulatorski alati", badge: "Novo", img: "public/products/einhell-te-cd-18-li.png", logo: "public/logos/einhell.png" },
+    { name: "Telwin Tecnica 211/S", brand: "telwin", brandName: "Telwin", sub: "zavarivanje-i-lemljenje", subName: "Zavarivanje i lemljenje", badge: "Na popustu", img: "public/products/telwin-tecnica-211-s.png", logo: "public/logos/telwin.png" },
+    { name: "Knipex Cobra XL", brand: "knipex", brandName: "Knipex", sub: "rucni-alati", subName: "Ručni alati", badge: "Novo", img: "public/products/knipex-cobra-xl.png", logo: "public/logos/knipex.png" },
+    { name: "Bosch GWS 750", brand: "bosch", brandName: "Bosch", sub: "elektricni-alati", subName: "Električni alati", badge: "Novo", img: "public/products/bosch-gws-750.jpg", logo: "public/logos/bosch.png" },
+    { name: "Makita EK7651H", brand: "makita", brandName: "Makita", sub: "benzinski-alati", subName: "Benzinski alati", badge: "Na popustu", img: "public/products/makita-ek7651h.png", logo: "public/logos/makita.png" },
+    { name: "Bosch GLM 50 C", brand: "bosch", brandName: "Bosch", sub: "mjerni-i-kontrolni-alati", subName: "Mjerni i kontrolni alati", badge: "Novo", img: "public/products/bosch-glm-50-c.png", logo: "public/logos/bosch.png" },
+    { name: "Knipex 86 03 250", brand: "knipex", brandName: "Knipex", sub: "alati-za-stezanje-i-savijanje", subName: "Alati za stezanje i savijanje", badge: "", img: "public/products/knipex-86-03-250.png", logo: "public/logos/knipex.png" },
+  ];
+
+  subcategories = [
+    { slug: "elektricni-alati", name: "Električni alati" },
+    { slug: "akumulatorski-alati", name: "Akumulatorski alati" },
+    { slug: "pneumatski-alati", name: "Pneumatski alati" },
+    { slug: "benzinski-alati", name: "Benzinski alati" },
+    { slug: "zavarivanje-i-lemljenje", name: "Zavarivanje i lemljenje" },
+    { slug: "rucni-alati", name: "Ručni alati" },
+    { slug: "mjerni-i-kontrolni-alati", name: "Mjerni i kontrolni alati" },
+    { slug: "alati-za-stezanje-i-savijanje", name: "Alati za stezanje i savijanje" },
+  ];
+
+  brandList = [
+    { slug: "bosch", name: "Bosch" },
+    { slug: "makita", name: "Makita" },
+    { slug: "einhell", name: "Einhell" },
+    { slug: "telwin", name: "Telwin" },
+    { slug: "knipex", name: "Knipex" },
+  ];
+
+  toggle(key, value) {
+    this.setState((s) => {
+      const list = s[key];
+      return { [key]: list.includes(value) ? list.filter((v) => v !== value) : [...list, value] };
+    });
+  }
+
+  renderVals() {
+    const { subs, brands } = this.state;
+    const visible = this.products.filter(
+      (p) => (subs.length === 0 || subs.includes(p.sub)) && (brands.length === 0 || brands.includes(p.brand)),
+    );
+
+    const rowStyle = (checked) => ({
+      bg: checked ? "rgba(10,126,164,0.08)" : "transparent",
+      borderColor: checked ? "#0a7ea4" : "rgba(20,24,29,0.2)",
+      checkBg: checked ? "#0a7ea4" : "transparent",
+    });
+
+    return {
+      countLabel: visible.length === 1 ? "1 proizvod" : visible.length + " proizvoda",
+      isEmpty: visible.length === 0,
+      clearAll: () => this.setState({ subs: [], brands: [] }),
+      visible: visible.map((p) => ({
+        name: p.name,
+        brand: p.brandName,
+        sub: p.subName,
+        img: p.img,
+        logo: p.logo,
+        badge: p.badge,
+        hasBadge: p.badge !== "",
+      })),
+      subRows: this.subcategories.map((s) => {
+        const checked = subs.includes(s.slug);
+        const st = rowStyle(checked);
+        return { label: s.name, checked, bg: st.bg, borderColor: st.borderColor, checkBg: st.checkBg, toggle: () => this.toggle("subs", s.slug) };
+      }),
+      brandRows: this.brandList.map((b) => {
+        const checked = brands.includes(b.slug);
+        const st = rowStyle(checked);
+        return { label: b.name, checked, bg: st.bg, borderColor: st.borderColor, checkBg: st.checkBg, toggle: () => this.toggle("brands", b.slug) };
+      }),
+    };
+  }
+}
+</script>
+</body>
+</html>

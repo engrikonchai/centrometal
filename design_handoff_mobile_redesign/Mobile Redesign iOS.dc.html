@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #d9dbde; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0a7ea4; text-decoration: none; }
+  a:hover { color: #086a8b; }
+  .nsb { scrollbar-width: none; -ms-overflow-style: none; }
+  .nsb::-webkit-scrollbar { display: none; }
+</style>
+</helmet>
+
+<div style="width: 390px; margin: 0 auto; background: #f2f2f7; position: relative; overflow: hidden; font-size: 17px; line-height: 1.45; letter-spacing: -0.01em; color: #11151a;">
+
+  <div style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 1px 0 rgba(17,21,26,0.07);">
+    <div style="display: flex; align-items: center; justify-content: space-between; height: 60px; padding: 0 16px;">
+      <a href="#" onClick="{{ openMenu }}" aria-label="Meni" style="display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: rgba(60,60,67,0.06);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="2.1" stroke-linecap="round"><path d="M4 6.5h16"></path><path d="M4 12h16"></path><path d="M4 17.5h16"></path></svg>
+      </a>
+      <span style="font-size: 17px; font-weight: 700; letter-spacing: -0.025em;">Centrometal</span>
+      <div style="display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: rgba(60,60,67,0.06); position: relative;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 7h13.3l-1.4 9.2a2 2 0 0 1-2 1.7H9.6a2 2 0 0 1-2-1.7L6.2 7z"></path><path d="M9.4 7a2.6 2.6 0 0 1 5.2 0"></path></svg>
+        <span style="position: absolute; top: -3px; right: -3px; min-width: 16px; height: 16px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 10px; font-weight: 700; line-height: 16px; text-align: center;">2</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 8px 16px 0;">
+    <h1 style="margin: 4px 0 0; font-size: 34px; font-weight: 700; line-height: 1.08; letter-spacing: -0.035em;">Alati, mašine i oprema za svaki posao.</h1>
+    <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14.5px; color: rgba(60,60,67,0.78);">
+      <span>30+ brendova</span>
+      <span style="color: rgba(60,60,67,0.3);">·</span>
+      <span>2 lokacije</span>
+      <span style="color: rgba(60,60,67,0.3);">·</span>
+      <span>Sopstveni servis</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px; height: 40px; margin-top: 14px; padding: 0 10px; border-radius: 12px; background: rgba(118,118,128,0.12);">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.78)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+      <input type="text" placeholder="Pretražite proizvode" readonly="readonly" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-family: inherit; font-size: 17px; letter-spacing: -0.01em; color: #11151a;" />
+    </div>
+  </div>
+
+  <div style="padding: 16px;">
+    <div style="position: relative; overflow: hidden; border-radius: 22px; background: linear-gradient(160deg, #24384a 0%, #16222c 100%); color: #fff; box-shadow: 0 12px 28px rgba(17,21,26,0.22);">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 18px 18px 14px;">
+        <div style="flex: 1; min-width: 0;">
+          <p style="margin: 0; font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #6fd0ee;">Istaknuto</p>
+          <p style="margin: 6px 0 0; font-size: 22px; font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; text-wrap: balance;">Bosch GSB 18V-55</p>
+          <p style="margin: 4px 0 0; font-size: 14px; color: rgba(255,255,255,0.62);">Udarna bušilica · Cijena na upit</p>
+          <a href="#" style="display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; height: 34px; padding: 0 14px; border-radius: 999px; background: #fff; color: #16222c; font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">Vidi detalje</a>
+        </div>
+        <img src="public/products/bosch-gsb-18v-55.jpg" alt="Bosch GSB 18V-55" style="flex: 0 0 auto; width: 108px; height: 112px; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(0,0,0,0.5));" />
+      </div>
+      <div style="display: flex; justify-content: center; gap: 5px; padding: 0 0 14px;">
+        <span style="display: block; width: 6px; height: 6px; border-radius: 999px; background: #fff;"></span>
+        <span style="display: block; width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.3);"></span>
+        <span style="display: block; width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.3);"></span>
+        <span style="display: block; width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.3);"></span>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ showQuickActions }}" hint-placeholder-val="{{ true }}">
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 16px 20px;">
+      <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 14px 6px; border-radius: 16px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07); color: #11151a; font-size: 12.5px; font-weight: 600; letter-spacing: -0.005em;">
+        <span style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; background: rgba(10,126,164,0.12);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 5.2 2 2 0 0 1 6 3"></path></svg>
+        </span>
+        Pozovite
+      </a>
+      <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 14px 6px; border-radius: 16px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07); color: #11151a; font-size: 12.5px; font-weight: 600; letter-spacing: -0.005em;">
+        <span style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; background: rgba(10,126,164,0.12);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5l-8.4 8.4a2.8 2.8 0 0 1-4-4z"></path><path d="M17 3.5 20.5 7"></path></svg>
+        </span>
+        Servis
+      </a>
+      <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 14px 6px; border-radius: 16px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07); color: #11151a; font-size: 12.5px; font-weight: 600; letter-spacing: -0.005em;">
+        <span style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; background: rgba(10,126,164,0.12);">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-1.5-4.5h-15z"></path><path d="M4.5 9v10.5h15V9"></path><path d="M9.5 19.5V14h5v5.5"></path></svg>
+        </span>
+        Veleprodaja
+      </a>
+    </div>
+  </sc-if>
+
+  <div style="padding: 0 0 4px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 0 16px;">
+      <h2 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Iz ponude</h2>
+      <a href="#" style="font-size: 15px; font-weight: 500; letter-spacing: -0.01em; white-space: nowrap;">Vidi sve</a>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 12px 16px 0; padding: 2px; border-radius: 9px; background: rgba(118,118,128,0.12);">
+      <button type="button" onClick="{{ selectFeed0 }}" style="border: 0; border-radius: 7px; height: 32px; font-family: inherit; font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; background: {{ feed0Bg }}; color: {{ feed0Fg }}; box-shadow: {{ feed0Shadow }};">Na popustu</button>
+      <button type="button" onClick="{{ selectFeed1 }}" style="border: 0; border-radius: 7px; height: 32px; font-family: inherit; font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; background: {{ feed1Bg }}; color: {{ feed1Fg }}; box-shadow: {{ feed1Shadow }};">Novo u ponudi</button>
+    </div>
+    <div class="nsb" style="display: flex; gap: 12px; margin-top: 12px; padding: 4px 16px 20px; overflow-x: auto; scroll-snap-type: x mandatory;">
+      <sc-for list="{{ feedItems }}" as="p" hint-placeholder-count="4">
+        <div style="flex: 0 0 170px; scroll-snap-align: start; display: flex; flex-direction: column; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
+          <div style="position: relative; background: #f7f7f9;">
+            <span style="position: absolute; top: 9px; left: 9px; z-index: 2; padding: 3px 8px; border-radius: 999px; background: rgba(10,126,164,0.95); color: #fff; font-size: 10.5px; font-weight: 600; letter-spacing: 0.01em;">{{ p.badge }}</span>
+            <div style="position: absolute; top: 7px; right: 7px; z-index: 2; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 999px; background: rgba(255,255,255,0.75); backdrop-filter: blur(8px);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.78)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.6-7-9.4A4 4 0 0 1 12 7.6 4 4 0 0 1 19 10.6C19 15.4 12 20 12 20z"></path></svg>
+            </div>
+            <img src="{{ p.img }}" alt="{{ p.name }}" style="display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 16px;" />
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 5px; padding: 11px 12px 12px; flex: 1;">
+            <img src="{{ p.logo }}" alt="{{ p.brand }}" style="height: 12px; width: auto; max-width: 58px; object-fit: contain; object-position: left; opacity: 0.75;" />
+            <p style="margin: 0; font-size: 15px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em; color: #11151a;">{{ p.name }}</p>
+            <p style="margin: 0 0 2px; font-size: 13px; color: rgba(60,60,67,0.78);">Cijena na upit</p>
+            <button type="button" style="margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 36px; border: 0; border-radius: 999px; background: #0a7ea4; color: #fff; font-family: inherit; font-size: 14px; font-weight: 600; letter-spacing: -0.01em;">Dodaj u upit</button>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 22px;">
+    <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Odjeljenja</h2>
+    <div style="border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+        </span>
+        <span style="flex: 1;">Alati i oprema</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></svg>
+        </span>
+        <span style="flex: 1;">Mašine i agregati</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17z"></path><path d="M12 22v-3"></path></svg>
+        </span>
+        <span style="flex: 1;">Bašta i eksterijer</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"></path><path d="M10 10V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v5"></path><path d="M4 15v-3a6 6 0 0 1 6-6"></path><path d="M14 6a6 6 0 0 1 6 6v3"></path></svg>
+        </span>
+        <span style="flex: 1;">Zaštita na radu (HTZ)</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.5 8.5a2.12 2.12 0 1 1-3-3L12 9"></path><path d="M17.64 15 22 10.64"></path><path d="m20.91 11.7-1.25-1.25c-.6-.6-.93-1.4-.93-2.25v-.86L16.01 4.6a5.56 5.56 0 0 0-3.94-1.64H9l.92.82A6.18 6.18 0 0 1 12 8.4v1.56l2 2h2.47l2.26 1.91"></path></svg>
+        </span>
+        <span style="flex: 1;">Građevina, ograde i okov</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"></path></svg>
+        </span>
+        <span style="flex: 1;">Dom, kupatilo i vodovod</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </span>
+        <span style="flex: 1;">Skladištenje i sigurnost</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+      <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; border-top: 0.5px solid rgba(60,60,67,0.13); color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
+        <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.6 8.6a2 2 0 0 0 0 2.8l5.2 5.2c.8.8 2 .8 2.8 0z"></path><path d="m5 2 5 5"></path><path d="M2 13h15"></path><path d="M22 20a2 2 0 1 1-4 0c0-1.6 1.7-2.4 2-4 .3 1.6 2 2.4 2 4z"></path></svg>
+        </span>
+        <span style="flex: 1;">Boje i završni radovi</span>
+        <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
+      </a>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 22px;">
+    <div style="padding: 18px; border-radius: 22px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="display: grid; place-items: center; width: 34px; height: 34px; border-radius: 999px; background: rgba(10,126,164,0.12);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2v2.6M12 19.4V22M3.2 7l2.25 1.3M18.55 15.7 20.8 17M3.2 17l2.25-1.3M18.55 8.3 20.8 7"></path></svg>
+        </span>
+        <h2 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Sopstveni servis</h2>
+      </div>
+      <p style="margin: 10px 0 0; font-size: 15px; line-height: 1.45; color: rgba(60,60,67,0.66);">Popravka i održavanje električnih alata, mašina i agregata — u našoj radionici u Podgorici.</p>
+      <div style="display: flex; flex-direction: column; gap: 9px; margin-top: 14px;">
+        <div style="display: flex; align-items: center; gap: 9px; font-size: 15px; letter-spacing: -0.01em;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+          Garancijski i vangarancijski servis
+        </div>
+        <div style="display: flex; align-items: center; gap: 9px; font-size: 15px; letter-spacing: -0.01em;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+          Originalni rezervni dijelovi
+        </div>
+        <div style="display: flex; align-items: center; gap: 9px; font-size: 15px; letter-spacing: -0.01em;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 12.5 9.5 18 20 6.5"></path></svg>
+          Procjena troška bez naplate
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;">
+        <a href="#" style="display: grid; place-items: center; height: 44px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Prijavite alat</a>
+        <a href="#" style="display: grid; place-items: center; height: 44px; border-radius: 999px; background: rgba(10,126,164,0.1); color: #0a7ea4; font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Pozovite servis</a>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 22px;">
+    <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Kupujte po brendu</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+      <sc-for list="{{ brandLogos }}" as="b" hint-placeholder-count="5">
+        <div style="display: grid; place-items: center; height: 62px; padding: 12px; border-radius: 16px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07);">
+          <img src="{{ b.img }}" alt="{{ b.name }}" style="max-width: 100%; max-height: 24px; object-fit: contain;" />
+        </div>
+      </sc-for>
+      <a href="#" style="display: grid; place-items: center; height: 62px; border-radius: 16px; background: rgba(10,126,164,0.1); font-size: 13.5px; font-weight: 600; color: #0a7ea4; text-align: center; line-height: 1.25;">+24<br />ostali</a>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 22px;">
+    <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Posjetite nas</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 2px; border-radius: 9px; background: rgba(118,118,128,0.12);">
+      <button type="button" onClick="{{ selectStore0 }}" style="border: 0; border-radius: 7px; height: 32px; font-family: inherit; font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; background: {{ tab0Bg }}; color: {{ tab0Fg }}; box-shadow: {{ tab0Shadow }};">4 Jula</button>
+      <button type="button" onClick="{{ selectStore1 }}" style="border: 0; border-radius: 7px; height: 32px; font-family: inherit; font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; background: {{ tab1Bg }}; color: {{ tab1Fg }}; box-shadow: {{ tab1Shadow }};">Cetinjski put</button>
+    </div>
+
+    <div style="margin-top: 12px; border-radius: 18px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
+      <div style="height: 156px; background: #e5e7ea;">
+        <iframe src="{{ storeMap }}" title="Mapa" style="width: 100%; height: 100%; border: 0; display: block;" loading="lazy"></iframe>
+      </div>
+      <div style="padding: 14px 16px 16px;">
+        <p style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.02em;">{{ storeName }}</p>
+        <p style="margin: 4px 0 0; font-size: 15px; color: rgba(60,60,67,0.78);">{{ storeAddress }}</p>
+        <p style="margin: 2px 0 0; font-size: 15px; color: rgba(60,60,67,0.78);">Pon–Pet 08–20h · Sub 08–15h</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <a href="#" style="display: grid; place-items: center; height: 42px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Pozovite</a>
+          <a href="#" style="display: grid; place-items: center; height: 42px; border-radius: 999px; background: rgba(10,126,164,0.1); color: #0a7ea4; font-size: 15px; font-weight: 600; letter-spacing: -0.01em;">Navigacija</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 24px;">
+    <div style="padding: 20px; border-radius: 22px; background: linear-gradient(160deg, #24384a 0%, #16222c 100%); color: #fff; box-shadow: 0 12px 28px rgba(17,21,26,0.2);">
+      <p style="margin: 0; font-size: 22px; font-weight: 700; line-height: 1.15; letter-spacing: -0.028em;">Snabdijevate firmu ili gradilište?</p>
+      <p style="margin: 8px 0 0; font-size: 15px; line-height: 1.45; color: rgba(255,255,255,0.66);">Za firme, gradilišta i majstore — veleprodajne cijene i ponuda u roku od 24h.</p>
+      <div style="display: flex; align-items: center; gap: 9px; margin-top: 12px; font-size: 14.5px; color: rgba(255,255,255,0.8);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#6fd0ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M2.5 7.5h10v9h-10z"></path><path d="M12.5 11h4.5l3 3v2.5h-7.5z"></path><circle cx="6" cy="18" r="1.6"></circle><circle cx="16.5" cy="18" r="1.6"></circle></svg>
+        Dostava po cijeloj Crnoj Gori
+      </div>
+      <a href="#" style="display: grid; place-items: center; height: 48px; margin-top: 16px; border-radius: 999px; background: #fff; color: #16222c; font-size: 16px; font-weight: 600; letter-spacing: -0.015em;">Pošaljite upit</a>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px 26px;">
+    <h2 style="margin: 0 0 10px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Informacije</h2>
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <sc-for list="{{ footerRows }}" as="r" hint-placeholder-count="3">
+        <a href="#" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 15px 16px; border-radius: 14px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07); color: #11151a; font-size: 16px; font-weight: 500; letter-spacing: -0.015em;">
+          {{ r.label }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M9 7h8v8"></path></svg>
+        </a>
+      </sc-for>
+    </div>
+
+    <h2 style="margin: 24px 0 10px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Kontakt</h2>
+    <div style="padding: 16px; border-radius: 16px; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.07);">
+      <p style="margin: 0; font-size: 16px; letter-spacing: -0.015em;">Bulevar 21. Maja 23, Podgorica</p>
+      <a href="#" style="display: block; margin-top: 8px; font-size: 16px; font-weight: 600; letter-spacing: -0.015em;">+382 20 260 528</a>
+      <a href="#" style="display: block; margin-top: 4px; font-size: 16px; font-weight: 600; letter-spacing: -0.015em;">info@centrometal.me</a>
+    </div>
+    <p style="margin: 20px 0 0; text-align: center; font-size: 12.5px; color: rgba(60,60,67,0.74);">© 2026 Centrometal D.O.O.</p>
+  </div>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 60;">
+      <div onClick="{{ closeMenu }}" style="position: fixed; inset: 0; background: rgba(11,16,21,0.45);"></div>
+      <div style="position: fixed; top: 0; bottom: 0; left: 50%; transform: translateX(-195px); width: 300px; max-width: 82vw; background: #fff; box-shadow: 8px 0 30px rgba(11,16,21,0.2); display: flex; flex-direction: column; padding: 18px 16px calc(20px + env(safe-area-inset-bottom));">
+        <div style="display: flex; align-items: center; justify-content: space-between; height: 40px;">
+          <span style="font-size: 17px; font-weight: 700; letter-spacing: -0.025em;">Centrometal</span>
+          <button type="button" onClick="{{ closeMenu }}" aria-label="Zatvori" style="display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 10px; background: rgba(60,60,67,0.06);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="2.2" stroke-linecap="round"><path d="M5 5l14 14M19 5 5 19"></path></svg>
+          </button>
+        </div>
+        <nav style="display: flex; flex-direction: column; gap: 4px; margin-top: 14px;">
+          <a href="#" style="padding: 13px 10px; border-radius: 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #11151a;">Proizvodi</a>
+          <a href="#" style="padding: 13px 10px; border-radius: 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #11151a;">Brendovi</a>
+          <a href="#" style="padding: 13px 10px; border-radius: 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #11151a;">Veleprodaja</a>
+          <a href="#" style="padding: 13px 10px; border-radius: 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #11151a;">Servis</a>
+          <a href="#" style="padding: 13px 10px; border-radius: 12px; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #11151a;">Kontakt</a>
+        </nav>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+          <a href="#" style="display: grid; place-items: center; height: 50px; border-radius: 999px; background: #14181d; color: #fff; font-size: 15.5px; font-weight: 600;">Pošaljite upit</a>
+          <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 50px; border-radius: 999px; border: 1.5px solid rgba(20,24,29,0.14); color: #14181d; font-size: 15.5px; font-weight: 600;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 5.2 2 2 0 0 1 6 3"></path></svg>
+            +382 20 260 528
+          </a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;showTabBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mobile&quot;},&quot;showQuickActions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mobile&quot;}}">
+class Component extends DCLogic {
+  state = { store: 0, feed: 0, menuOpen: false };
+
+  renderVals() {
+    const stores = [
+      { name: "Centrometal — 4 Jula", address: "4 Jula 68, Podgorica", q: "4 Jula 68, Podgorica" },
+      { name: "Centrometal — Cetinjski put", address: "Cetinjski put bb, Podgorica", q: "Cetinjski put bb, Podgorica" },
+    ];
+    const s = stores[this.state.store];
+    const on = { bg: "#ffffff", fg: "#11151a", shadow: "0 1px 3px rgba(17,21,26,0.14)" };
+    const off = { bg: "transparent", fg: "rgba(60,60,67,0.7)", shadow: "none" };
+    const t0 = this.state.store === 0 ? on : off;
+    const t1 = this.state.store === 1 ? on : off;
+
+    const rows = ["Veleprodaja", "Servis", "O nama"];
+
+    const f0 = this.state.feed === 0 ? on : off;
+    const f1 = this.state.feed === 1 ? on : off;
+    const allDeals = [
+      { name: "Bosch GSB 18V-55", brand: "Bosch", badge: "Na popustu", sale: true, img: "public/products/bosch-gsb-18v-55.jpg", logo: "public/logos/bosch.png" },
+      { name: "Telwin Tecnica 211/S", brand: "Telwin", badge: "Na popustu", sale: true, img: "public/products/telwin-tecnica-211-s.png", logo: "public/logos/telwin.png" },
+      { name: "Makita EK7651H", brand: "Makita", badge: "Na popustu", sale: true, img: "public/products/makita-ek7651h.png", logo: "public/logos/makita.png" },
+      { name: "Bosch GWS 750", brand: "Bosch", badge: "Na popustu", sale: true, img: "public/products/bosch-gws-750.jpg", logo: "public/logos/bosch.png" },
+      { name: "Knipex Cobra XL", brand: "Knipex", badge: "Novo", sale: false, img: "public/products/knipex-cobra-xl.png", logo: "public/logos/knipex.png" },
+      { name: "Einhell TE-CD 18 Li", brand: "Einhell", badge: "Novo", sale: false, img: "public/products/einhell-te-cd-18-li.png", logo: "public/logos/einhell.png" },
+      { name: "Makita HR2470", brand: "Makita", badge: "Novo", sale: false, img: "public/products/makita-ek7651h.png", logo: "public/logos/makita.png" },
+    ];
+
+    return {
+      feedItems: allDeals.filter((d) => (this.state.feed === 0 ? d.sale : !d.sale)),
+      selectFeed0: () => this.setState({ feed: 0 }),
+      selectFeed1: () => this.setState({ feed: 1 }),
+      feed0Bg: f0.bg, feed0Fg: f0.fg, feed0Shadow: f0.shadow,
+      feed1Bg: f1.bg, feed1Fg: f1.fg, feed1Shadow: f1.shadow,
+      menuOpen: this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      showTabBar: this.props.showTabBar ?? true,
+      showQuickActions: this.props.showQuickActions ?? true,
+      brandLogos: [
+        { name: "Bosch", img: "public/logos/bosch.png" },
+        { name: "Makita", img: "public/logos/makita.png" },
+        { name: "Einhell", img: "public/logos/einhell.png" },
+        { name: "Telwin", img: "public/logos/telwin.png" },
+        { name: "Knipex", img: "public/logos/knipex.png" },
+      ],
+      footerRows: rows.map((label, i) => ({
+        label,
+        border: i === 0 ? "0" : "0.5px solid rgba(60,60,67,0.14)",
+      })),
+      storeName: s.name,
+      storeAddress: s.address,
+      storeMap: "https://www.google.com/maps?q=" + encodeURIComponent(s.q) + "&output=embed",
+      selectStore0: () => this.setState({ store: 0 }),
+      selectStore1: () => this.setState({ store: 1 }),
+      tab0Bg: t0.bg, tab0Fg: t0.fg, tab0Shadow: t0.shadow,
+      tab1Bg: t1.bg, tab1Fg: t1.fg, tab1Shadow: t1.shadow,
+    };
+  }
+}
+</script>
+</body>
+</html>
