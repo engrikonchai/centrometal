@@ -43,12 +43,36 @@ export function servicePath(locale: Locale): string {
   return locale === "mne" ? "/servis" : "/en/service";
 }
 
-export function aboutPath(locale: Locale): string {
-  return locale === "mne" ? "/o-nama" : "/en/about";
-}
+/*
+  aboutPath is gone: "O nama" is now a #o-nama section on the contact page,
+  and /o-nama + /en/about are 308 redirects (see next.config.ts). Callers that
+  want the About content link to `${contactPath(locale)}#o-nama`.
+*/
 
 export function contactPath(locale: Locale): string {
   return locale === "mne" ? "/kontakt" : "/en/contact";
+}
+
+/**
+ * The merged inquiry form — the single conversion path that replaces the
+ * separate contact/wholesale/service forms. `type` preselects the segmented
+ * control so the Veleprodaja and Servis pages can deep-link into it.
+ */
+export function inquiryPath(locale: Locale, type?: InquiryType): string {
+  const base = locale === "mne" ? "/upit" : "/en/inquiry";
+  return type ? `${base}?type=${type}` : base;
+}
+
+export type InquiryType = "kupovina" | "veleprodaja" | "servis";
+
+/**
+ * Resolves the `?type=` search param to an inquiry type, defaulting to
+ * Kupovina. Lives here rather than in the form so the page can resolve it on
+ * the server and pass it down — see the note in InquiryPage about why the
+ * form no longer reads it via useSearchParams.
+ */
+export function parseInquiryType(value: string | string[] | undefined): InquiryType {
+  return value === "veleprodaja" || value === "servis" ? value : "kupovina";
 }
 
 /** The other locale's equivalent of the current path, for the language switcher + hreflang. */
@@ -81,7 +105,6 @@ const staticPagePaths = {
   brands: brandsPath,
   wholesale: wholesalePath,
   service: servicePath,
-  about: aboutPath,
   contact: contactPath,
 } as const;
 

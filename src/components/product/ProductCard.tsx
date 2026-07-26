@@ -1,9 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, MoreVertical, ShoppingCart } from "lucide-react";
 import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
 import type { Product } from "@/lib/products";
@@ -12,18 +8,34 @@ import { getCategoryBySlug } from "@/lib/taxonomy";
 import { productPath } from "@/lib/paths";
 import { getDictionary } from "@/lib/dictionary";
 import { urlForImage } from "@/sanity/lib/image";
-import { useCart, cartItemId } from "@/contexts/CartContext";
-import { useFavorites } from "@/contexts/FavoritesContext";
-import { Card } from "../ui/Card";
-import { BrandMark } from "../ui/BrandMark";
 import { ProductImagePlaceholder } from "../ui/ProductImagePlaceholder";
+import { AddToInquiryButton } from "./AddToInquiryButton";
 
+/**
+ * Handoff product card, used by the home "Iz ponude" rail and the category
+ * grid: image panel with badge, then brand logo, name, an optional
+ * subcategory line, "Cijena na upit", and a full-width "Dodaj u upit" CTA
+ * pinned to the bottom.
+ *
+ * Deliberately not a client component — the only interactive part is
+ * AddToInquiryButton, which is its own client island. That lets the card
+ * render on the server wherever its parent does.
+ *
+ * The design file wraps the whole card in an <a> with a <button> inside it;
+ * that is invalid HTML and breaks keyboard use, so the link is scoped to the
+ * image and title and the CTA sits outside it.
+ */
 export function ProductCard({
   product,
   locale,
+  /** The category grid adds a subcategory line the home rail omits. */
+  showSubcategory = false,
+  className,
 }: {
   product: Product;
   locale: Locale;
+  showSubcategory?: boolean;
+  className?: string;
 }) {
   const brand = getBrandBySlug(product.brandSlug);
   const category = getCategoryBySlug("mne", product.categorySlug);
@@ -31,73 +43,42 @@ export function ProductCard({
   const href = productPath(locale, category?.slug[locale] ?? product.categorySlug, product.slug);
   const alt = `${brand?.name ?? ""} ${product.name}`.trim();
 
-  const { add: addToCart } = useCart();
-  const { toggle: toggleFavorite, isFavorited } = useFavorites();
-  const favorited = isFavorited(cartItemId(product));
+  const subcategory = category?.subcategories.find(
+    (sub) => sub.slug.mne === product.subcategorySlug,
+  );
 
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    function onPointerDown(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) setMenuOpen(false);
-    }
-    function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setMenuOpen(false);
-    }
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
-
-  // Kebab menu — extensible: add more { label, href } items here later
-  // (e.g. Podijeli / Share, Uporedi / Compare).
-  const menuItems: { label: string; href: string }[] = [
-    { label: dict.featured.viewDetails, href },
-  ];
-
-  // On-sale takes precedence over "new" so the badge matches the section a card
-  // most likely appears in; only one badge ever shows.
+  // Only one badge ever shows; on-sale wins so the badge matches the feed the
+  // card most likely appears in.
   const badge = product.onSale
-    ? { label: dict.featured.onSaleBadge, className: "bg-teal" }
+    ? dict.featured.onSaleBadge
     : product.isNew
-      ? { label: dict.featured.newBadge, className: "bg-navy" }
+      ? dict.featured.newBadge
       : null;
 
   return (
-    <Card className="group relative flex h-full flex-col overflow-hidden hover:shadow-xl">
-      <div className="relative">
+    <div
+      className={clsx(
+        /* Mobile: white card lifted off the #f2f2f7 page with a soft shadow.
+           Desktop: the page is white, so the card inverts to a #f5f6f7 fill
+           with no shadow and a slightly larger radius. */
+        "flex flex-col overflow-hidden rounded-card bg-surface shadow-card",
+        "lg:rounded-[20px] lg:bg-fill lg:shadow-none",
+        className,
+      )}
+    >
+      <div className="relative bg-[#f7f7f9] lg:bg-transparent">
         {badge && (
-          <span
-            className={clsx(
-              "absolute left-2 top-2 z-10 rounded-full px-3 py-1 text-[11px] font-semibold uppercase leading-none tracking-tight text-white shadow-md",
-              badge.className,
-            )}
-          >
-            {badge.label}
+          <span className="absolute left-[9px] top-[9px] z-10 rounded-full bg-teal/95 px-2 py-[3px] text-[0.65625rem] font-semibold text-white">
+            {badge}
           </span>
         )}
-        {/* Heart is its own control, kept outside the image <Link>. */}
-        <button
-          type="button"
-          onClick={() => toggleFavorite(product)}
-          aria-pressed={favorited}
-          aria-label={favorited ? dict.featured.removeFromFavorites : dict.featured.addToFavorites}
-          className={clsx(
-            "absolute right-2 top-2 z-10 grid size-9 place-items-center rounded-full bg-white/80 backdrop-blur-sm transition hover:bg-white",
-            favorited ? "text-teal" : "text-muted",
-          )}
-        >
-          <Heart className="size-5" strokeWidth={2} fill={favorited ? "currentColor" : "none"} aria-hidden="true" />
-        </button>
+        {/* The design draws a wishlist heart here, but no screen in the bundle
+            provides a favorites view to reach from it — the feature was cut
+            rather than left pointing nowhere. */}
 
         <Link href={href} aria-label={product.name} data-testid="product-result" className="block">
           {product.image || product.localImage ? (
-            <div className="relative aspect-square w-full overflow-hidden bg-warehouse">
+            <div className="relative aspect-square w-full">
               <Image
                 src={
                   product.image
@@ -106,8 +87,8 @@ export function ProductCard({
                 }
                 alt={alt}
                 fill
-                sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-contain p-3 transition duration-300 group-hover:scale-105"
+                sizes="(min-width: 1024px) 20vw, 50vw"
+                className="object-contain p-4 lg:p-[22px]"
               />
             </div>
           ) : (
@@ -116,65 +97,51 @@ export function ProductCard({
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col p-3">
-        <Link href={href} className="flex flex-col gap-1">
-          {brand && (
-            <BrandMark
-              name={brand.name}
-              logo={brand.logo}
-              className="self-start px-1.5 py-0.5 text-[11px] sm:px-2 sm:py-1 sm:text-xs"
-            />
-          )}
-          <h3 className="line-clamp-2 font-heading text-[0.95rem] font-semibold leading-tight text-navy sm:text-base">
-            {product.name}
-          </h3>
+      <div className="flex flex-1 flex-col gap-[5px] p-3 pt-[11px] lg:gap-1.5 lg:px-4 lg:pb-[18px] lg:pt-1">
+        {brand?.logo ? (
+          /* Plain <img>: these logos are tiny, variable-ratio and already in
+             /public, and next/image's `fill` would need a sized box that
+             defeats the max-width-58/height-12 treatment the design uses. */
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={brand.logo}
+            alt={brand.name}
+            className="h-3 w-auto max-w-[58px] object-contain object-left opacity-75 lg:h-[13px] lg:max-w-[60px] lg:opacity-70"
+          />
+        ) : (
+          brand && (
+            <span className="text-[0.6875rem] font-semibold uppercase tracking-wide text-muted">
+              {brand.name}
+            </span>
+          )
+        )}
+
+        <Link
+          href={href}
+          className="text-[0.9375rem] font-semibold leading-[1.25] tracking-[-0.015em] lg:text-base"
+        >
+          {product.name}
         </Link>
 
-        <div className="mt-auto pt-3">
-          <p className="text-sm font-bold text-teal">{dict.featured.priceOnRequest}</p>
-          <div className="mt-2 flex items-stretch gap-2">
-            <button
-              type="button"
-              onClick={() => addToCart(product, dict.featured.addedToCart)}
-              aria-label={dict.featured.addToCart}
-              title={dict.featured.addToCart}
-              className="flex min-h-11 flex-1 items-center justify-center rounded-button bg-teal text-white transition hover:brightness-90 active:brightness-75"
-            >
-              <ShoppingCart className="size-5" strokeWidth={2} aria-hidden="true" />
-            </button>
-            <div ref={menuRef} className="relative">
-              <button
-                type="button"
-                onClick={() => setMenuOpen((open) => !open)}
-                aria-label={dict.featured.moreOptions}
-                aria-haspopup="menu"
-                aria-expanded={menuOpen}
-                className="grid min-h-11 min-w-11 place-items-center rounded-button border border-line text-navy transition hover:border-teal hover:text-teal"
-              >
-                <MoreVertical className="size-5" strokeWidth={2} aria-hidden="true" />
-              </button>
-              {menuOpen && (
-                <div
-                  role="menu"
-                  className="absolute bottom-full right-0 z-20 mb-2 min-w-36 overflow-hidden rounded-button border border-line bg-white py-1 shadow-lg"
-                >
-                  {menuItems.map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      role="menuitem"
-                      onClick={() => setMenuOpen(false)}
-                      className="block whitespace-nowrap px-4 py-2.5 text-sm text-ink transition hover:bg-warehouse"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+        {showSubcategory && subcategory && (
+          <p className="text-[0.8125rem] text-muted lg:text-[0.84375rem]">
+            {subcategory.name[locale]}
+          </p>
+        )}
+
+        <p className="mb-0.5 text-[0.8125rem] font-medium text-muted lg:mb-0 lg:mt-1 lg:text-[0.84375rem]">
+          {dict.featured.priceOnRequest}
+        </p>
+
+        <div className="mt-auto lg:pt-2.5">
+          <AddToInquiryButton
+            product={product}
+            locale={locale}
+            size="sm"
+            tone="darkOnDesktop"
+          />
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

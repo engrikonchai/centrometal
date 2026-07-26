@@ -14,6 +14,12 @@ export const dictionary = {
       callUs: "Pozovite nas",
       openMenu: "Otvori meni",
       closeMenu: "Zatvori meni",
+      back: "Nazad",
+      inquiry: "Upit",
+      sendInquiry: "Pošaljite upit",
+      call: "Pozovite",
+      searchPlaceholder: "Pretražite proizvode",
+      allDepartments: "Sva odjeljenja",
     },
     hero: {
       eyebrow: "Ovlašćeni distributer • Podgorica, Crna Gora",
@@ -31,6 +37,50 @@ export const dictionary = {
       retail: "Maloprodaja i veleprodaja",
       locations: "Dvije lokacije u Podgorici",
     },
+    /*
+      Redesigned home screen. `heroMeta*` replaces the old hero subhead —
+      the handoff folds those three proof points into a single meta line
+      under the H1.
+      CLIENT REVIEW: serviceBullets, wholesaleBody ("ponuda u roku od 24h")
+      and wholesaleDelivery are invented prototype copy — see the handoff's
+      "Known placeholders" list.
+    */
+    home: {
+      heroMetaBrands: "30+ brendova",
+      heroMetaLocations: "2 lokacije",
+      heroMetaService: "Sopstveni servis",
+      featuredEyebrow: "Istaknuto",
+      featuredCta: "Vidi detalje",
+      feedHeading: "Iz ponude",
+      feedSale: "Na popustu",
+      feedNew: "Novo u ponudi",
+      feedToggleLabel: "Tip ponude",
+      viewAll: "Vidi sve",
+      departmentsHeading: "Odjeljenja",
+      serviceHeading: "Sopstveni servis",
+      serviceBody:
+        "Popravka i održavanje električnih alata, mašina i agregata — u našoj radionici u Podgorici.",
+      serviceBullets: [
+        "Garancijski i vangarancijski servis",
+        "Originalni rezervni dijelovi",
+        "Procjena troška bez naplate",
+      ],
+      serviceCtaPrimary: "Prijavite alat",
+      serviceCtaSecondary: "Pozovite servis",
+      brandsHeading: "Kupujte po brendu",
+      brandsMoreTemplate: "+{count} ostali",
+      storesHeading: "Posjetite nas",
+      storeToggleLabel: "Izaberite prodavnicu",
+      storeCall: "Pozovite",
+      storeDirections: "Navigacija",
+      wholesaleHeading: "Snabdijevate firmu ili gradilište?",
+      wholesaleBody:
+        "Za firme, gradilišta i majstore — veleprodajne cijene i ponuda u roku od 24h.",
+      wholesaleDelivery: "Dostava po cijeloj Crnoj Gori",
+      wholesaleCta: "Pošaljite upit",
+      infoHeading: "Informacije",
+      contactHeading: "Kontakt",
+    },
     aktuelno: {
       heading: "Kategorije",
     },
@@ -44,8 +94,6 @@ export const dictionary = {
     featured: {
       addToCart: "Dodaj u korpu",
       addedToCart: "Dodato u korpu ✓",
-      addToFavorites: "Dodaj u omiljene",
-      removeFromFavorites: "Ukloni iz omiljenih",
       onSaleBadge: "Na popustu",
       newBadge: "Novo",
       viewDetails: "Vidi detalje",
@@ -76,6 +124,7 @@ export const dictionary = {
       addressLabel: "Adresa",
       phoneLabel: "Telefon",
       emailLabel: "Email",
+      hoursHeading: "Radno vrijeme",
       rights: "Sva prava zadržana.",
     },
     breadcrumb: {
@@ -96,6 +145,24 @@ export const dictionary = {
         "Trenutno nemamo prikazane {brand} proizvode u ovoj kategoriji — kontaktirajte nas za dostupnost.",
       emptyContactCta: "Kontaktirajte nas",
       emptyCallCta: "Pozovite prodavnicu",
+      searchPlaceholder: "Pretražite u odjeljenju",
+      /* Montenegrin counts: 1 -> "proizvod", 2-4 -> "proizvoda",
+         5+ -> "proizvoda". Only the 1 vs rest split matters here. */
+      countOne: "1 proizvod",
+      countManyTemplate: "{count} proizvoda",
+      filtersButton: "Filteri",
+      filtersActiveTemplate: "Filteri ({count})",
+      applyOne: "Prikaži 1 proizvod",
+      applyManyTemplate: "Prikaži {count} proizvoda",
+      clear: "Obriši",
+      done: "Gotovo",
+      sheetHeading: "Filteri",
+      emptyBody:
+        "Nema proizvoda za izabrane filtere. Pozovite nas — vjerovatno ga imamo u prodavnici.",
+      callTemplate: "Pozovite {phone}",
+      ctaHeading: "Ne vidite što tražite?",
+      ctaBody: "Katalog je širi od sajta — pitajte i provjeravamo zalihe u obje prodavnice.",
+      ctaButton: "Pošaljite upit",
     },
     search: {
       heading: "Pretraga",
@@ -116,14 +183,8 @@ export const dictionary = {
       requestQuote: "Zatražite ponudu",
       quoteMessageHeading: "Upit za proizvode iz korpe:",
     },
-    favorites: {
-      heading: "Omiljeno",
-      empty: "Nemate omiljenih proizvoda.",
-      remove: "Ukloni",
-    },
     mobileHeader: {
       cartLabel: "Korpa",
-      favoritesLabel: "Omiljeno",
     },
     product: {
       requestQuote: "Zatražite ponudu",
@@ -135,6 +196,11 @@ export const dictionary = {
       manufacturerLinkLabel: "Stranica proizvođača",
       relatedHeading: "Slični proizvodi",
       quotePrefillTemplate: "Upit za: {product}\n\n",
+      specsCardHeading: "Specifikacija",
+      docsHeading: "Dokumentacija",
+      addToInquiry: "Dodaj u upit",
+      addedToInquiry: "Dodato u upit ✓",
+      viewAll: "Vidi sve",
     },
     form: {
       nameLabel: "Ime i prezime",
@@ -155,6 +221,57 @@ export const dictionary = {
       errorBody: "Upit nije poslat. Pokušajte ponovo ili nas pozovite direktno.",
       requiredError: "Ovo polje je obavezno.",
       emailError: "Unesite ispravnu email adresu.",
+      sendAnother: "Pošaljite novi upit",
+    },
+    /*
+      Merged Upit form — replaces the three legacy forms (Contact, Wholesale,
+      Service), which the handoff identifies as the site's only conversion
+      path since every price is "na upit".
+      CLIENT REVIEW: hintWholesale repeats the invented "ponuda u roku od 24h"
+      promise; responseNote ("obično isti dan") is also prototype copy.
+    */
+    inquiry: {
+      title: "Upit",
+      intro: "Cijene dajemo na upit — pošaljite listu i odgovaramo sa ponudom.",
+      typeLabel: "Tip upita",
+      typeRetail: "Kupovina",
+      typeWholesale: "Veleprodaja",
+      typeService: "Servis",
+      hintRetail: "Pošaljite listu proizvoda i dobijate cijenu i dostupnost.",
+      hintWholesale:
+        "Za firme, gradilišta i majstore — veleprodajne cijene i ponuda u roku od 24h.",
+      hintService: "Opišite problem i donesite alat u jednu od prodavnica.",
+      listHeadingTemplate: "Vaša lista ({count})",
+      listEmpty: "Vaša lista je prazna.",
+      addMore: "Dodajte još proizvoda",
+      remove: "Ukloni",
+      increaseLabelTemplate: "Povećajte količinu — {product}",
+      decreaseLabelTemplate: "Smanjite količinu — {product}",
+      interestsHeading: "Šta vas zanima",
+      detailsHeading: "Vaši podaci",
+      companyLabel: "Firma",
+      companyPlaceholder: "Naziv firme",
+      nameLabel: "Ime",
+      namePlaceholder: "Ime i prezime",
+      phoneLabel: "Telefon",
+      phonePlaceholder: "+382 6x xxx",
+      emailLabel: "E-mail",
+      emailPlaceholder: "ime@primjer.me",
+      toolLabel: "Alat",
+      toolPlaceholder: "Brend i model",
+      contactHint: "Telefon ili e-mail — dovoljno je jedno.",
+      contactRequiredError: "Unesite telefon ili e-mail.",
+      messageLabel: "Poruka",
+      issueLabel: "Opis problema",
+      placeholderRetail: "Dodatna pitanja ili napomene…",
+      placeholderWholesale: "Količine, rokovi, mjesto dostave…",
+      placeholderService: "Šta se dešava sa alatom, kada je počelo…",
+      submit: "Pošaljite upit",
+      responseNote: "Odgovaramo radnim danima, obično isti dan.",
+      successTitle: "Upit je poslat",
+      successBody:
+        "Javljamo se sa ponudom radnim danima, obično isti dan. Ako vam treba odmah — pozovite nas.",
+      successCallTemplate: "Pozovite {phone}",
       sendAnother: "Pošaljite novi upit",
     },
     brandsPage: {
@@ -196,6 +313,13 @@ export const dictionary = {
       dropOffBody: "Opremu možete donijeti lično u bilo koju od naše dvije prodavnice.",
       formHeading: "Pošaljite servisni upit",
     },
+    /*
+      RETAINED, CURRENTLY UNRENDERED. The About page is gone (its content is
+      now the #o-nama section of the contact page), but the redesign replaced
+      these three paragraphs with two shorter invented ones. This is the
+      longer copy the site shipped with — kept so it isn't lost while the
+      client decides which version they actually want.
+    */
     aboutPage: {
       heading: "O nama",
       intro:
@@ -219,6 +343,42 @@ export const dictionary = {
       departmentWholesale: "Veleprodaja",
       departmentService: "Servis",
       locationsHeading: "Lokacije",
+      /*
+        Redesigned Contact screen, which now also carries the "O nama"
+        content — the handoff drops the separate About page.
+        CLIENT REVIEW: aboutParagraphs are invented prototype copy and need
+        the client's real company story.
+      */
+      subtitle: "Pozovite, pišite ili posjetite jednu od dvije prodavnice u Podgorici.",
+      callCta: "Pozovite",
+      emailCta: "E-mail",
+      contactHeading: "Kontakt",
+      salesLabel: "Prodaja",
+      mobileLabel: "Mobilni",
+      storesHeading: "Prodavnice",
+      hoursWeekdays: "Pon–Pet",
+      hoursWeekdaysValue: "08–20h",
+      hoursSaturday: "Subota",
+      hoursSaturdayValue: "08–15h",
+      /* Sunday hours were missing from the original site entirely. */
+      hoursSunday: "Nedjelja",
+      hoursSundayValue: "Zatvoreno",
+      ctaHeading: "Trebate ponudu ili savjet?",
+      ctaBody: "Pošaljite upit za kupovinu, veleprodaju ili servis — odgovaramo obično isti dan.",
+      ctaButton: "Pošaljite upit",
+      aboutHeading: "O nama",
+      statStoresValue: "2",
+      statStoresLabel: "prodavnice",
+      statBrandsValue: "30+",
+      statBrandsLabel: "brendova",
+      statServiceValue: "1",
+      statServiceLabel: "servis",
+      aboutParagraphs: [
+        "Centrometal D.O.O. je ovlašćeni distributer alata, mašina i opreme u Podgorici. Snabdijevamo majstore, firme i gradilišta — od pojedinačnog alata do kompletne opreme za posao.",
+        "Uz prodaju držimo i sopstveni servis, pa alat koji kupite kod nas ne morate nositi nigdje drugdje.",
+      ],
+      hqTemplate: "Sjedište: {address}",
+      copyrightTemplate: "© {year} {company}",
     },
   },
   en: {
@@ -234,6 +394,12 @@ export const dictionary = {
       callUs: "Call us",
       openMenu: "Open menu",
       closeMenu: "Close menu",
+      back: "Back",
+      inquiry: "Inquiry",
+      sendInquiry: "Send inquiry",
+      call: "Call",
+      searchPlaceholder: "Search products",
+      allDepartments: "All departments",
     },
     hero: {
       eyebrow: "Authorized dealer • Podgorica, Montenegro",
@@ -251,6 +417,42 @@ export const dictionary = {
       retail: "Retail & wholesale",
       locations: "Two locations in Podgorica",
     },
+    home: {
+      heroMetaBrands: "30+ brands",
+      heroMetaLocations: "2 locations",
+      heroMetaService: "In-house service",
+      featuredEyebrow: "Featured",
+      featuredCta: "View details",
+      feedHeading: "From our range",
+      feedSale: "On sale",
+      feedNew: "New arrivals",
+      feedToggleLabel: "Range type",
+      viewAll: "View all",
+      departmentsHeading: "Departments",
+      serviceHeading: "In-house service",
+      serviceBody:
+        "Repair and maintenance of power tools, machinery and generators — in our own workshop in Podgorica.",
+      serviceBullets: [
+        "In-warranty and out-of-warranty service",
+        "Original spare parts",
+        "Free cost estimate",
+      ],
+      serviceCtaPrimary: "Book a repair",
+      serviceCtaSecondary: "Call the workshop",
+      brandsHeading: "Shop by brand",
+      brandsMoreTemplate: "+{count} more",
+      storesHeading: "Visit us",
+      storeToggleLabel: "Choose a store",
+      storeCall: "Call",
+      storeDirections: "Directions",
+      wholesaleHeading: "Supplying a business or job site?",
+      wholesaleBody:
+        "For companies, job sites and tradespeople — wholesale pricing and a quote within 24h.",
+      wholesaleDelivery: "Delivery across Montenegro",
+      wholesaleCta: "Send inquiry",
+      infoHeading: "Information",
+      contactHeading: "Contact",
+    },
     aktuelno: {
       heading: "Categories",
     },
@@ -264,8 +466,6 @@ export const dictionary = {
     featured: {
       addToCart: "Add to Cart",
       addedToCart: "Added to cart ✓",
-      addToFavorites: "Add to favorites",
-      removeFromFavorites: "Remove from favorites",
       onSaleBadge: "On Sale",
       newBadge: "New",
       viewDetails: "View details",
@@ -295,6 +495,7 @@ export const dictionary = {
       addressLabel: "Address",
       phoneLabel: "Phone",
       emailLabel: "Email",
+      hoursHeading: "Opening hours",
       rights: "All rights reserved.",
     },
     breadcrumb: {
@@ -315,6 +516,23 @@ export const dictionary = {
         "No {brand} products listed yet in this category — contact us for current availability.",
       emptyContactCta: "Contact us",
       emptyCallCta: "Call the store",
+      searchPlaceholder: "Search in this department",
+      countOne: "1 product",
+      countManyTemplate: "{count} products",
+      filtersButton: "Filters",
+      filtersActiveTemplate: "Filters ({count})",
+      applyOne: "Show 1 product",
+      applyManyTemplate: "Show {count} products",
+      clear: "Clear",
+      done: "Done",
+      sheetHeading: "Filters",
+      emptyBody:
+        "No products match these filters. Give us a call — chances are we have it in the store.",
+      callTemplate: "Call {phone}",
+      ctaHeading: "Not seeing what you need?",
+      ctaBody:
+        "Our catalogue is wider than the site — ask and we'll check stock in both stores.",
+      ctaButton: "Send inquiry",
     },
     search: {
       heading: "Search",
@@ -335,14 +553,8 @@ export const dictionary = {
       requestQuote: "Request a Quote",
       quoteMessageHeading: "Inquiry about products in cart:",
     },
-    favorites: {
-      heading: "Favorites",
-      empty: "You don't have any favorite products.",
-      remove: "Remove",
-    },
     mobileHeader: {
       cartLabel: "Cart",
-      favoritesLabel: "Favorites",
     },
     product: {
       requestQuote: "Request Quote",
@@ -354,6 +566,11 @@ export const dictionary = {
       manufacturerLinkLabel: "Manufacturer page",
       relatedHeading: "Related products",
       quotePrefillTemplate: "Inquiry about: {product}\n\n",
+      specsCardHeading: "Specification",
+      docsHeading: "Documentation",
+      addToInquiry: "Add to inquiry",
+      addedToInquiry: "Added to inquiry ✓",
+      viewAll: "View all",
     },
     form: {
       nameLabel: "Full name",
@@ -374,6 +591,50 @@ export const dictionary = {
       errorBody: "Your inquiry wasn't sent. Please try again or call us directly.",
       requiredError: "This field is required.",
       emailError: "Enter a valid email address.",
+      sendAnother: "Send another inquiry",
+    },
+    inquiry: {
+      title: "Inquiry",
+      intro: "All prices are on request — send us your list and we'll reply with a quote.",
+      typeLabel: "Inquiry type",
+      typeRetail: "Purchase",
+      typeWholesale: "Wholesale",
+      typeService: "Service",
+      hintRetail: "Send a list of products and we'll come back with pricing and availability.",
+      hintWholesale:
+        "For companies, job sites and tradespeople — wholesale pricing and a quote within 24h.",
+      hintService: "Describe the problem and bring the tool to either store.",
+      listHeadingTemplate: "Your list ({count})",
+      listEmpty: "Your list is empty.",
+      addMore: "Add more products",
+      remove: "Remove",
+      increaseLabelTemplate: "Increase quantity — {product}",
+      decreaseLabelTemplate: "Decrease quantity — {product}",
+      interestsHeading: "What are you interested in",
+      detailsHeading: "Your details",
+      companyLabel: "Company",
+      companyPlaceholder: "Company name",
+      nameLabel: "Name",
+      namePlaceholder: "Full name",
+      phoneLabel: "Phone",
+      phonePlaceholder: "+382 6x xxx",
+      emailLabel: "E-mail",
+      emailPlaceholder: "name@example.com",
+      toolLabel: "Tool",
+      toolPlaceholder: "Brand and model",
+      contactHint: "Phone or e-mail — either one is enough.",
+      contactRequiredError: "Enter a phone number or an e-mail address.",
+      messageLabel: "Message",
+      issueLabel: "Problem description",
+      placeholderRetail: "Any other questions or notes…",
+      placeholderWholesale: "Quantities, deadlines, delivery location…",
+      placeholderService: "What's happening with the tool, when it started…",
+      submit: "Send inquiry",
+      responseNote: "We reply on working days, usually the same day.",
+      successTitle: "Inquiry sent",
+      successBody:
+        "We'll get back to you with a quote on working days, usually the same day. If you need it right away — give us a call.",
+      successCallTemplate: "Call {phone}",
       sendAnother: "Send another inquiry",
     },
     brandsPage: {
@@ -436,6 +697,36 @@ export const dictionary = {
       departmentWholesale: "Wholesale",
       departmentService: "Service",
       locationsHeading: "Locations",
+      subtitle: "Call, write, or visit one of our two stores in Podgorica.",
+      callCta: "Call",
+      emailCta: "E-mail",
+      contactHeading: "Contact",
+      salesLabel: "Sales",
+      mobileLabel: "Mobile",
+      storesHeading: "Stores",
+      hoursWeekdays: "Mon–Fri",
+      hoursWeekdaysValue: "8am–8pm",
+      hoursSaturday: "Saturday",
+      hoursSaturdayValue: "8am–3pm",
+      hoursSunday: "Sunday",
+      hoursSundayValue: "Closed",
+      ctaHeading: "Need a quote or advice?",
+      ctaBody:
+        "Send an inquiry for a purchase, wholesale or service — we usually reply the same day.",
+      ctaButton: "Send inquiry",
+      aboutHeading: "About us",
+      statStoresValue: "2",
+      statStoresLabel: "stores",
+      statBrandsValue: "30+",
+      statBrandsLabel: "brands",
+      statServiceValue: "1",
+      statServiceLabel: "workshop",
+      aboutParagraphs: [
+        "Centrometal D.O.O. is an authorized distributor of tools, machinery and equipment in Podgorica. We supply tradespeople, companies and job sites — from a single tool to a full kit for the job.",
+        "Alongside sales we run our own service workshop, so tools bought from us never need to go anywhere else.",
+      ],
+      hqTemplate: "Head office: {address}",
+      copyrightTemplate: "© {year} {company}",
     },
   },
 } satisfies Record<Locale, unknown>;
@@ -444,4 +735,30 @@ export type Dictionary = (typeof dictionary)["mne"];
 
 export function getDictionary(locale: Locale): Dictionary {
   return dictionary[locale];
+}
+
+/**
+ * Fills `{placeholder}` slots in a dictionary template.
+ * `format(dict.category.countManyTemplate, { count: 8 })` -> "8 proizvoda".
+ */
+export function format(
+  template: string,
+  values: Record<string, string | number>,
+): string {
+  return template.replace(/\{(\w+)\}/g, (match, key: string) =>
+    key in values ? String(values[key]) : match,
+  );
+}
+
+/**
+ * Montenegrin splits its plural between 1 and everything else here (the
+ * 2-4 / 5+ distinction happens to share the "proizvoda" form), so a
+ * one-vs-many pair covers both locales.
+ */
+export function pluralize(
+  count: number,
+  one: string,
+  manyTemplate: string,
+): string {
+  return count === 1 ? one : format(manyTemplate, { count });
 }

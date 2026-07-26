@@ -18,16 +18,17 @@ const MAX_QUERY_LENGTH = 100;
 const DEBOUNCE_MS = 200;
 
 /**
- * Minimal-line style — sits directly on the navy header, so (unlike the
- * boxed inputBase used by the on-white contact/wholesale/service forms)
- * this stays transparent with white text and only a teal underline.
- * The global :focus-visible ring (globals.css) still applies on top of
- * this — it's unlayered CSS, so it always wins over any focus:outline-none
+ * Handoff search field: a borderless tinted pill on the now-white header
+ * (rgba(118,118,128,0.1-0.12), 12px radius) rather than the previous
+ * underline-on-navy treatment.
+ *
+ * The global :focus-visible ring (globals.css) still applies on top of this
+ * — it's unlayered CSS, so it always wins over any focus:outline-none
  * utility here, which is why this doesn't bother trying to suppress it.
  */
 const searchInputBase =
-  "w-full border-b border-teal bg-transparent pl-9 text-white transition-[border-width] duration-200 " +
-  "placeholder:text-white/50 focus:border-b-2";
+  "w-full rounded-xl border-0 bg-[rgba(118,118,128,0.12)] pl-9 text-ink " +
+  "placeholder:text-muted";
 
 function productHref(locale: Locale, product: Product): string {
   const categorySlug =
@@ -188,7 +189,7 @@ export function SearchBox({
           <Link
             href={searchPath(locale, query)}
             onClick={handleSuggestionClick}
-            className="block border-t border-line px-4 py-2.5 text-center text-sm font-semibold text-navy transition hover:text-teal"
+            className="block border-t border-line px-4 py-2.5 text-center text-sm font-semibold text-navy transition hover:text-teal-ink"
           >
             {dict.search.viewAllResults}
           </Link>
@@ -220,8 +221,8 @@ export function SearchBox({
       className={clsx(
         searchInputBase,
         variant === "collapsible"
-          ? "h-11 py-0 pr-3 text-base"
-          : "py-1.5 pr-2.5 text-[13px] lg:py-2 lg:pr-3 lg:text-sm",
+          ? "h-10 py-0 pr-3 text-[1.0625rem]"
+          : "h-[42px] py-0 pr-3 text-[0.90625rem]",
       )}
     />
   );
@@ -232,12 +233,12 @@ export function SearchBox({
         ref={wrapperRef}
         className={clsx(
           "relative shrink-0",
-          className ?? "w-44 transition-[width] duration-200 focus-within:w-64",
+          className ?? "w-[260px]",
         )}
       >
         <form onSubmit={handleSubmit}>
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/50"
+            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
             strokeWidth={2}
             aria-hidden="true"
           />
@@ -260,12 +261,12 @@ export function SearchBox({
           <Search className="size-6" strokeWidth={2} aria-hidden="true" />
         </button>
       ) : (
-        <div className="fixed inset-x-0 top-16 z-50 border-t border-steel bg-navy px-4 py-3">
+        <div className="fixed inset-x-0 top-[60px] z-50 border-t border-line bg-surface px-4 py-3">
           <div className="relative">
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
               <div className="relative flex-1">
                 <Search
-                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/50"
+                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
                   strokeWidth={2}
                   aria-hidden="true"
                 />
@@ -277,7 +278,7 @@ export function SearchBox({
                   closeAndCollapse();
                 }}
                 aria-label={dict.search.closeLabel}
-                className="grid size-11 shrink-0 place-items-center text-white"
+                className="grid size-11 shrink-0 place-items-center text-ink"
               >
                 <X className="size-6" strokeWidth={2} aria-hidden="true" />
               </button>

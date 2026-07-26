@@ -6,7 +6,7 @@ import { Footer } from "../layout/Footer";
 import { PageHeader } from "../layout/PageHeader";
 import { Container } from "../ui/Container";
 import { Card } from "../ui/Card";
-import { WholesaleForm } from "../forms/WholesaleForm";
+import { WholesaleCtaCard } from "../shared/WholesaleCtaCard";
 
 export function WholesalePage({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -39,14 +39,11 @@ export function WholesalePage({ locale }: { locale: Locale }) {
           </div>
         </Container>
 
-        <div className="border-t border-line bg-surface py-16 sm:py-24">
-          <Container className="max-w-2xl">
-            <h2 className="font-heading text-h2 font-bold text-navy">{dict.wholesalePage.formHeading}</h2>
-            <div className="mt-8">
-              <WholesaleForm locale={locale} />
-            </div>
-          </Container>
-        </div>
+        {/* The wholesale form is now part of the merged /upit flow, deep-linked
+            to its Veleprodaja tab. */}
+        <Container className="py-12 sm:py-16">
+          <WholesaleCtaCard locale={locale} />
+        </Container>
       </main>
       <Footer locale={locale} />
     </>

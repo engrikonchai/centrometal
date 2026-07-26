@@ -13,13 +13,13 @@ function LocaleLink({
 }) {
   if (isActive) {
     return (
-      <span aria-current="page" className="px-1.5 py-0.5 text-teal-on-dark">
+      <span aria-current="page" className="px-1.5 py-0.5 text-teal-ink">
         {children}
       </span>
     );
   }
   return (
-    <Link href={href} className="px-1.5 py-0.5 text-white/70 transition hover:text-white">
+    <Link href={href} className="px-1.5 py-0.5 text-muted transition hover:text-ink">
       {children}
     </Link>
   );
@@ -39,7 +39,7 @@ export function LanguageSwitch({
       <LocaleLink isActive={locale === "mne"} href={alternateHref}>
         MNE
       </LocaleLink>
-      <span className="text-white/40" aria-hidden="true">
+      <span className="text-muted/50" aria-hidden="true">
         /
       </span>
       <LocaleLink isActive={locale === "en"} href={alternateHref}>

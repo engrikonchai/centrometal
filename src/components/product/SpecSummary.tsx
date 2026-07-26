@@ -1,17 +1,30 @@
 import type { Locale } from "@/lib/i18n";
 import type { ProductSpec } from "@/lib/products";
 
-/** Compact preview of the first few spec rows, shown near the top of the PDP info panel. */
+/**
+ * Handoff: the three headline specs as a row of soft tiles (Napon / Moment /
+ * Težina on the reference product), sitting between the H1 and the
+ * description. Renders whatever the first three specs happen to be.
+ */
 export function SpecSummary({ specs, locale }: { specs: ProductSpec[]; locale: Locale }) {
+  const tiles = specs.slice(0, 3);
+  if (tiles.length === 0) return null;
+
   return (
-    <div className="flex flex-wrap gap-2">
-      {specs.slice(0, 3).map((spec) => (
-        <span
+    <div
+      className="grid gap-2"
+      style={{ gridTemplateColumns: `repeat(${tiles.length}, minmax(0, 1fr))` }}
+    >
+      {tiles.map((spec) => (
+        <div
           key={spec.label[locale]}
-          className="inline-flex items-center rounded-full border border-line bg-warehouse px-3 py-1 text-xs font-medium text-ink"
+          className="rounded-button bg-surface px-2.5 py-[11px] shadow-card lg:rounded-2xl lg:bg-fill lg:p-4 lg:shadow-none"
         >
-          <span className="text-muted">{spec.label[locale]}:</span>&nbsp;{spec.value}
-        </span>
+          <p className="text-xs text-muted lg:text-[0.78125rem]">{spec.label[locale]}</p>
+          <p className="mt-0.5 text-[1.0625rem] font-semibold tracking-[-0.02em] lg:mt-[3px] lg:text-[1.1875rem]">
+            {spec.value}
+          </p>
+        </div>
       ))}
     </div>
   );

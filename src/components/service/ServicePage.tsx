@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n";
 import { getDictionary } from "@/lib/dictionary";
-import { otherLocalePathFor } from "@/lib/paths";
+import { inquiryPath, otherLocalePathFor } from "@/lib/paths";
 import { categories } from "@/lib/taxonomy";
 import { brands } from "@/lib/brands";
 import { Header } from "../layout/Header";
@@ -8,8 +8,8 @@ import { Footer } from "../layout/Footer";
 import { PageHeader } from "../layout/PageHeader";
 import { Container } from "../ui/Container";
 import { BrandMark } from "../ui/BrandMark";
-import { LocationsSection } from "../shared/LocationsSection";
-import { ServiceForm } from "../forms/ServiceForm";
+import { StoresSection } from "../shared/StoresSection";
+import { Button } from "../ui/Button";
 
 /** Repairable-equipment categories only — safety/paint/storage aren't service-relevant. */
 const SERVICEABLE_CATEGORY_SLUGS = ["alati-i-oprema", "masine-i-agregati", "basta-i-eksterijer"];
@@ -45,7 +45,7 @@ export function ServicePage({ locale }: { locale: Locale }) {
                   const Icon = category.icon;
                   return (
                     <li key={category.slug.mne} className="flex items-center gap-2.5 text-sm text-ink">
-                      <Icon className="size-4 text-teal" strokeWidth={1.75} aria-hidden="true" />
+                      <Icon className="size-4 text-teal-ink" strokeWidth={1.75} aria-hidden="true" />
                       {category.name[locale]}
                     </li>
                   );
@@ -65,19 +65,19 @@ export function ServicePage({ locale }: { locale: Locale }) {
           </div>
         </Container>
 
-        <LocationsSection
-          locale={locale}
-          heading={dict.servicePage.dropOffHeading}
-          subheading={dict.servicePage.dropOffBody}
-          className="border-t border-line bg-surface py-16 sm:py-24"
-        />
+        <Container className="py-12 sm:py-16">
+          <h2 className="text-h2 font-bold">{dict.servicePage.dropOffHeading}</h2>
+          <p className="mt-2 max-w-2xl text-muted">{dict.servicePage.dropOffBody}</p>
+          <div className="mt-6">
+            <StoresSection locale={locale} showFullHours className="max-w-xl" />
+          </div>
 
-        <Container className="py-16 sm:py-24">
-          <div className="mx-auto max-w-2xl">
-            <h2 className="font-heading text-h2 font-bold text-navy">{dict.servicePage.formHeading}</h2>
-            <div className="mt-8">
-              <ServiceForm locale={locale} />
-            </div>
+          {/* The service form is now part of the merged /upit flow, deep-linked
+              to its Servis tab. */}
+          <div className="mt-10">
+            <Button href={inquiryPath(locale, "servis")} variant="primary" size="lg">
+              {dict.servicePage.formHeading}
+            </Button>
           </div>
         </Container>
       </main>

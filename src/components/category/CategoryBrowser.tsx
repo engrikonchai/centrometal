@@ -1,17 +1,23 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { PackageX, Phone, SlidersHorizontal, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Check, Package, Search, SlidersHorizontal } from "lucide-react";
+import { clsx } from "clsx";
 import type { Locale } from "@/lib/i18n";
-import { getDictionary } from "@/lib/dictionary";
-import { getCategoryBySlug, type Category } from "@/lib/taxonomy";
+import { format, getDictionary, pluralize } from "@/lib/dictionary";
+import { getCategoryBySlug } from "@/lib/taxonomy";
 import type { Product } from "@/lib/products";
 import { brands as allBrands, getBrandBySlug } from "@/lib/brands";
-import { contactPath } from "@/lib/paths";
+import { inquiryPath } from "@/lib/paths";
+import { SALES_PHONE, telHref } from "@/lib/contact";
+import { useBodyScrollLock } from "@/lib/useBodyScrollLock";
 import { ProductCard } from "../product/ProductCard";
 import { Button } from "../ui/Button";
-import { Reveal } from "../ui/Reveal";
+
+/** `?sub=a,b` / `?brand=a,b`; a bare single value still works (mega-menu deep links). */
+function parseList(value: string | null): string[] {
+  return value ? value.split(",").filter(Boolean) : [];
+}
 
 export function CategoryBrowser({
   locale,
@@ -24,23 +30,114 @@ export function CategoryBrowser({
 }) {
   const dict = getDictionary(locale);
   const category = getCategoryBySlug("mne", categorySlug)!;
-  const searchParams = useSearchParams();
-  const brandParam = searchParams.get("brand");
-  // Deep-linked from the mega-menu / mobile drawer (e.g. ?sub=elektricni-alati).
-  // The param may carry either locale's slug; resolve it to the MNE slug used
-  // internally for filtering and product matching.
-  const subParam = searchParams.get("sub");
-  const initialSubcategory = subParam
-    ? category.subcategories
-        .filter((s) => s.slug.mne === subParam || s.slug.en === subParam)
-        .map((s) => s.slug.mne)
-    : [];
-  const [selectedSubcategories, setSelectedSubcategories] =
-    useState<string[]>(initialSubcategory);
-  const [selectedBrands, setSelectedBrands] = useState<string[]>(
-    brandParam ? [brandParam] : [],
+
+  /*
+    Filter state is deliberately NOT read via useSearchParams.
+
+    Calling that hook inside the <Suspense> boundary this component sits in
+    makes Next exclude the whole subtree from the prerender — the static HTML
+    for a category page contained zero product cards, so the grid existed only
+    after hydration. For an SEO-driven catalogue where the grid *is* the page,
+    that's the wrong trade.
+
+    Instead: state starts empty (matching what the server renders, so
+    hydration is clean), an effect adopts any filters from the URL on mount,
+    and every change is written back with history.replaceState. The grid is
+    server-rendered and filtered views stay shareable and bookmarkable. The
+    cost is one frame of unfiltered content on a deep-linked ?sub= URL.
+  */
+  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Deferred rather than called synchronously in the effect body to satisfy
+    // react-hooks/set-state-in-effect — same pattern CartContext uses for its
+    // localStorage hydration.
+    queueMicrotask(() => {
+      const params = new URLSearchParams(window.location.search);
+      // The `sub` param may carry either locale's slug (mega-menu and drawer
+      // links use the localized one); resolve to the MNE slug used internally.
+      const rawSubs = parseList(params.get("sub"));
+      const subs = category.subcategories
+        .filter((sub) => rawSubs.includes(sub.slug.mne) || rawSubs.includes(sub.slug.en))
+        .map((sub) => sub.slug.mne);
+      if (subs.length > 0) setSelectedSubcategories(subs);
+
+      const brandsFromUrl = parseList(params.get("brand"));
+      if (brandsFromUrl.length > 0) setSelectedBrands(brandsFromUrl);
+    });
+  }, [category]);
+
+  const [query, setQuery] = useState("");
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const filterTriggerRef = useRef<HTMLButtonElement>(null);
+  useBodyScrollLock(sheetOpen);
+
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setSheetOpen(false);
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  /* The sheet claims aria-modal, so focus has to actually move into it on
+     open and return to the trigger on close. `wasOpen` keeps the restore from
+     firing on mount, which would otherwise steal focus on page load. */
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (sheetOpen) sheetRef.current?.focus();
+    else if (wasOpen.current) filterTriggerRef.current?.focus({ preventScroll: true });
+    wasOpen.current = sheetOpen;
+  }, [sheetOpen]);
+
+  /*
+    Mirrors the current selection into the URL without going through the Next
+    router: replaceState updates the address bar in place, so there's no
+    navigation, no server round-trip and no new history entry per checkbox
+    click. Next supports native history calls for exactly this case.
+  */
+  const syncUrl = useCallback((key: "sub" | "brand", values: string[]) => {
+    const params = new URLSearchParams(window.location.search);
+    if (values.length > 0) params.set(key, values.join(","));
+    else params.delete(key);
+    const queryString = params.toString();
+    window.history.replaceState(
+      null,
+      "",
+      queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname,
+    );
+  }, []);
+
+  const toggleSubcategory = useCallback(
+    (slug: string) => {
+      setSelectedSubcategories((prev) => {
+        const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug];
+        syncUrl("sub", next);
+        return next;
+      });
+    },
+    [syncUrl],
   );
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const toggleBrand = useCallback(
+    (slug: string) => {
+      setSelectedBrands((prev) => {
+        const next = prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug];
+        syncUrl("brand", next);
+        return next;
+      });
+    },
+    [syncUrl],
+  );
+
+  function clearFilters() {
+    setSelectedSubcategories([]);
+    setSelectedBrands([]);
+    syncUrl("sub", []);
+    syncUrl("brand", []);
+  }
 
   const brandsInCategory = useMemo(() => {
     const slugsInCategory = new Set(products.map((p) => p.brandSlug));
@@ -48,242 +145,302 @@ export function CategoryBrowser({
   }, [products]);
 
   const filteredProducts = useMemo(() => {
+    const q = query.trim().toLowerCase();
     return products.filter((product) => {
       const subcategoryMatch =
         selectedSubcategories.length === 0 ||
         selectedSubcategories.includes(product.subcategorySlug);
       const brandMatch =
         selectedBrands.length === 0 || selectedBrands.includes(product.brandSlug);
-      return subcategoryMatch && brandMatch;
+      const queryMatch =
+        !q ||
+        product.name.toLowerCase().includes(q) ||
+        (getBrandBySlug(product.brandSlug)?.name.toLowerCase().includes(q) ?? false);
+      return subcategoryMatch && brandMatch && queryMatch;
     });
-  }, [products, selectedSubcategories, selectedBrands]);
-
-  function toggleSubcategory(slug: string) {
-    setSelectedSubcategories((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
-    );
-  }
-
-  function toggleBrand(slug: string) {
-    setSelectedBrands((prev) =>
-      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug],
-    );
-  }
-
-  function clearFilters() {
-    setSelectedSubcategories([]);
-    setSelectedBrands([]);
-  }
+  }, [products, selectedSubcategories, selectedBrands, query]);
 
   const activeCount = selectedSubcategories.length + selectedBrands.length;
+  const countLabel = pluralize(
+    filteredProducts.length,
+    dict.category.countOne,
+    dict.category.countManyTemplate,
+  );
+  const applyLabel = pluralize(
+    filteredProducts.length,
+    dict.category.applyOne,
+    dict.category.applyManyTemplate,
+  );
 
-  const chips = [
-    ...selectedSubcategories.map((slug) => {
-      const sub = category.subcategories.find((s) => s.slug.mne === slug);
-      return { key: `sub-${slug}`, label: sub?.name[locale] ?? slug, onRemove: () => toggleSubcategory(slug) };
-    }),
-    ...selectedBrands.map((slug) => {
-      const brand = brandsInCategory.find((b) => b.slug === slug) ?? getBrandBySlug(slug);
-      return { key: `brand-${slug}`, label: brand?.name ?? slug, onRemove: () => toggleBrand(slug) };
-    }),
+  const checklistRow =
+    "flex w-full items-center justify-between gap-2.5 px-4 py-2 text-left text-[1.03125rem] tracking-[-0.015em] text-ink min-h-12";
+
+  const filterGroups = [
+    {
+      key: "sub" as const,
+      label: dict.category.subcategoryLabel,
+      rows: category.subcategories.map((sub) => ({
+        key: sub.slug.mne,
+        label: sub.name[locale],
+        checked: selectedSubcategories.includes(sub.slug.mne),
+        toggle: () => toggleSubcategory(sub.slug.mne),
+      })),
+    },
+    {
+      key: "brand" as const,
+      label: dict.category.brandLabel,
+      rows: brandsInCategory.map((brand) => ({
+        key: brand.slug,
+        label: brand.name,
+        checked: selectedBrands.includes(brand.slug),
+        toggle: () => toggleBrand(brand.slug),
+      })),
+    },
   ];
 
-  const singleActiveBrandName =
-    selectedBrands.length === 1
-      ? (brandsInCategory.find((b) => b.slug === selectedBrands[0]) ?? getBrandBySlug(selectedBrands[0]))?.name
-      : undefined;
-
-  const emptyMessage = singleActiveBrandName
-    ? dict.category.emptyBrandTemplate.replace("{brand}", singleActiveBrandName)
-    : dict.category.emptyGeneric;
-
   return (
-    <div className="grid gap-8 lg:grid-cols-[16rem_1fr]">
+    <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-10">
+      {/*
+        Desktop: sticky filter sidebar. Rows are 38px pills with a custom
+        checkbox square rather than native inputs, per the design. The native
+        input is still there — visually hidden but focusable and announced —
+        and the square mirrors its state, so keyboard and screen-reader use is
+        unchanged. `peer-focus-visible` puts the focus ring on the square,
+        which would otherwise be invisible.
+      */}
       <aside className="hidden lg:block">
-        <FilterPanel
-          locale={locale}
-          category={category}
-          brandsInCategory={brandsInCategory}
-          selectedSubcategories={selectedSubcategories}
-          selectedBrands={selectedBrands}
-          onToggleSubcategory={toggleSubcategory}
-          onToggleBrand={toggleBrand}
-        />
+        <div className="sticky top-[96px] flex flex-col gap-6">
+          {filterGroups.map((group, groupIndex) => (
+            <div key={group.key}>
+              {/* The design puts "Obriši" inline with the first group's label. */}
+              {groupIndex > 0 && <div className="mb-6 h-px bg-navy/[0.08]" />}
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.04em] text-muted">
+                  {group.label}
+                </p>
+                {groupIndex === 0 && activeCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="text-[0.8125rem] font-semibold text-teal-ink transition hover:text-teal-hover"
+                  >
+                    {dict.category.clear}
+                  </button>
+                )}
+              </div>
+              <div className="mt-2.5 flex flex-col gap-1">
+                {group.rows.map((row) => (
+                  <label
+                    key={row.key}
+                    className={clsx(
+                      "flex h-[38px] cursor-pointer items-center gap-2.5 rounded-[10px] px-2.5 text-[0.90625rem] font-medium text-navy transition",
+                      row.checked ? "bg-teal/[0.08]" : "hover:bg-navy/[0.04]",
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      className="peer sr-only"
+                      checked={row.checked}
+                      onChange={row.toggle}
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={clsx(
+                        "grid size-4 shrink-0 place-items-center rounded-[5px] border-[1.5px] transition peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-teal",
+                        row.checked ? "border-teal bg-teal text-white" : "border-navy/25",
+                      )}
+                    >
+                      {row.checked && (
+                        <Check className="size-2.5" strokeWidth={3.4} aria-hidden="true" />
+                      )}
+                    </span>
+                    {row.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </aside>
 
-      <div>
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-sm text-muted">
-            {filteredProducts.length} {dict.category.resultsLabel}
+      <div className="min-w-0">
+        {/* Mobile: in-page search. */}
+        <div className="px-4 lg:hidden">
+          <div className="flex h-10 items-center gap-2 rounded-xl bg-[rgba(118,118,128,0.12)] px-2.5">
+            <Search className="size-[17px] shrink-0 text-muted" strokeWidth={2.2} aria-hidden="true" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={dict.category.searchPlaceholder}
+              aria-label={dict.category.searchPlaceholder}
+              className="min-w-0 flex-1 border-0 bg-transparent text-[1.0625rem] tracking-[-0.01em] text-ink placeholder:text-muted"
+            />
+          </div>
+          <p className="mt-3 text-[0.9375rem] leading-[1.45] text-muted">
+            {category.intro[locale]}
           </p>
+        </div>
+
+        {/* Mobile: subcategory chips. */}
+        <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto px-4 py-0.5 lg:hidden">
+          {category.subcategories.map((sub) => {
+            const active = selectedSubcategories.includes(sub.slug.mne);
+            return (
+              <button
+                key={sub.slug.mne}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleSubcategory(sub.slug.mne)}
+                className={clsx(
+                  "h-[34px] shrink-0 whitespace-nowrap rounded-full px-3.5 text-[0.90625rem] font-medium tracking-[-0.01em] transition",
+                  active ? "bg-teal text-white" : "bg-surface text-ink shadow-card",
+                )}
+              >
+                {sub.name[locale]}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Mobile: sticky result count + filter trigger. */}
+        <div className="sticky top-[60px] z-20 mt-3 flex items-center justify-between gap-3 bg-warehouse/[0.88] px-4 py-2 backdrop-blur-xl backdrop-saturate-[1.8] lg:static lg:mt-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none">
+          <p className="text-[0.9375rem] text-muted">{countLabel}</p>
           <button
+            ref={filterTriggerRef}
             type="button"
-            onClick={() => setMobileFiltersOpen(true)}
-            className="flex items-center gap-2 rounded-button border border-line bg-surface px-4 py-2 text-sm font-semibold text-navy lg:hidden"
+            onClick={() => setSheetOpen(true)}
+            aria-haspopup="dialog"
+            className="flex h-8 items-center gap-1.5 rounded-full bg-teal/10 px-3 text-[0.90625rem] font-semibold tracking-[-0.01em] text-teal-ink lg:hidden"
           >
-            <SlidersHorizontal className="size-4" strokeWidth={2} aria-hidden="true" />
-            {dict.category.filtersHeading}
-            {activeCount > 0 && (
-              <span className="flex size-5 items-center justify-center rounded-full bg-teal text-xs text-white">
-                {activeCount}
-              </span>
-            )}
+            <SlidersHorizontal className="size-[15px]" strokeWidth={2.2} aria-hidden="true" />
+            {activeCount > 0
+              ? format(dict.category.filtersActiveTemplate, { count: activeCount })
+              : dict.category.filtersButton}
           </button>
         </div>
 
-        {chips.length > 0 && (
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            {chips.map((chip) => (
-              <button
-                key={chip.key}
-                type="button"
-                onClick={chip.onRemove}
-                className="flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-navy transition hover:border-teal"
-              >
-                {chip.label}
-                <X className="size-3.5" strokeWidth={2} aria-hidden="true" />
-              </button>
-            ))}
-            <button
-              type="button"
-              onClick={clearFilters}
-              className="px-2 py-1.5 text-sm font-semibold text-muted underline-offset-2 transition hover:text-teal hover:underline"
-            >
-              {dict.category.clearFilters}
-            </button>
-          </div>
-        )}
-
         {filteredProducts.length > 0 ? (
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
-            {filteredProducts.map((product, i) => (
-              <Reveal key={product.slug} delay={(i % 4) * 75} className="h-full">
-                <ProductCard product={product} locale={locale} />
-              </Reveal>
+          <div
+            data-testid="category-grid"
+            className="grid grid-cols-2 gap-3 px-4 pb-6 pt-1 lg:grid-cols-4 lg:gap-5 lg:px-0 lg:pt-6"
+          >
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={`${product.categorySlug}/${product.slug}`}
+                product={product}
+                locale={locale}
+                showSubcategory
+              />
             ))}
           </div>
         ) : (
-          <div className="mt-6 flex flex-col items-center gap-4 rounded-button border border-line bg-surface px-6 py-16 text-center">
-            <PackageX className="size-10 text-muted" strokeWidth={1.5} aria-hidden="true" />
-            <p className="max-w-md text-ink">{emptyMessage}</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-3">
-              <Button href={contactPath(locale)} variant="primary" size="md">
-                {dict.category.emptyContactCta}
-              </Button>
-              <Button
-                href="tel:+38220260528"
-                variant="secondary"
-                size="md"
-              >
-                <Phone className="size-4" strokeWidth={2} aria-hidden="true" />
-                {dict.category.emptyCallCta}
-              </Button>
-            </div>
+          <div className="mx-4 mb-6 flex flex-col items-center gap-3 rounded-card bg-surface px-6 py-[34px] text-center shadow-card lg:mx-0 lg:mt-6">
+            <Package className="size-[34px] text-muted/60" strokeWidth={1.6} aria-hidden="true" />
+            <p className="text-base leading-[1.45]">{dict.category.emptyBody}</p>
+            <Button href={telHref(SALES_PHONE)} variant="primary" block className="lg:w-auto">
+              {format(dict.category.callTemplate, { phone: SALES_PHONE })}
+            </Button>
           </div>
         )}
+
+        {/* "Ne vidite što tražite?" dark CTA. */}
+        <div className="gradient-dark mx-4 mb-6 rounded-hero p-[18px] text-white shadow-lifted lg:mx-0 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+          <div>
+            <p className="text-[1.1875rem] font-bold leading-[1.2] tracking-[-0.025em] lg:text-[1.5rem]">
+              {dict.category.ctaHeading}
+            </p>
+            <p className="mt-1.5 text-[0.9375rem] text-white/[0.66]">{dict.category.ctaBody}</p>
+          </div>
+          <Button
+            href={inquiryPath(locale)}
+            variant="onDark"
+            block
+            className="mt-3.5 lg:mt-0 lg:w-auto lg:shrink-0 lg:px-8"
+          >
+            {dict.category.ctaButton}
+          </Button>
+        </div>
       </div>
 
-      {mobileFiltersOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+      {/* Mobile filter bottom sheet. */}
+      {sheetOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={dict.category.sheetHeading}>
           <div
-            className="absolute inset-0 bg-navy/50"
-            onClick={() => setMobileFiltersOpen(false)}
+            className="absolute inset-0 bg-[rgba(11,16,21,0.4)]"
+            onClick={() => setSheetOpen(false)}
             aria-hidden="true"
           />
-          <div className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-button bg-surface p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-heading text-h3 font-semibold text-navy">
-                {dict.category.filtersHeading}
-              </h2>
-              <button type="button" onClick={() => setMobileFiltersOpen(false)} aria-label="Close">
-                <X className="size-6 text-navy" strokeWidth={2} />
-              </button>
+          <div
+            ref={sheetRef}
+            tabIndex={-1}
+            className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-y-auto rounded-t-hero bg-warehouse shadow-[0_-8px_30px_rgba(11,16,21,0.25)] focus:outline-none"
+          >
+            <div className="sticky top-0 bg-warehouse/[0.92] px-4 pb-2.5 pt-2 backdrop-blur-xl">
+              <div className="mx-auto mb-2.5 h-[5px] w-[38px] rounded-full bg-muted/40" />
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={clearFilters}
+                  className="text-base text-teal-ink transition hover:text-teal-hover"
+                >
+                  {dict.category.clear}
+                </button>
+                <span className="text-[1.0625rem] font-semibold tracking-[-0.02em]">
+                  {dict.category.sheetHeading}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSheetOpen(false)}
+                  className="text-base font-semibold text-teal-ink transition hover:text-teal-hover"
+                >
+                  {dict.category.done}
+                </button>
+              </div>
             </div>
-            <FilterPanel
-              locale={locale}
-              category={category}
-              brandsInCategory={brandsInCategory}
-              selectedSubcategories={selectedSubcategories}
-              selectedBrands={selectedBrands}
-              onToggleSubcategory={toggleSubcategory}
-              onToggleBrand={toggleBrand}
-            />
-            <button
-              type="button"
-              onClick={() => setMobileFiltersOpen(false)}
-              className="sticky bottom-0 mt-6 w-full rounded-button bg-teal py-3 text-label font-semibold uppercase tracking-wide text-white"
-            >
-              {dict.category.applyFilters} ({filteredProducts.length})
-            </button>
+
+            <div className="px-4 pb-4 pt-1">
+              {filterGroups.map((group) => (
+                <div key={group.key}>
+                  <p className="mb-2 mt-2 px-4 text-[0.8125rem] font-medium uppercase tracking-[0.02em] text-muted">
+                    {group.label}
+                  </p>
+                  <div className="divide-hairline overflow-hidden rounded-button bg-surface">
+                    {group.rows.map((row) => (
+                      <button
+                        key={row.key}
+                        type="button"
+                        aria-pressed={row.checked}
+                        onClick={row.toggle}
+                        className={checklistRow}
+                      >
+                        {row.label}
+                        {row.checked && (
+                          <Check
+                            className="size-[17px] shrink-0 text-teal-ink"
+                            strokeWidth={2.6}
+                            aria-hidden="true"
+                          />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              <Button
+                onClick={() => setSheetOpen(false)}
+                variant="primary"
+                size="lg"
+                block
+                className="mt-6"
+              >
+                {applyLabel}
+              </Button>
+            </div>
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function FilterPanel({
-  locale,
-  category,
-  brandsInCategory,
-  selectedSubcategories,
-  selectedBrands,
-  onToggleSubcategory,
-  onToggleBrand,
-}: {
-  locale: Locale;
-  category: Category;
-  brandsInCategory: { name: string; slug: string }[];
-  selectedSubcategories: string[];
-  selectedBrands: string[];
-  onToggleSubcategory: (slug: string) => void;
-  onToggleBrand: (slug: string) => void;
-}) {
-  const dict = getDictionary(locale);
-
-  return (
-    <div className="space-y-6">
-      <details open className="group border-b border-line pb-6">
-        <summary className="cursor-pointer list-none text-label font-semibold uppercase tracking-wide text-navy">
-          {dict.category.subcategoryLabel}
-        </summary>
-        <ul className="mt-4 space-y-3">
-          {category.subcategories.map((sub) => (
-            <li key={sub.slug.mne}>
-              <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink">
-                <input
-                  type="checkbox"
-                  className="size-4 accent-teal"
-                  checked={selectedSubcategories.includes(sub.slug.mne)}
-                  onChange={() => onToggleSubcategory(sub.slug.mne)}
-                />
-                {sub.name[locale]}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </details>
-
-      <details open className="group pb-6">
-        <summary className="cursor-pointer list-none text-label font-semibold uppercase tracking-wide text-navy">
-          {dict.category.brandLabel}
-        </summary>
-        <ul className="mt-4 space-y-3">
-          {brandsInCategory.map((brand) => (
-            <li key={brand.slug}>
-              <label className="flex cursor-pointer items-center gap-2.5 text-sm text-ink">
-                <input
-                  type="checkbox"
-                  className="size-4 accent-teal"
-                  checked={selectedBrands.includes(brand.slug)}
-                  onChange={() => onToggleBrand(brand.slug)}
-                />
-                {brand.name}
-              </label>
-            </li>
-          ))}
-        </ul>
-      </details>
     </div>
   );
 }

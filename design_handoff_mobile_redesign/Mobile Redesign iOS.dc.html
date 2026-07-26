@@ -37,8 +37,8 @@
   </div>
 
   <div style="padding: 8px 16px 0;">
-    <h1 style="margin: 4px 0 0; font-size: 34px; font-weight: 700; line-height: 1.08; letter-spacing: -0.035em;">Alati, mašine i oprema za svaki posao.</h1>
-    <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 14.5px; color: rgba(60,60,67,0.78);">
+    <h1 style="margin: 4px 0 16px; font-size: 32px; font-weight: 700; line-height: 1.25; letter-spacing: -0.035em;">Alati, mašine i oprema za svaki posao.</h1>
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px; color: rgba(60,60,67,0.78);">
       <span>30+ brendova</span>
       <span style="color: rgba(60,60,67,0.3);">·</span>
       <span>2 lokacije</span>
@@ -126,8 +126,17 @@
   </div>
 
   <div style="padding: 0 16px 22px;">
-    <h2 style="margin: 0 0 12px; font-size: 22px; font-weight: 700; letter-spacing: -0.028em;">Odjeljenja</h2>
-    <div style="border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
+    <h2 style="margin: 0;">
+      <button type="button" onClick="{{ toggleDepts }}" aria-expanded="{{ deptOpen }}" aria-controls="departments" style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 0; border-radius: 14px; background: {{ deptToggleBg }}; font-family: inherit; text-align: left;">
+        <span style="font-size: 22px; font-weight: 700; letter-spacing: -0.028em; color: #11151a;">Odjeljenja</span>
+        <span style="display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px; background: rgba(10,126,164,0.16); font-size: 13px; font-weight: 700; color: #086a8b;">8</span>
+        <span style="margin-left: auto; display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 999px; background: #0a7ea4;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transform: {{ deptChevronRotate }}; transition: transform 200ms;"><path d="M6 9l6 6 6-6"></path></svg>
+        </span>
+      </button>
+    </h2>
+    <sc-if value="{{ deptOpen }}" hint-placeholder-val="{{ false }}">
+    <div id="departments" style="margin-top: 8px; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 1px 3px rgba(17,21,26,0.08);">
       <a href="#" style="display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 14px; color: #11151a; font-size: 16.5px; letter-spacing: -0.015em;">
         <span style="display: grid; place-items: center; width: 32px; height: 32px; flex-shrink: 0; border-radius: 9px; background: rgba(10,126,164,0.12);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
@@ -185,6 +194,7 @@
         <svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="rgba(60,60,67,0.3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M1.5 1.5 7 7.5l-5.5 6"></path></svg>
       </a>
     </div>
+    </sc-if>
   </div>
 
   <div style="padding: 0 16px 22px;">
@@ -317,7 +327,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;showTabBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mobile&quot;},&quot;showQuickActions&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mobile&quot;}}">
 class Component extends DCLogic {
-  state = { store: 0, feed: 0, menuOpen: false };
+  state = { store: 0, feed: 0, menuOpen: false, deptOpen: false };
 
   renderVals() {
     const stores = [
@@ -353,6 +363,12 @@ class Component extends DCLogic {
       menuOpen: this.state.menuOpen,
       openMenu: () => this.setState({ menuOpen: true }),
       closeMenu: () => this.setState({ menuOpen: false }),
+      // Departments collapse by default so the eight rows don't push the rest
+      // of the home screen below the fold.
+      deptOpen: this.state.deptOpen,
+      toggleDepts: () => this.setState({ deptOpen: !this.state.deptOpen }),
+      deptToggleBg: this.state.deptOpen ? "rgba(10,126,164,0.12)" : "rgba(10,126,164,0.08)",
+      deptChevronRotate: this.state.deptOpen ? "rotate(180deg)" : "rotate(0deg)",
       showTabBar: this.props.showTabBar ?? true,
       showQuickActions: this.props.showQuickActions ?? true,
       brandLogos: [
