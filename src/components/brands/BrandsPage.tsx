@@ -38,7 +38,7 @@ export function BrandsPage({ locale }: { locale: Locale }) {
                   <Link href={href} className="flex h-full flex-col gap-4">
                     <BrandMark name={brand.name} logo={brand.logo} className="self-start px-4 py-2.5 text-sm" />
                     <p className="flex-1 text-sm text-muted">{brand.descriptor[locale]}</p>
-                    <span className="text-sm font-semibold text-navy transition hover:text-teal">
+                    <span className="text-sm font-semibold text-navy transition hover:text-teal-ink">
                       {hasProducts ? dict.brandsPage.viewProducts : dict.brandsPage.noProductsYet} →
                     </span>
                   </Link>

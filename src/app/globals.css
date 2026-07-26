@@ -1,80 +1,164 @@
 @import "tailwindcss";
 
 /*
-  Design tokens — Centrometal build brief, Design System section.
-  Tailwind v4 utility names are derived from the CSS variable suffix
-  (e.g. --color-navy -> bg-navy / text-navy / border-navy). Where a brief
-  token name would collide with an existing Tailwind utility prefix
-  (text-*, border-*) it has been given a shorter alias; the brief's
-  original variable name is noted in the comment alongside it.
+  Design tokens — mobile+desktop redesign handoff, "Design Tokens" section.
+  Tailwind v4 derives utility names from the variable suffix
+  (--color-navy -> bg-navy / text-navy / border-navy).
+
+  Token *names* are inherited from the previous design system on purpose:
+  font-heading, rounded-button, text-navy, bg-warehouse and teal-on-dark are
+  each used 7-22 times across pages the redesign has no reference for
+  (/brendovi, /servis, /veleprodaja, /proizvodi/pretraga). Re-pointing the
+  values rather than renaming lets those pages pick up the new palette
+  without being rewritten blind. Names read a little oddly against the new
+  palette ("navy" is now near-black); that is the deliberate trade.
 */
 @theme {
-  /* Primary — brief: --steel-navy, --steel-blue, --warehouse-white */
-  --color-navy: #1c2b36;
-  --color-steel: #2e4756;
-  --color-warehouse: #f5f5f2;
+  /* Dark/primary — handoff: primary-button #14181d, gradient card #22374a -> #141f28.
+     --color-navy doubles as the primary button fill and strong-text tone;
+     --color-steel is the gradient's light stop, kept for old pages that
+     used it as a section background. */
+  --color-navy: #14181d;
+  --color-steel: #22374a;
 
-  /* Accent — brief: --industrial-green (status only, not a brand accent) */
-  --color-green: #4a7856;
+  /* Page background — handoff: #f2f2f7 mobile / #fff desktop.
+     --color-fill is the borderless soft-gray card fill (#f5f6f7) the
+     redesign uses instead of 1px borders. */
+  --color-warehouse: #f2f2f7;
+  --color-fill: #f5f6f7;
 
-  /* Not in the brief's palette — needed for accessible inline form error
-     states (brief calls for "inline error/success states" but only
-     specifies a success color). AA contrast verified at 6.5:1 on
-     white/warehouse backgrounds. */
+  /* Success — handoff: #1c7c37 on rgba(52,199,89,0.14).
+     --color-green keeps its old name (1 usage) and is now the success tone. */
+  --color-green: #1c7c37;
+  --color-success-bg: rgba(52, 199, 89, 0.14);
+
+  /* Inline form error states — not in the handoff palette, which specifies
+     only a success color. Unchanged from the previous system; verified
+     6.5:1 on white and on --color-warehouse. */
   --color-error: #b91c1c;
 
-  /* Global redesign: single brand accent for every button, link, icon and
-     interactive element (replaces the old safety-orange accent). White
-     text on this teal is ~4.9:1 on white (AA for normal text). */
-  --color-teal: #1c79a0;
+  /* Accent — handoff: #0a7ea4, hover #086a8b. Used for FILLS and ICONS:
+     white text on this teal is 4.63:1, which passes AA. */
+  --color-teal: #0a7ea4;
+  --color-teal-hover: #086a8b;
 
-  /* Same accent, lightened for use as TEXT on navy/steel backgrounds
-     (e.g. active language switch, hero eyebrow, footer link hover).
-     --color-teal is too close in luminance to navy to pass AA as text
-     there (~3.0:1). This variant verified at ~7.4:1 on navy and ~5.0:1 on
-     steel. Icons stay on --color-teal since decorative/aria-hidden icons
-     are exempt from text-contrast rules. */
-  --color-teal-on-dark: #63c5e8;
+  /*
+     Accent for TEXT. #0a7ea4 as a foreground is only 4.63:1 on pure white
+     and drops below AA on every off-white surface this design actually uses
+     — 4.15:1 on --color-warehouse, 4.28:1 on --color-fill, 4.06:1 on the
+     teal/10 button tint. axe flagged all three. Since the redesign puts
+     nearly all teal text on those tinted cards rather than on white, links,
+     labels and inline accents use this darker shade instead: 6.1:1 on white,
+     5.5:1 on warehouse, 5.3:1 on the tint.
 
-  /* Neutrals — brief: --text-body, --text-muted, --border, --surface-white */
-  --color-ink: #0f1720;
-  /* Brief's raw #6B7680 is 4.64:1 on white but only 4.24:1 on
-     --color-warehouse (#F5F5F2, the actual page background text-muted
-     sits on in most places) — fails AA. Darkened to #636E78 (~4.8:1 on
-     warehouse, ~5.2:1 on white), caught by an axe-core audit. */
-  --color-muted: #636e78;
-  --color-line: #dce0e3;
+     This is the handoff's own hover value, kept as a separate token so
+     `hover:text-teal-hover` still reads as a hover state. Fills keep the
+     exact brand #0a7ea4 so the visual identity is unchanged — only small
+     text shifts one step darker. Worth confirming with the designer, since
+     it means the spec'd accent can never be used as body-size text. */
+  --color-teal-ink: #086a8b;
+
+  /* Same accent lightened for text/eyebrows on the dark gradient cards.
+     --color-teal is only ~2.6:1 on #16222c and fails as text there; this
+     variant is ~9.1:1 on the gradient's dark stop. Decorative icons are
+     exempt from text-contrast rules and stay on --color-teal. */
+  --color-teal-on-dark: #6fd0ee;
+
+  /* Neutrals — handoff: text primary #11151a, secondary rgba(60,60,67,0.78).
+     --color-muted is that secondary composited to a solid hex so it keeps
+     its contrast on any surface: 5.3:1 on --color-warehouse, 5.9:1 on
+     white, 5.4:1 on --color-fill. The handoff notes "do not go lower".
+     The design files also use rgba(60,60,67,0.66) for some body copy —
+     that composites to 4.0:1 on white and FAILS AA, so every secondary
+     text run is normalized to this token instead. */
+  --color-ink: #11151a;
+  --color-muted: #64646b;
+  /* Hairline rules — handoff uses rgba(60,60,67,0.13) between list rows. */
+  --color-line: #e2e2e6;
   --color-surface: #ffffff;
 
-  /* Typography */
-  --font-heading: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
+  /* Typography — handoff: one system stack for headings and body, no
+     display face. --font-heading is retained as an alias (20 usages) and
+     now resolves to the same stack, so `font-heading` is a no-op rather
+     than a stale Barlow Condensed reference. Inter is loaded via next/font
+     as the webfont fallback for non-Apple platforms. */
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    var(--font-inter), Inter, system-ui, sans-serif;
+  --font-heading: var(--font-body);
 
-  /* Type scale — brief: H1 2.5/3.25rem desktop, H2 1.875/2.5rem,
-     H3 1.375/1.75rem, body 1rem (1.6 lh), small 0.875rem,
-     button/label 0.9375rem uppercase w/ slight letter-spacing */
-  --text-h1: 2.5rem;
-  --text-h1--line-height: 3.25rem;
-  --text-h2: 1.875rem;
-  --text-h2--line-height: 2.5rem;
-  --text-h3: 1.375rem;
-  --text-h3--line-height: 1.75rem;
+  /* Type scale — handoff: H1 34px mobile / 56px desktop (tracking -0.03 to
+     -0.035em), H2 22-30px, body 16-17px, small/meta 13-14.5px. */
+  --text-h1: 2.125rem;
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.035em;
+  --text-h1-lg: 3.5rem;
+  --text-h1-lg--line-height: 1.04;
+  --text-h1-lg--letter-spacing: -0.033em;
+  --text-h2: 1.375rem;
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -0.028em;
+  --text-h2-lg: 1.875rem;
+  --text-h2-lg--line-height: 1.16;
+  --text-h2-lg--letter-spacing: -0.03em;
+  --text-h3: 1.0625rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.02em;
   --text-label: 0.9375rem;
   --text-label--line-height: 1.3;
+  --text-meta: 0.90625rem;
+  --text-meta--line-height: 1.45;
 
-  /* Buttons: 4px radius, not pill-shaped */
-  --radius-button: 0.25rem;
+  /* Radius — handoff: 12-16px small cards/buttons, 18-28px large
+     cards/hero, 999px pills. --radius-button moves 4px -> 14px; it is
+     applied to both buttons and small cards across 20 files, so the
+     mid-range value suits both. Pills use Tailwind's own rounded-full. */
+  --radius-button: 0.875rem;
+  --radius-card: 1.125rem;
+  --radius-hero: 1.375rem;
+  --radius-feature: 1.625rem;
+
+  /* Shadows — handoff: cards get a single soft shadow, gradient hero/CTA
+     cards a deeper lift. --shadow-segment is the 1px lift on the active
+     item of a segmented control. */
+  --shadow-card: 0 1px 3px rgba(17, 21, 26, 0.08);
+  --shadow-lifted: 0 12px 28px rgba(17, 21, 26, 0.2);
+  --shadow-segment: 0 1px 3px rgba(17, 21, 26, 0.14);
+  --shadow-drawer: 8px 0 30px rgba(11, 16, 21, 0.2);
+}
+
+/* The dark gradient used by featured/CTA/wholesale cards. Not expressible
+   as a @theme color token, so it ships as a utility class. */
+.gradient-dark {
+  background-image: linear-gradient(165deg, #22374a 0%, #141f28 100%);
+}
+
+/* Hairline divider between inset list rows (Odjeljenja, inquiry list). */
+.divide-hairline > * + * {
+  border-top: 0.5px solid rgba(60, 60, 67, 0.13);
 }
 
 body {
-  /* Global redesign: page background is pure white; --color-warehouse
-     remains available as the light-gray tone for alternating sections
-     and image letterboxing. */
-  background-color: var(--color-surface);
+  /* Handoff: #f2f2f7 behind the stacked white cards on mobile; the desktop
+     layouts sit on white with soft-gray fill cards instead. */
+  background-color: var(--color-warehouse);
   color: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 1rem;
-  line-height: 1.6;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  /* Handoff: 17px/1.45 body on mobile. */
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+
+/* Desktop layouts sit on white; the gray page tone is carried by the
+   individual fill cards instead. Matches the `lg:` breakpoint the page
+   components switch layout at. */
+@media (min-width: 1024px) {
+  body {
+    background-color: var(--color-surface);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 }
 
 h1,
@@ -82,6 +166,8 @@ h2,
 h3,
 h4 {
   font-family: var(--font-heading);
+  /* Handoff: 700 headings across the scale. */
+  font-weight: 700;
 }
 
 /* Visible focus states everywhere — never suppressed (brief: Accessibility) */
@@ -208,33 +294,6 @@ h4 {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
-}
-
-/*
-  Very low-opacity diagonal hazard-stripe texture — a workshop/industrial cue
-  behind the "Zašto Centrometal" cards without competing with their contrast.
-*/
-.workshop-texture {
-  position: relative;
-}
-
-.workshop-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: 0.05;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    45deg,
-    #fff 0,
-    #fff 2px,
-    transparent 2px,
-    transparent 14px
-  );
-}
-
-.workshop-texture > * {
-  position: relative;
 }
 
 /* Low-opacity grain texture for the hero (visual depth, not a real image). */

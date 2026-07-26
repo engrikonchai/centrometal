@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import type { Department, InquiryPayload } from "@/lib/inquiry";
-import { isValidEmail } from "@/lib/inquiry";
+import type { Department, InquiryItem, InquiryPayload } from "@/lib/inquiry";
+import { hasUsableContact } from "@/lib/inquiry";
 
 const DEPARTMENT_EMAIL: Record<Department, string> = {
   retail: process.env.INQUIRY_EMAIL_RETAIL || "info@centrometal.me",
@@ -25,26 +25,53 @@ function validatePayload(body: unknown): { payload: InquiryPayload } | { error: 
 
   if (!isDepartment(b.department)) return { error: "Invalid department" };
   if (typeof b.name !== "string" || !b.name.trim()) return { error: "Name is required" };
-  if (typeof b.email !== "string" || !isValidEmail(b.email)) return { error: "Valid email is required" };
-  if (typeof b.message !== "string" || !b.message.trim()) {
-    // The wholesale form's message is optional client-side; only enforce
-    // server-side for departments where it's the primary content field.
-    if (b.department !== "wholesale") return { error: "Message is required" };
+
+  const email = typeof b.email === "string" ? b.email : undefined;
+  const phone = typeof b.phone === "string" ? b.phone : undefined;
+  // The merged form promises "phone OR email — either one is enough", so the
+  // old unconditional email requirement would reject valid submissions.
+  if (!hasUsableContact({ email, phone })) {
+    return { error: "A valid email address or phone number is required" };
+  }
+
+  // A Kupovina inquiry can legitimately carry an empty message — the product
+  // list is the content. Only require prose when there is no list either.
+  const items = parseItems(b.items);
+  const hasMessage = typeof b.message === "string" && b.message.trim().length > 0;
+  if (!hasMessage && items.length === 0 && b.department !== "wholesale") {
+    return { error: "Message is required" };
   }
 
   const payload: InquiryPayload = {
     department: b.department,
     locale: b.locale === "en" ? "en" : "mne",
     name: b.name,
-    email: b.email,
-    phone: typeof b.phone === "string" ? b.phone : undefined,
+    email,
+    phone,
     company: typeof b.company === "string" ? b.company : undefined,
     brand: typeof b.brand === "string" ? b.brand : undefined,
     categories: Array.isArray(b.categories) ? b.categories.filter((c) => typeof c === "string") : undefined,
+    items: items.length > 0 ? items : undefined,
     message: typeof b.message === "string" ? b.message : "",
   };
 
   return { payload };
+}
+
+function parseItems(value: unknown): InquiryItem[] {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((entry) => {
+    if (typeof entry !== "object" || entry === null) return [];
+    const item = entry as Record<string, unknown>;
+    if (typeof item.name !== "string" || !item.name.trim()) return [];
+    const quantity = Number(item.quantity);
+    return [
+      {
+        name: item.name.slice(0, 200),
+        quantity: Number.isFinite(quantity) ? Math.max(1, Math.floor(quantity)) : 1,
+      },
+    ];
+  });
 }
 
 function renderEmailBody(payload: InquiryPayload): string {
@@ -57,6 +84,9 @@ function renderEmailBody(payload: InquiryPayload): string {
     payload.company && `Company: ${payload.company}`,
     payload.brand && `Brand: ${payload.brand}`,
     payload.categories?.length && `Categories: ${payload.categories.join(", ")}`,
+    payload.items?.length && "",
+    payload.items?.length && "Inquiry list:",
+    ...(payload.items ?? []).map((item) => `- ${item.name} x ${item.quantity}`),
     "",
     "Message:",
     payload.message || "(none)",
@@ -102,7 +132,8 @@ export async function POST(request: Request) {
     const { error } = await resend.emails.send({
       from,
       to,
-      replyTo: payload.email,
+      // Phone-only inquiries have nothing to reply to; the number is in the body.
+      ...(payload.email ? { replyTo: payload.email } : {}),
       subject,
       text,
     });

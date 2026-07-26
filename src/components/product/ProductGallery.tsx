@@ -23,7 +23,7 @@ export function ProductGallery({
 }) {
   if (image || localImage) {
     return (
-      <div className="relative aspect-square w-full overflow-hidden rounded-button border border-line bg-warehouse">
+      <div className="relative aspect-[1/0.86] w-full overflow-hidden rounded-hero bg-surface shadow-card lg:rounded-[28px] lg:bg-fill lg:shadow-none">
         <Image
           src={
             image
@@ -33,7 +33,7 @@ export function ProductGallery({
           alt={alt}
           fill
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-contain p-6"
+          className="object-contain p-6 lg:p-14"
           priority
         />
       </div>
@@ -44,7 +44,7 @@ export function ProductGallery({
     <ProductImagePlaceholder
       alt={alt}
       icon={icon}
-      className="aspect-square w-full rounded-button border border-line"
+      className="aspect-[1/0.86] w-full rounded-hero lg:aspect-square"
     />
   );
 }
