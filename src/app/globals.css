@@ -150,12 +150,27 @@ body {
   line-height: 1.45;
 }
 
-/* Desktop layouts sit on white; the gray page tone is carried by the
-   individual fill cards instead. Matches the `lg:` breakpoint the page
-   components switch layout at. */
-@media (min-width: 1024px) {
+/*
+  Tablet band (768-1279) — the iPad breakpoint. Like desktop, these layouts
+  sit on white and carry the gray page tone in the individual fill cards
+  (#f4f5f6), so the surface switch happens at 768 rather than at the desktop
+  boundary. Body copy is 16.5px per the tablet handoff's type scale: one step
+  down from mobile's 17px but above desktop's 16px, because reading distance
+  is longer than a phone while hit areas stay finger-sized.
+*/
+@media (min-width: 768px) {
   body {
     background-color: var(--color-surface);
+    font-size: 1.03125rem;
+    line-height: 1.5;
+  }
+}
+
+/* Desktop layouts. Matches the `xl:` breakpoint the page components switch
+   layout at — moved up from `lg:` when the tablet band was introduced, so
+   768-1279 is free for the tablet layouts. */
+@media (min-width: 1280px) {
+  body {
     font-size: 1rem;
     line-height: 1.6;
   }

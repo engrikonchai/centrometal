@@ -27,6 +27,7 @@ export function SegmentedControl<T extends string>({
   onChange,
   label,
   className,
+  size = "default",
 }: {
   segments: readonly Segment<T>[];
   value: T;
@@ -34,12 +35,24 @@ export function SegmentedControl<T extends string>({
   /** Accessible name for the group as a whole. */
   label: string;
   className?: string;
+  /**
+   * Tablet height. `default` is 44px — the touch minimum, up from the 32px
+   * the same control uses on mobile and desktop. `lg` is the 48px the inquiry
+   * form's type switcher uses, where the control is full-width and is the
+   * first thing on the page.
+   */
+  size?: "default" | "lg";
 }) {
   return (
     <div
       role="group"
       aria-label={label}
-      className={clsx("grid gap-0.5 rounded-[9px] bg-[rgba(118,118,128,0.12)] p-0.5", className)}
+      className={clsx(
+        "grid gap-0.5 rounded-[9px] bg-[rgba(118,118,128,0.12)] p-0.5",
+        /* Tablet takes the handoff's larger track: 13px radius, 3px inset. */
+        "md:gap-[3px] md:rounded-[13px] md:p-[3px] xl:gap-0.5 xl:rounded-[9px] xl:p-0.5",
+        className,
+      )}
       style={{ gridTemplateColumns: `repeat(${segments.length}, minmax(0, 1fr))` }}
     >
       {segments.map((segment) => {
@@ -52,6 +65,8 @@ export function SegmentedControl<T extends string>({
             onClick={() => onChange(segment.value)}
             className={clsx(
               "min-h-8 rounded-[7px] px-2 text-[0.84375rem] font-semibold tracking-[-0.01em] transition",
+              "md:rounded-[10px] md:px-5 md:text-[0.96875rem] xl:min-h-8 xl:rounded-[7px] xl:px-2 xl:text-[0.84375rem]",
+              size === "lg" ? "md:min-h-12" : "md:min-h-11",
               active ? "bg-surface text-ink shadow-segment" : "bg-transparent text-muted",
             )}
           >

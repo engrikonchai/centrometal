@@ -11,7 +11,10 @@ import { InquiryForm } from "./InquiryForm";
 
 /**
  * /upit (/en/inquiry) — the site's single conversion path.
- * Mobile is a full-width column; desktop centres the form at 900px.
+ * Mobile is a full-width column; tablet centres the form at 760px and desktop
+ * at 900px. 760px is deliberate rather than a split-the-difference: a form
+ * field much wider than that is harder to scan, so the tablet column stays
+ * narrower than its container allows.
  *
  * The route is dynamic rather than static because it resolves ?type= on the
  * server. That's the right trade for a form: the alternative (reading the
@@ -46,11 +49,14 @@ export function InquiryPage({
             </a>
           ),
         }}
+        /* Slimmed bar: no search field and no chip rail. This screen is the
+           end of the funnel, so the header stops offering ways to leave it. */
+        tablet={{ hideSearch: true, rail: "none" }}
       />
 
       <main className="flex-1">
-        <Container className="px-0 lg:px-8 lg:pb-16 lg:pt-10">
-          <h1 className="hidden text-[2.5rem] font-bold tracking-[-0.03em] lg:mx-auto lg:block lg:max-w-[900px]">
+        <Container className="px-0 md:px-6 md:pb-16 md:pt-10 xl:px-8">
+          <h1 className="hidden text-[2.125rem] font-bold tracking-[-0.032em] md:mx-auto md:block md:max-w-[760px] xl:max-w-[900px] xl:text-[2.5rem] xl:tracking-[-0.03em]">
             {dict.inquiry.title}
           </h1>
           <InquiryForm locale={locale} initialType={initialType} />

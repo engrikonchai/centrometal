@@ -123,7 +123,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       <div
         aria-live="polite"
         className={clsx(
-          "pointer-events-none fixed inset-x-0 bottom-28 z-[60] flex justify-center px-4 transition-opacity duration-300 lg:bottom-6",
+          "pointer-events-none fixed inset-x-0 bottom-28 z-[60] flex justify-center px-4 transition-opacity duration-300 xl:bottom-6",
           toastMessage ? "opacity-100" : "opacity-0",
         )}
       >

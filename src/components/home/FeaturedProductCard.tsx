@@ -13,7 +13,7 @@ import { urlForImage } from "@/sanity/lib/image";
 
 /**
  * The dark gradient featured card that sits under the hero on mobile and
- * beside it on desktop.
+ * beside it on tablet (landscape) and desktop.
  *
  * The design file draws a row of dots under the product, implying the card
  * cycles through the featured products — they are wired here as real controls
@@ -64,10 +64,10 @@ export function FeaturedProductCard({
   if (products.length === 0) return null;
 
   return (
-    <div className="gradient-dark overflow-hidden rounded-hero text-white shadow-lifted lg:rounded-[28px]">
+    <div className="gradient-dark flex h-full flex-col overflow-hidden rounded-hero text-white shadow-lifted md:min-h-[380px] md:rounded-[26px] xl:min-h-0 xl:rounded-[28px]">
       <div
         ref={trackRef}
-        className="flex snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex flex-1 snap-x snap-mandatory overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {products.map((product, i) => {
           const category = getCategoryBySlug("mne", product.categorySlug);
@@ -102,21 +102,24 @@ export function FeaturedProductCard({
           return (
             <div
               key={product.slug}
-              className="flex w-full shrink-0 snap-start items-center gap-3 p-[18px] pb-3.5 lg:block lg:p-10 lg:pb-0"
+              /* Mobile is a compact text-beside-thumbnail row; tablet and
+                 desktop stack it into a tall card with the product photo
+                 bottom-anchored. */
+              className="flex w-full shrink-0 snap-start items-center gap-3 p-[18px] pb-3.5 md:flex-col md:items-stretch md:gap-0 md:p-[30px] md:pb-0 xl:block xl:p-10"
             >
-              <div className="min-w-0 flex-1">
-                <p className="text-[0.71875rem] font-bold uppercase tracking-[0.08em] text-teal-on-dark lg:text-[0.78125rem] lg:tracking-[0.06em]">
+              <div className="min-w-0 flex-1 md:flex-none">
+                <p className="text-[0.71875rem] font-bold uppercase tracking-[0.08em] text-teal-on-dark md:text-[0.78125rem] md:tracking-[0.06em]">
                   {eyebrow}
                 </p>
-                <p className="mt-1.5 text-balance text-[1.375rem] font-bold leading-[1.12] tracking-[-0.025em] lg:mt-2.5 lg:text-[1.875rem] lg:tracking-[-0.03em]">
+                <p className="mt-1.5 text-balance text-[1.375rem] font-bold leading-[1.12] tracking-[-0.025em] md:mt-2.5 md:text-[1.75rem] md:tracking-[-0.03em] xl:text-[1.875rem]">
                   {product.name}
                 </p>
-                <p className="mt-1 text-sm text-white/[0.62] lg:mt-1.5 lg:text-[0.9375rem] lg:text-white/[0.64]">
+                <p className="mt-1 text-sm text-white/[0.62] md:mt-1.5 md:text-[0.96875rem] md:text-white/[0.64] xl:text-[0.9375rem]">
                   {metaParts.join(" · ")}
                 </p>
                 <Link
                   href={href}
-                  className="mt-3 inline-flex h-[34px] items-center rounded-full bg-white px-3.5 text-sm font-semibold tracking-[-0.01em] text-[#16222c] transition hover:bg-white/90 lg:mt-[18px] lg:h-11 lg:rounded-xl lg:px-[22px] lg:text-[0.9375rem]"
+                  className="mt-3 inline-flex h-[34px] items-center rounded-full bg-white px-3.5 text-sm font-semibold tracking-[-0.01em] text-[#16222c] transition hover:bg-white/90 md:mt-[18px] md:h-12 md:rounded-[14px] md:px-6 md:text-base xl:h-11 xl:rounded-xl xl:px-[22px] xl:text-[0.9375rem]"
                 >
                   {dict.home.featuredCta}
                 </Link>
@@ -129,7 +132,7 @@ export function FeaturedProductCard({
                   width={320}
                   height={320}
                   priority={i === 0}
-                  className="h-28 w-[108px] shrink-0 object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.5)] lg:mx-auto lg:mt-3 lg:h-auto lg:w-80 lg:drop-shadow-[0_24px_28px_rgba(0,0,0,0.5)]"
+                  className="h-28 w-[108px] shrink-0 object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.5)] md:mx-auto md:mt-auto md:h-auto md:w-[78%] md:max-w-80 md:drop-shadow-[0_24px_28px_rgba(0,0,0,0.5)] xl:mt-3 xl:w-80 xl:max-w-none"
                 />
               )}
             </div>
@@ -138,7 +141,7 @@ export function FeaturedProductCard({
       </div>
 
       {products.length > 1 && (
-        <div className="flex justify-center gap-[5px] pb-3.5 lg:pb-6">
+        <div className="flex shrink-0 justify-center gap-[5px] pb-3.5 md:gap-1 md:pb-2 xl:pb-6">
           {products.map((item, i) => (
             <button
               key={item.slug}
@@ -147,8 +150,9 @@ export function FeaturedProductCard({
               aria-label={item.name}
               aria-current={i === index}
               /* 6px dot inside a 24px hit area — the visible dot alone is far
-                 below the minimum touch target. */
-              className="grid size-6 place-items-center"
+                 below the minimum touch target. 44px at tablet, where the
+                 whole point of the breakpoint is finger-sized controls. */
+              className="grid size-6 place-items-center md:size-11 xl:size-6"
             >
               <span
                 className={clsx(

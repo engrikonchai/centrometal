@@ -16,9 +16,10 @@ import { categoryPath } from "@/lib/paths";
  * affordance — tinted pill, a count badge, and a filled circular chevron that
  * rotates — because a bare heading gave no signal the list could open.
  *
- * Desktop: the 4-column icon-card grid, always visible. The accordion is a
+ * Tablet and desktop: the icon-card grid, always visible. The accordion is a
  * mobile-only device for keeping the eight departments from pushing the rest
- * of the home screen below the fold.
+ * of the home screen below the fold — at 768px and up the grid fits without
+ * doing that, so there is nothing for it to solve.
  */
 export function DepartmentsSection({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
@@ -27,7 +28,7 @@ export function DepartmentsSection({ locale }: { locale: Locale }) {
 
   return (
     /* Horizontal padding is owned by the parent Container. */
-    <section className="pb-[22px] lg:pb-0">
+    <section className="pb-[22px] md:pb-0">
       {/*
         Mobile: accordion trigger. The heading *wraps* the button rather than
         sitting inside it — an <h2> nested in a <button> is skipped by the
@@ -35,7 +36,7 @@ export function DepartmentsSection({ locale }: { locale: Locale }) {
         heading drops out of the document outline entirely. This is the
         standard disclosure pattern and keeps both.
       */}
-      <h2 className="lg:hidden">
+      <h2 className="md:hidden">
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
@@ -62,12 +63,14 @@ export function DepartmentsSection({ locale }: { locale: Locale }) {
         </button>
       </h2>
 
-      {/* Desktop heading + "Sva odjeljenja" link. */}
-      <div className="hidden items-baseline justify-between gap-3 lg:flex">
-        <h2 className="text-h2 font-bold lg:text-h2-lg">{dict.home.departmentsHeading}</h2>
+      {/* Tablet + desktop heading and "Sva odjeljenja" link. */}
+      <div className="hidden items-baseline justify-between gap-3 md:flex">
+        <h2 className="text-h2 font-bold md:text-[1.75rem] md:tracking-[-0.03em] xl:text-h2-lg">
+          {dict.home.departmentsHeading}
+        </h2>
         <Link
           href={categoryPath(locale, categories[0].slug[locale])}
-          className="whitespace-nowrap text-[0.9375rem] font-medium text-teal-ink transition hover:text-teal-hover"
+          className="flex min-h-11 items-center whitespace-nowrap text-[0.9375rem] font-medium text-teal-ink transition hover:text-teal-hover md:text-base md:font-semibold xl:min-h-0 xl:font-medium"
         >
           {dict.nav.allDepartments} →
         </Link>
@@ -79,7 +82,7 @@ export function DepartmentsSection({ locale }: { locale: Locale }) {
         /* `hidden` rather than a height transition: the collapsed list must be
            out of the tab order and the accessibility tree, not merely clipped. */
         hidden={!open}
-        className="divide-hairline mt-2 overflow-hidden rounded-button bg-surface shadow-card lg:hidden"
+        className="divide-hairline mt-2 overflow-hidden rounded-button bg-surface shadow-card md:hidden"
       >
         {categories.map((category) => {
           const Icon = category.icon;
@@ -99,20 +102,26 @@ export function DepartmentsSection({ locale }: { locale: Locale }) {
         })}
       </div>
 
-      {/* Desktop: 4-column icon cards, always visible. */}
-      <div className="mt-8 hidden grid-cols-4 gap-5 lg:grid">
+      {/*
+        Tablet + desktop: icon cards, always visible. Tablet uses the handoff's
+        intrinsic 180px track, which resolves to 4-up in portrait and 6-up in
+        landscape on its own; desktop keeps its fixed 4-column grid. The label
+        is bottom-anchored (`mt-auto`) against a 128px minimum so two-line
+        department names don't shift the icons out of alignment.
+      */}
+      <div className="mt-[18px] hidden grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-3 md:grid xl:mt-8 xl:grid-cols-4 xl:gap-5">
         {categories.map((category) => {
           const Icon = category.icon;
           return (
             <Link
               key={category.slug.mne}
               href={categoryPath(locale, category.slug[locale])}
-              className="flex flex-col gap-4 rounded-card bg-fill p-6 transition hover:bg-[#eeeff1]"
+              className="flex min-h-32 flex-col gap-4 rounded-[20px] bg-fill p-[18px] transition hover:bg-[#eeeff1] xl:min-h-0 xl:rounded-card xl:p-6"
             >
-              <span className="grid size-12 place-items-center rounded-full bg-teal/[0.12]">
-                <Icon className="size-[22px] text-teal-ink" strokeWidth={1.9} aria-hidden="true" />
+              <span className="grid size-11 place-items-center rounded-[13px] bg-teal/[0.12] xl:size-12 xl:rounded-full">
+                <Icon className="size-[21px] text-teal-ink xl:size-[22px]" strokeWidth={1.9} aria-hidden="true" />
               </span>
-              <span className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink">
+              <span className="mt-auto text-[1.03125rem] font-semibold leading-[1.25] tracking-[-0.015em] text-ink xl:mt-0 xl:text-[1.0625rem] xl:tracking-[-0.02em]">
                 {category.name[locale]}
               </span>
             </Link>

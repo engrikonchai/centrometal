@@ -18,7 +18,10 @@ import { Container } from "../ui/Container";
  *
  * - Mobile: an "Informacije" stack of individual white cards (explicitly not
  *   divided list rows) followed by a single "Kontakt" card.
- * - Desktop: four link columns on white with a hairline top rule.
+ * - Tablet and desktop: four link columns on white with a hairline top rule.
+ *   Tablet uses an intrinsic 170px track (4 columns landscape, 2 portrait) and
+ *   gives every link a 44px row, since these are tap targets there rather than
+ *   the tight 10px-gap text list a mouse can handle.
  *
  * The footer is no longer a dark navy slab — the redesign keeps the whole
  * page light and reserves the dark gradient for featured/CTA cards.
@@ -58,9 +61,9 @@ export function Footer({ locale }: { locale: Locale }) {
   });
 
   return (
-    <footer className="mt-2 lg:mt-16 lg:border-t lg:border-navy/[0.06]">
+    <footer className="mt-2 md:mt-11 md:border-t md:border-navy/[0.06] xl:mt-16">
       {/* Mobile: card stack. */}
-      <div className="px-4 pb-7 lg:hidden">
+      <div className="px-4 pb-7 md:hidden">
         <h2 className="mb-2.5 text-h2 font-bold">{dict.home.infoHeading}</h2>
         <div className="flex flex-col gap-2">
           {infoLinks.map((link) => (
@@ -95,14 +98,17 @@ export function Footer({ locale }: { locale: Locale }) {
         <p className="mt-5 text-center text-[0.78125rem] text-muted">{copyright}</p>
       </div>
 
-      {/* Desktop: four columns. */}
-      <div className="hidden lg:block">
-        <Container className="grid grid-cols-4 gap-8 py-14">
+      {/* Tablet + desktop: four columns. */}
+      <div className="hidden md:block">
+        <Container className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-7 py-9 xl:grid-cols-4 xl:gap-8 xl:py-14">
           <div>
-            <Link href={homePath(locale)} className="text-xl font-bold tracking-[-0.02em] text-ink">
+            <Link
+              href={homePath(locale)}
+              className="flex min-h-11 items-center text-[1.1875rem] font-bold tracking-[-0.02em] text-ink xl:min-h-0 xl:text-xl"
+            >
               Centro<span className="text-teal-ink">metal</span>
             </Link>
-            <p className="mt-3 max-w-xs text-[0.90625rem] text-muted">
+            <p className="mt-3 max-w-xs text-[0.9375rem] leading-[1.55] text-muted xl:text-[0.90625rem]">
               {locale === "mne"
                 ? "Ovlašćeni distributer alata, mašina i opreme u Podgorici, Crna Gora."
                 : "Authorized distributor of tools, machinery and equipment in Podgorica, Montenegro."}
@@ -113,12 +119,12 @@ export function Footer({ locale }: { locale: Locale }) {
             <h2 className="mb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.04em] text-muted">
               {dict.footer.companyHeading}
             </h2>
-            <ul className="flex flex-col gap-2.5">
+            <ul className="flex flex-col gap-1 xl:gap-2.5">
               {companyLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-[0.90625rem] text-ink transition hover:text-teal-ink"
+                    className="flex min-h-11 items-center text-[0.9375rem] text-ink transition hover:text-teal-ink xl:min-h-0 xl:text-[0.90625rem]"
                   >
                     {link.label}
                   </Link>
@@ -131,19 +137,25 @@ export function Footer({ locale }: { locale: Locale }) {
             <h2 className="mb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.04em] text-muted">
               {dict.footer.contactHeading}
             </h2>
-            <ul className="flex flex-col gap-2.5 text-[0.90625rem]">
+            <ul className="flex flex-col gap-1 text-[0.9375rem] xl:gap-2.5 xl:text-[0.90625rem]">
               <li>
-                <a href={telHref(SALES_PHONE)} className="text-ink transition hover:text-teal-ink">
+                <a
+                  href={telHref(SALES_PHONE)}
+                  className="flex min-h-11 items-center text-ink transition hover:text-teal-ink xl:min-h-0"
+                >
                   {SALES_PHONE}
                 </a>
               </li>
               <li>
-                <a href={mailHref} className="text-ink transition hover:text-teal-ink">
+                <a
+                  href={mailHref}
+                  className="flex min-h-11 items-center text-ink transition hover:text-teal-ink xl:min-h-0"
+                >
                   {EMAIL}
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-muted">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-teal-ink" strokeWidth={2} aria-hidden="true" />
+              <li className="flex min-h-11 items-center gap-2 text-muted xl:min-h-0 xl:items-start">
+                <MapPin className="size-4 shrink-0 text-teal-ink xl:mt-0.5" strokeWidth={2} aria-hidden="true" />
                 {HQ_ADDRESS}
               </li>
             </ul>
@@ -153,7 +165,7 @@ export function Footer({ locale }: { locale: Locale }) {
             <h2 className="mb-3 text-[0.8125rem] font-semibold uppercase tracking-[0.04em] text-muted">
               {dict.footer.hoursHeading}
             </h2>
-            <ul className="flex flex-col gap-2.5 text-[0.90625rem] text-muted">
+            <ul className="flex flex-col gap-2 text-[0.9375rem] text-muted xl:gap-2.5 xl:text-[0.90625rem]">
               {hours.map((line) => (
                 <li key={line}>{line}</li>
               ))}
@@ -161,7 +173,9 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
         </Container>
 
-        <p className="border-t border-navy/[0.06] px-8 py-5 text-center text-[0.8125rem] text-muted">
+        {/* env(safe-area-inset-bottom) so the copyright clears the iPad home
+            indicator when the page bottoms out in landscape. */}
+        <p className="border-t border-navy/[0.06] px-6 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] text-center text-[0.84375rem] text-muted xl:px-8 xl:text-[0.8125rem]">
           {copyright}
         </p>
       </div>

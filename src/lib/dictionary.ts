@@ -20,6 +20,9 @@ export const dictionary = {
       call: "Pozovite",
       searchPlaceholder: "Pretražite proizvode",
       allDepartments: "Sva odjeljenja",
+      /* Leading chip on the tablet header rail — the "no department selected"
+         state, active on the home screen. */
+      all: "Sve",
     },
     hero: {
       eyebrow: "Ovlašćeni distributer • Podgorica, Crna Gora",
@@ -174,6 +177,9 @@ export const dictionary = {
       resultsForTemplate: '{count} rezultata za „{query}"',
       enterTerm: "Unesite termin za pretragu.",
       emptyHeadingTemplate: 'Nema proizvoda koji odgovaraju pretrazi „{query}".',
+      /* Tablet header field on a category screen — the search is scoped to the
+         department being browsed. */
+      scopedTemplate: "Pretražite u {category}",
     },
     cart: {
       heading: "Korpa",
@@ -400,6 +406,7 @@ export const dictionary = {
       call: "Call",
       searchPlaceholder: "Search products",
       allDepartments: "All departments",
+      all: "All",
     },
     hero: {
       eyebrow: "Authorized dealer • Podgorica, Montenegro",
@@ -544,6 +551,7 @@ export const dictionary = {
       resultsForTemplate: '{count} results for "{query}"',
       enterTerm: "Enter a search term.",
       emptyHeadingTemplate: 'No products match the search "{query}".',
+      scopedTemplate: "Search in {category}",
     },
     cart: {
       heading: "Cart",

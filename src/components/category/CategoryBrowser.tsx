@@ -82,6 +82,20 @@ export function CategoryBrowser({
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  /* The sheet is a mobile-only pattern — from 768px the filters live in the
+     persistent rail. Closing it when the viewport crosses that line keeps a
+     rotation or Split View resize from stranding the body scroll lock behind a
+     sheet that is no longer displayed. */
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    function sync(event: MediaQueryListEvent | MediaQueryList) {
+      if (event.matches) setSheetOpen(false);
+    }
+    sync(mq);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
   /* The sheet claims aria-modal, so focus has to actually move into it on
      open and return to the trigger on close. `wasOpen` keeps the restore from
      firing on mount, which would otherwise steal focus on page load. */
@@ -199,22 +213,41 @@ export function CategoryBrowser({
   ];
 
   return (
-    <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-10">
+    /*
+      No `items-start` here — Chromium breaks `position: sticky` on a
+      descendant that isn't itself a direct grid item (e.g. the sticky div
+      inside <aside>) when the grid container sets `align-items` to anything
+      but its `stretch` default: the sticky element stops clamping to `top`
+      and just scrolls with the page. Default `stretch` sizes <aside> to the
+      row height instead, which is exactly what a sticky rail wants anyway —
+      confirmed against the desktop column, which always used the default and
+      never needed items-start.
+    */
+    <div className="md:grid md:grid-cols-[236px_minmax(0,1fr)] md:gap-6 xl:grid-cols-[260px_1fr] xl:gap-10">
       {/*
-        Desktop: sticky filter sidebar. Rows are 38px pills with a custom
-        checkbox square rather than native inputs, per the design. The native
-        input is still there — visually hidden but focusable and announced —
-        and the square mirrors its state, so keyboard and screen-reader use is
-        unchanged. `peer-focus-visible` puts the focus ring on the square,
-        which would otherwise be invisible.
+        Tablet and desktop: sticky filter sidebar, which replaces the mobile
+        bottom sheet entirely from 768px up — at this width there is room to
+        show filters and results at the same time, so hiding the filters behind
+        a modal would be a step backwards.
+
+        Tablet draws it as a #f4f5f6 rounded card with 44px rows and 20px
+        checkboxes; desktop keeps the borderless 38px/16px treatment, which is
+        fine for a mouse. Rows are custom checkbox squares rather than native
+        inputs, per the design. The native input is still there — visually
+        hidden but focusable and announced — and the square mirrors its state,
+        so keyboard and screen-reader use is unchanged. `peer-focus-visible`
+        puts the focus ring on the square, which would otherwise be invisible.
+
+        The sticky offset clears each breakpoint's own header: 118px for the
+        tablet's two-row bar, 96px for the desktop's single row.
       */}
-      <aside className="hidden lg:block">
-        <div className="sticky top-[96px] flex flex-col gap-6">
+      <aside className="hidden md:block">
+        <div className="sticky top-[118px] flex flex-col gap-5 rounded-[22px] bg-fill px-3.5 py-[18px] xl:top-[96px] xl:gap-6 xl:rounded-none xl:bg-transparent xl:p-0">
           {filterGroups.map((group, groupIndex) => (
             <div key={group.key}>
               {/* The design puts "Obriši" inline with the first group's label. */}
-              {groupIndex > 0 && <div className="mb-6 h-px bg-navy/[0.08]" />}
-              <div className="flex items-center justify-between gap-3">
+              {groupIndex > 0 && <div className="mb-5 h-px bg-navy/[0.09] xl:mb-6" />}
+              <div className="flex items-center justify-between gap-3 px-1.5 xl:px-0">
                 <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.04em] text-muted">
                   {group.label}
                 </p>
@@ -222,19 +255,19 @@ export function CategoryBrowser({
                   <button
                     type="button"
                     onClick={clearFilters}
-                    className="text-[0.8125rem] font-semibold text-teal-ink transition hover:text-teal-hover"
+                    className="-mr-1.5 px-1.5 py-1.5 text-[0.84375rem] font-semibold text-teal-ink transition hover:text-teal-hover xl:mr-0 xl:p-0 xl:text-[0.8125rem]"
                   >
                     {dict.category.clear}
                   </button>
                 )}
               </div>
-              <div className="mt-2.5 flex flex-col gap-1">
+              <div className="mt-2 flex flex-col gap-0.5 xl:mt-2.5 xl:gap-1">
                 {group.rows.map((row) => (
                   <label
                     key={row.key}
                     className={clsx(
-                      "flex h-[38px] cursor-pointer items-center gap-2.5 rounded-[10px] px-2.5 text-[0.90625rem] font-medium text-navy transition",
-                      row.checked ? "bg-teal/[0.08]" : "hover:bg-navy/[0.04]",
+                      "flex min-h-11 cursor-pointer items-center gap-2.5 rounded-xl px-2.5 text-[0.9375rem] font-medium leading-[1.25] text-navy transition xl:min-h-0 xl:h-[38px] xl:rounded-[10px] xl:text-[0.90625rem]",
+                      row.checked ? "bg-teal/[0.1] xl:bg-teal/[0.08]" : "hover:bg-navy/[0.04]",
                     )}
                   >
                     <input
@@ -246,12 +279,12 @@ export function CategoryBrowser({
                     <span
                       aria-hidden="true"
                       className={clsx(
-                        "grid size-4 shrink-0 place-items-center rounded-[5px] border-[1.5px] transition peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-teal",
+                        "grid size-5 shrink-0 place-items-center rounded-md border-[1.5px] transition peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-teal xl:size-4 xl:rounded-[5px]",
                         row.checked ? "border-teal bg-teal text-white" : "border-navy/25",
                       )}
                     >
                       {row.checked && (
-                        <Check className="size-2.5" strokeWidth={3.4} aria-hidden="true" />
+                        <Check className="size-3 xl:size-2.5" strokeWidth={3.4} aria-hidden="true" />
                       )}
                     </span>
                     {row.label}
@@ -264,8 +297,9 @@ export function CategoryBrowser({
       </aside>
 
       <div className="min-w-0">
-        {/* Mobile: in-page search. */}
-        <div className="px-4 lg:hidden">
+        {/* Mobile: in-page search. Tablet scopes the header search field to
+            this category instead, so this would be a second search box. */}
+        <div className="px-4 md:hidden">
           <div className="flex h-10 items-center gap-2 rounded-xl bg-[rgba(118,118,128,0.12)] px-2.5">
             <Search className="size-[17px] shrink-0 text-muted" strokeWidth={2.2} aria-hidden="true" />
             <input
@@ -282,8 +316,9 @@ export function CategoryBrowser({
           </p>
         </div>
 
-        {/* Mobile: subcategory chips. */}
-        <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto px-4 py-0.5 lg:hidden">
+        {/* Mobile: subcategory chips — the filter rail carries these from
+            768px up. */}
+        <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto px-4 py-0.5 md:hidden">
           {category.subcategories.map((sub) => {
             const active = selectedSubcategories.includes(sub.slug.mne);
             return (
@@ -303,15 +338,16 @@ export function CategoryBrowser({
           })}
         </div>
 
-        {/* Mobile: sticky result count + filter trigger. */}
-        <div className="sticky top-[60px] z-20 mt-3 flex items-center justify-between gap-3 bg-warehouse/[0.88] px-4 py-2 backdrop-blur-xl backdrop-saturate-[1.8] lg:static lg:mt-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none">
-          <p className="text-[0.9375rem] text-muted">{countLabel}</p>
+        {/* Mobile: sticky result count + filter trigger. From 768px the count
+            is plain static text — the filters are already on screen. */}
+        <div className="sticky top-[60px] z-20 mt-3 flex items-center justify-between gap-3 bg-warehouse/[0.88] px-4 py-2 backdrop-blur-xl backdrop-saturate-[1.8] md:static md:mt-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none">
+          <p className="text-[0.9375rem] text-muted md:mb-3.5 md:text-[0.96875rem]">{countLabel}</p>
           <button
             ref={filterTriggerRef}
             type="button"
             onClick={() => setSheetOpen(true)}
             aria-haspopup="dialog"
-            className="flex h-8 items-center gap-1.5 rounded-full bg-teal/10 px-3 text-[0.90625rem] font-semibold tracking-[-0.01em] text-teal-ink lg:hidden"
+            className="flex h-8 items-center gap-1.5 rounded-full bg-teal/10 px-3 text-[0.90625rem] font-semibold tracking-[-0.01em] text-teal-ink md:hidden"
           >
             <SlidersHorizontal className="size-[15px]" strokeWidth={2.2} aria-hidden="true" />
             {activeCount > 0
@@ -323,7 +359,10 @@ export function CategoryBrowser({
         {filteredProducts.length > 0 ? (
           <div
             data-testid="category-grid"
-            className="grid grid-cols-2 gap-3 px-4 pb-6 pt-1 lg:grid-cols-4 lg:gap-5 lg:px-0 lg:pt-6"
+            /* Tablet uses the handoff's intrinsic track instead of a column
+               count: 210px minimum resolves to 2-up in portrait and 3-up in
+               landscape on its own, so no orientation branch is needed. */
+            className="grid grid-cols-2 gap-3 px-4 pb-6 pt-1 md:grid-cols-[repeat(auto-fill,minmax(210px,1fr))] md:gap-3.5 md:px-0 md:pb-0 md:pt-0 xl:grid-cols-4 xl:gap-5 xl:pt-6"
           >
             {filteredProducts.map((product) => (
               <ProductCard
@@ -335,37 +374,51 @@ export function CategoryBrowser({
             ))}
           </div>
         ) : (
-          <div className="mx-4 mb-6 flex flex-col items-center gap-3 rounded-card bg-surface px-6 py-[34px] text-center shadow-card lg:mx-0 lg:mt-6">
+          <div className="mx-4 mb-6 flex flex-col items-center gap-3 rounded-card bg-surface px-6 py-[34px] text-center shadow-card md:mx-0 md:mb-0 md:gap-3.5 md:rounded-[22px] md:bg-fill md:px-6 md:py-14 md:shadow-none xl:mt-6">
             <Package className="size-[34px] text-muted/60" strokeWidth={1.6} aria-hidden="true" />
-            <p className="text-base leading-[1.45]">{dict.category.emptyBody}</p>
-            <Button href={telHref(SALES_PHONE)} variant="primary" block className="lg:w-auto">
+            <p className="max-w-[400px] text-base leading-[1.45] md:text-[1.03125rem]">
+              {dict.category.emptyBody}
+            </p>
+            <Button href={telHref(SALES_PHONE)} variant="primary" block className="md:w-auto">
               {format(dict.category.callTemplate, { phone: SALES_PHONE })}
             </Button>
           </div>
         )}
 
-        {/* "Ne vidite što tražite?" dark CTA. */}
-        <div className="gradient-dark mx-4 mb-6 rounded-hero p-[18px] text-white shadow-lifted lg:mx-0 lg:flex lg:items-center lg:justify-between lg:gap-8 lg:p-8">
-          <div>
-            <p className="text-[1.1875rem] font-bold leading-[1.2] tracking-[-0.025em] lg:text-[1.5rem]">
+        {/*
+          "Ne vidite što tražite?" dark CTA. Tablet uses flex-wrap rather than a
+          breakpoint-keyed row/column switch, so the button drops below the text
+          on its own once the content column gets narrow (portrait) and sits
+          beside it when there's room (landscape).
+        */}
+        <div className="gradient-dark mx-4 mb-6 rounded-hero p-[18px] text-white shadow-lifted md:mx-0 md:mt-7 md:flex md:flex-wrap md:items-center md:justify-between md:gap-5 md:rounded-3xl md:p-7 xl:mt-0 xl:flex-nowrap xl:gap-8 xl:rounded-hero xl:p-8">
+          <div className="md:min-w-[240px] md:flex-1">
+            <p className="text-[1.1875rem] font-bold leading-[1.2] tracking-[-0.025em] md:text-[1.3125rem] xl:text-[1.5rem]">
               {dict.category.ctaHeading}
             </p>
-            <p className="mt-1.5 text-[0.9375rem] text-white/[0.66]">{dict.category.ctaBody}</p>
+            <p className="mt-1.5 text-[0.9375rem] text-white/[0.66] md:text-[0.96875rem]">
+              {dict.category.ctaBody}
+            </p>
           </div>
           <Button
             href={inquiryPath(locale)}
             variant="onDark"
             block
-            className="mt-3.5 lg:mt-0 lg:w-auto lg:shrink-0 lg:px-8"
+            className="mt-3.5 md:mt-0 md:w-auto md:shrink-0 md:px-6 xl:px-8"
           >
             {dict.category.ctaButton}
           </Button>
         </div>
       </div>
 
-      {/* Mobile filter bottom sheet. */}
+      {/*
+        Mobile filter bottom sheet. Never renders from 768px up: the trigger is
+        hidden there and `sheetOpen` is forced false on the breakpoint change,
+        so rotating an iPad while the sheet is open can't leave an invisible
+        modal holding the body scroll lock.
+      */}
       {sheetOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={dict.category.sheetHeading}>
+        <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true" aria-label={dict.category.sheetHeading}>
           <div
             className="absolute inset-0 bg-[rgba(11,16,21,0.4)]"
             onClick={() => setSheetOpen(false)}

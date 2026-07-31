@@ -29,9 +29,24 @@ export function HomeHero({ locale }: { locale: Locale }) {
     dict.home.heroMetaService,
   ];
 
+  /*
+    Tablet stat strip. The handoff draws three stats here — "30+ brendova",
+    "2 prodavnice" and "24h odgovor na upit". The first two are facts the site
+    already states; the 24h response promise is not, and the handoff itself
+    flags it as unconfirmed. Rather than publish an unbacked service-level
+    claim, this uses the same confirmed trio the Kontakt page already ships
+    (2 prodavnice / 30+ brendova / 1 servis). Swap the third entry for the
+    response-time stat if the business confirms it.
+  */
+  const stats = [
+    { value: dict.contactPage.statStoresValue, label: dict.contactPage.statStoresLabel },
+    { value: dict.contactPage.statBrandsValue, label: dict.contactPage.statBrandsLabel },
+    { value: dict.contactPage.statServiceValue, label: dict.contactPage.statServiceLabel },
+  ];
+
   return (
-    <div>
-      <p className="hidden text-[0.8125rem] font-semibold uppercase tracking-[0.05em] text-teal-ink lg:block">
+    <div className="md:flex md:flex-col md:justify-center md:py-2">
+      <p className="hidden text-[0.8125rem] font-semibold uppercase tracking-[0.05em] text-teal-ink md:block">
         {dict.hero.eyebrow}
       </p>
 
@@ -46,11 +61,11 @@ export function HomeHero({ locale }: { locale: Locale }) {
         in design review. 32px/1.25 with an explicit 16px bottom margin is
         metric-independent. Desktop keeps its own scale.
       */}
-      <h1 className="mb-4 mt-1 text-[2rem] font-bold leading-[1.25] lg:mb-0 lg:mt-3.5 lg:text-h1-lg lg:leading-[1.04]">
+      <h1 className="mb-4 mt-1 text-balance text-[2rem] font-bold leading-[1.25] md:mb-0 md:mt-3 md:text-[2.75rem] md:leading-[1.06] md:tracking-[-0.032em] xl:mt-3.5 xl:text-h1-lg xl:leading-[1.04] xl:tracking-[-0.033em]">
         {dict.hero.headline}
       </h1>
 
-      <div className="flex items-center gap-2 text-[0.90625rem] text-muted lg:mt-4 lg:max-w-[460px] lg:text-lg">
+      <div className="flex items-center gap-2 text-[0.90625rem] text-muted md:mt-3.5 md:text-[1.09375rem] xl:mt-4 xl:max-w-[460px] xl:text-lg">
         {meta.map((item, i) => (
           <span key={item} className="flex items-center gap-2">
             {i > 0 && (
@@ -63,24 +78,38 @@ export function HomeHero({ locale }: { locale: Locale }) {
         ))}
       </div>
 
-      {/* Mobile: search sits in the hero. Desktop keeps it in the header. */}
-      <SearchBox locale={locale} variant="inline" className="mt-3.5 w-full lg:hidden" />
+      {/* Mobile: search sits in the hero. Tablet and desktop keep it in the
+          header, where it's full-width and always visible. */}
+      <SearchBox locale={locale} variant="inline" className="mt-3.5 w-full md:hidden" />
 
-      <div className="mt-7 hidden items-center gap-3 lg:flex">
+      <div className="mt-[22px] hidden flex-wrap items-center gap-2.5 md:flex xl:mt-7 xl:flex-nowrap xl:gap-3">
         <a
           href={categoryPath(locale, categories[0].slug[locale])}
-          className="inline-flex h-[52px] items-center rounded-[14px] bg-navy px-7 text-base font-semibold text-white transition hover:brightness-125"
+          className="inline-flex h-[52px] items-center rounded-[14px] bg-navy px-[26px] text-[1.03125rem] font-semibold text-white transition hover:brightness-125 xl:px-7 xl:text-base"
         >
           {dict.hero.ctaPrimary}
         </a>
         <a
           href={telHref(SALES_PHONE)}
-          className="inline-flex h-[52px] items-center gap-2 rounded-[14px] border-[1.5px] border-navy/15 px-6 text-base font-semibold text-navy transition hover:border-navy/30"
+          className="inline-flex h-[52px] items-center gap-2 rounded-[14px] border-[1.5px] border-navy/15 px-[22px] text-[1.03125rem] font-semibold text-navy transition hover:border-navy/30 xl:px-6 xl:text-base"
         >
           <Phone className="size-[17px] text-teal-ink" strokeWidth={2.1} aria-hidden="true" />
           {dict.nav.call}
         </a>
       </div>
+
+      {/* Tablet-only stat strip above a hairline — desktop's hero uses the
+          meta line alone and has no room for it beside the featured card. */}
+      <dl className="mt-[26px] hidden flex-wrap gap-x-[22px] gap-y-3 border-t border-navy/[0.08] pt-5 md:flex xl:hidden">
+        {stats.map((stat) => (
+          /* Value reads above the label but the <dt> still precedes its <dd>
+             in the DOM, so the pair is announced as "prodavnice: 2". */
+          <div key={stat.label} className="flex flex-col-reverse">
+            <dt className="mt-0.5 text-sm text-muted">{stat.label}</dt>
+            <dd className="text-[1.375rem] font-bold tracking-[-0.02em]">{stat.value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

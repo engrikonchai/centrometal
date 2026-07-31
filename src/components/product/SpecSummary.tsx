@@ -18,10 +18,12 @@ export function SpecSummary({ specs, locale }: { specs: ProductSpec[]; locale: L
       {tiles.map((spec) => (
         <div
           key={spec.label[locale]}
-          className="rounded-button bg-surface px-2.5 py-[11px] shadow-card lg:rounded-2xl lg:bg-fill lg:p-4 lg:shadow-none"
+          className="rounded-button bg-surface px-2.5 py-[11px] shadow-card md:rounded-2xl md:bg-fill md:p-3.5 md:shadow-none xl:p-4"
         >
-          <p className="text-xs text-muted lg:text-[0.78125rem]">{spec.label[locale]}</p>
-          <p className="mt-0.5 text-[1.0625rem] font-semibold tracking-[-0.02em] lg:mt-[3px] lg:text-[1.1875rem]">
+          <p className="text-xs text-muted md:text-[0.8125rem] xl:text-[0.78125rem]">
+            {spec.label[locale]}
+          </p>
+          <p className="mt-0.5 text-[1.0625rem] font-semibold tracking-[-0.02em] md:mt-[3px] md:text-[1.1875rem]">
             {spec.value}
           </p>
         </div>

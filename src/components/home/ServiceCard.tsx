@@ -14,13 +14,13 @@ export function ServiceCard({ locale }: { locale: Locale }) {
 
   return (
     /* Horizontal padding is owned by the parent Container. */
-    <section className="pb-[22px] lg:pb-0">
-      <div className="rounded-hero bg-surface p-[18px] shadow-card lg:bg-fill lg:p-8 lg:shadow-none">
+    <section className="pb-[22px] xl:pb-0">
+      <div className="rounded-hero bg-surface p-[18px] shadow-card xl:bg-fill xl:p-8 xl:shadow-none">
         <div className="flex items-center gap-2.5">
           <span className="grid size-[34px] place-items-center rounded-full bg-teal/[0.12]">
             <Settings className="size-[18px] text-teal-ink" strokeWidth={2} aria-hidden="true" />
           </span>
-          <h2 className="text-h2 font-bold lg:text-h2-lg">{dict.home.serviceHeading}</h2>
+          <h2 className="text-h2 font-bold xl:text-h2-lg">{dict.home.serviceHeading}</h2>
         </div>
 
         <p className="mt-2.5 text-[0.9375rem] leading-[1.45] text-muted">{dict.home.serviceBody}</p>
@@ -34,7 +34,7 @@ export function ServiceCard({ locale }: { locale: Locale }) {
           ))}
         </ul>
 
-        <div className="mt-4 grid grid-cols-2 gap-2.5 lg:max-w-md">
+        <div className="mt-4 grid grid-cols-2 gap-2.5 xl:max-w-md">
           <Button href={inquiryPath(locale, "servis")} variant="primary">
             {dict.home.serviceCtaPrimary}
           </Button>

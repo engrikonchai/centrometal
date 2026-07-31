@@ -59,16 +59,16 @@ export function ProductCard({
     <div
       className={clsx(
         /* Mobile: white card lifted off the #f2f2f7 page with a soft shadow.
-           Desktop: the page is white, so the card inverts to a #f5f6f7 fill
-           with no shadow and a slightly larger radius. */
+           Tablet and desktop: the page is white, so the card inverts to a
+           #f5f6f7 fill with no shadow and a slightly larger radius. */
         "flex flex-col overflow-hidden rounded-card bg-surface shadow-card",
-        "lg:rounded-[20px] lg:bg-fill lg:shadow-none",
+        "md:rounded-[20px] md:bg-fill md:shadow-none",
         className,
       )}
     >
-      <div className="relative bg-[#f7f7f9] lg:bg-transparent">
+      <div className="relative bg-[#f7f7f9] md:bg-transparent">
         {badge && (
-          <span className="absolute left-[9px] top-[9px] z-10 rounded-full bg-teal/95 px-2 py-[3px] text-[0.65625rem] font-semibold text-white">
+          <span className="absolute left-[9px] top-[9px] z-10 rounded-full bg-teal/95 px-2 py-[3px] text-[0.65625rem] font-semibold text-white md:left-3 md:top-3 md:px-2.5 md:py-[5px] md:text-[0.71875rem]">
             {badge}
           </span>
         )}
@@ -87,8 +87,8 @@ export function ProductCard({
                 }
                 alt={alt}
                 fill
-                sizes="(min-width: 1024px) 20vw, 50vw"
-                className="object-contain p-4 lg:p-[22px]"
+                sizes="(min-width: 1280px) 20vw, (min-width: 768px) 25vw, 50vw"
+                className="object-contain p-4 md:p-5 xl:p-[22px]"
               />
             </div>
           ) : (
@@ -97,7 +97,7 @@ export function ProductCard({
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col gap-[5px] p-3 pt-[11px] lg:gap-1.5 lg:px-4 lg:pb-[18px] lg:pt-1">
+      <div className="flex flex-1 flex-col gap-[5px] p-3 pt-[11px] md:gap-[5px] md:px-4 md:pb-4 md:pt-1 xl:gap-1.5 xl:pb-[18px]">
         {brand?.logo ? (
           /* Plain <img>: these logos are tiny, variable-ratio and already in
              /public, and next/image's `fill` would need a sized box that
@@ -106,7 +106,7 @@ export function ProductCard({
           <img
             src={brand.logo}
             alt={brand.name}
-            className="h-3 w-auto max-w-[58px] object-contain object-left opacity-75 lg:h-[13px] lg:max-w-[60px] lg:opacity-70"
+            className="h-3 w-auto max-w-[58px] object-contain object-left opacity-75 md:h-[14px] md:max-w-[62px] md:opacity-70 xl:h-[13px] xl:max-w-[60px]"
           />
         ) : (
           brand && (
@@ -118,22 +118,22 @@ export function ProductCard({
 
         <Link
           href={href}
-          className="text-[0.9375rem] font-semibold leading-[1.25] tracking-[-0.015em] lg:text-base"
+          className="text-[0.9375rem] font-semibold leading-[1.25] tracking-[-0.015em] md:text-[1.03125rem] xl:text-base"
         >
           {product.name}
         </Link>
 
         {showSubcategory && subcategory && (
-          <p className="text-[0.8125rem] text-muted lg:text-[0.84375rem]">
+          <p className="text-[0.8125rem] text-muted md:text-[0.875rem] xl:text-[0.84375rem]">
             {subcategory.name[locale]}
           </p>
         )}
 
-        <p className="mb-0.5 text-[0.8125rem] font-medium text-muted lg:mb-0 lg:mt-1 lg:text-[0.84375rem]">
+        <p className="mb-0.5 text-[0.8125rem] font-medium text-muted md:mb-0 md:mt-0.5 md:text-[0.875rem] xl:mt-1 xl:text-[0.84375rem]">
           {dict.featured.priceOnRequest}
         </p>
 
-        <div className="mt-auto lg:pt-2.5">
+        <div className="mt-auto pt-3 md:pt-3 xl:pt-2.5">
           <AddToInquiryButton
             product={product}
             locale={locale}

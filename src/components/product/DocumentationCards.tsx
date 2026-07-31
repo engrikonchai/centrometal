@@ -55,7 +55,8 @@ export function DocumentationCards({
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-[46px] items-center gap-2.5 rounded-xl bg-fill px-[18px] text-[0.90625rem] font-semibold text-ink transition hover:bg-[#eeeff1]"
+              /* 48px at tablet (touch minimum), 46px at desktop. */
+              className="flex h-12 items-center gap-2.5 rounded-[14px] bg-fill px-[18px] text-[0.9375rem] font-semibold text-ink transition hover:bg-[#eeeff1] xl:h-[46px] xl:rounded-xl xl:text-[0.90625rem]"
             >
               <Icon className="size-[17px] shrink-0 text-teal" strokeWidth={1.9} aria-hidden="true" />
               {label}

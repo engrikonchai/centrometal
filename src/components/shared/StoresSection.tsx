@@ -21,10 +21,18 @@ export function StoresSection({
   locale,
   showFullHours = false,
   className,
+  heading,
 }: {
   locale: Locale;
   showFullHours?: boolean;
   className?: string;
+  /**
+   * Rendered on the same row as the store toggle. The contact page passes its
+   * H2 here so the pair share a line at tablet (and wrap onto two lines in
+   * portrait) — which the handoff asks for and a heading rendered by the
+   * parent could not do.
+   */
+  heading?: React.ReactNode;
 }) {
   const dict = getDictionary(locale);
   const [index, setIndex] = useState(0);
@@ -38,16 +46,21 @@ export function StoresSection({
 
   return (
     <div className={className}>
-      <SegmentedControl
-        label={dict.home.storeToggleLabel}
-        value={String(index)}
-        onChange={(value) => setIndex(Number(value))}
-        segments={stores.map((item, i) => ({ value: String(i), label: item.shortName }))}
-        className="lg:max-w-sm"
-      />
+      <div className="flex flex-wrap items-center justify-between gap-3.5">
+        {heading}
+        <SegmentedControl
+          label={dict.home.storeToggleLabel}
+          value={String(index)}
+          onChange={(value) => setIndex(Number(value))}
+          segments={stores.map((item, i) => ({ value: String(i), label: item.shortName }))}
+          className={heading ? "md:w-auto" : "w-full xl:max-w-sm"}
+        />
+      </div>
 
-      <div className="mt-3 overflow-hidden rounded-card bg-surface shadow-card lg:bg-fill lg:shadow-none">
-        <div className="h-[156px] bg-[#e5e7ea] lg:h-[340px]">
+      <div className="mt-3 overflow-hidden rounded-card bg-surface shadow-card md:mt-5 md:rounded-[26px] md:bg-fill md:shadow-none xl:mt-3">
+        {/* The map is the one element the prototype environment can't render,
+            so this keeps the repo's real embed URL and only changes height. */}
+        <div className="h-[156px] bg-[#e5e7ea] md:h-[210px] xl:h-[340px]">
           <iframe
             /* Re-keyed per store so switching swaps the map rather than
                leaving a stale frame behind. */
@@ -60,9 +73,13 @@ export function StoresSection({
           />
         </div>
 
-        <div className="px-4 pb-4 pt-3.5">
-          <p className="text-[1.0625rem] font-semibold tracking-[-0.02em]">{store.name}</p>
-          <p className="mt-1 text-[0.9375rem] text-muted">{store.address}</p>
+        <div className="px-4 pb-4 pt-3.5 md:px-6 md:pb-6 md:pt-5">
+          <p className="text-[1.0625rem] font-semibold tracking-[-0.02em] md:text-[1.15625rem]">
+            {store.name}
+          </p>
+          <p className="mt-1 text-[0.9375rem] text-muted md:mt-1.5 md:text-[0.96875rem]">
+            {store.address}
+          </p>
 
           {showFullHours ? (
             <dl className="mt-3 flex flex-col gap-[7px] border-t border-line pt-3">
@@ -82,8 +99,8 @@ export function StoresSection({
             </p>
           )}
 
-          <div className="mt-3.5 grid grid-cols-2 gap-2.5">
-            <Button href={telHref(store.phone)} variant="primary">
+          <div className="mt-3.5 grid grid-cols-2 gap-2.5 md:mt-4">
+            <Button href={telHref(store.phone)} variant="primary" className="md:min-h-12">
               {dict.home.storeCall}
             </Button>
             <Button
@@ -91,6 +108,7 @@ export function StoresSection({
               variant="secondary"
               target="_blank"
               rel="noopener noreferrer"
+              className="md:min-h-12"
             >
               {dict.home.storeDirections}
             </Button>

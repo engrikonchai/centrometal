@@ -67,18 +67,18 @@ export async function ProductDetailPage({
     .filter(Boolean)
     .join(" · ");
 
-  /* Shared by the mobile column and the desktop details panel. */
+  /* Shared by the mobile column and the tablet/desktop details panel. */
   const identity = (
     <>
       <div className="flex items-center gap-2.5">
         {brand?.logo ? (
-          <span className="relative block h-[15px] w-[70px]">
+          <span className="relative block h-[15px] w-[70px] md:h-[17px] md:w-[78px]">
             <Image
               src={brand.logo}
               alt={brand.name}
               fill
               quality={95}
-              sizes="140px"
+              sizes="156px"
               className="object-contain object-left"
             />
           </span>
@@ -86,16 +86,16 @@ export async function ProductDetailPage({
           brand && <span className="text-sm font-semibold text-muted">{brand.name}</span>
         )}
         {badge && (
-          <span className="rounded-full bg-teal/[0.12] px-2.5 py-[3px] text-xs font-semibold text-teal-ink">
+          <span className="rounded-full bg-teal/[0.12] px-2.5 py-[3px] text-xs font-semibold text-teal-ink md:px-[11px] md:py-[5px] md:text-[0.8125rem]">
             {badge}
           </span>
         )}
       </div>
 
-      <h1 className="mt-2 text-balance text-[1.75rem] font-bold leading-[1.12] tracking-[-0.03em] lg:text-[2.5rem]">
+      <h1 className="mt-2 text-balance text-[1.75rem] font-bold leading-[1.12] tracking-[-0.03em] md:mt-3 md:text-[2rem] md:leading-[1.1] xl:text-[2.5rem]">
         {product.name}
       </h1>
-      <p className="mt-1 text-[0.9375rem] text-muted">{meta}</p>
+      <p className="mt-1 text-[0.9375rem] text-muted md:mt-2 md:text-[1.03125rem]">{meta}</p>
     </>
   );
 
@@ -111,10 +111,26 @@ export async function ProductDetailPage({
         locale={locale}
         alternateHref={alternateHref}
         mobile={{ backHref: categoryHref }}
+        tablet={{
+          /* Tablet puts the breadcrumb in the sticky header rather than in
+             page content, so the trail back to the category survives scrolling
+             — the tablet handoff's one deliberate divergence from desktop. */
+          breadcrumb: (
+            <Breadcrumb
+              locale={locale}
+              showHome={false}
+              items={[
+                { label: dict.breadcrumb.products },
+                { label: category.name[locale], href: categoryHref },
+                { label: product.name },
+              ]}
+            />
+          ),
+        }}
       />
 
       <main className="flex-1">
-        <Container className="hidden pt-8 lg:block">
+        <Container className="hidden pt-8 xl:block">
           <Breadcrumb
             locale={locale}
             showHome={false}
@@ -126,47 +142,55 @@ export async function ProductDetailPage({
           />
         </Container>
 
-        <Container className="pt-3 lg:grid lg:grid-cols-2 lg:items-start lg:gap-12 lg:pt-8">
+        {/*
+          Tablet: one intrinsic auto-fit grid does both orientations — gallery
+          beside details in landscape (1194px fits two 330px+ tracks), stacked
+          in portrait. Desktop keeps its fixed 2-column split.
+        */}
+        <Container className="pt-3 md:grid md:grid-cols-[repeat(auto-fit,minmax(330px,1fr))] md:items-start md:gap-7 md:pt-[22px] xl:grid-cols-2 xl:gap-12 xl:pt-8">
           <ProductGallery
             alt={`${brand?.name ?? ""} ${product.name}`.trim()}
             icon={category.icon}
             image={product.image}
             localImage={product.localImage}
+            additionalImages={product.additionalImages}
           />
 
-          <div className="pt-4 lg:pt-0">
+          <div className="pt-4 md:pt-0">
             {identity}
 
             {/*
               Order flips at the breakpoint: mobile puts the spec tiles
-              directly under the title, desktop leads with the description.
-              Flexbox `order` keeps it to one DOM node per element.
+              directly under the title, tablet and desktop lead with the
+              description. Flexbox `order` keeps it to one DOM node per element.
             */}
-            <div className="mt-3.5 flex flex-col lg:mt-0">
+            <div className="mt-3.5 flex flex-col md:mt-0">
               {specs.length > 0 && (
-                <div className="order-1 lg:order-2 lg:mt-6 lg:max-w-[460px]">
+                <div className="order-1 md:order-2 md:mt-[22px] xl:mt-6 xl:max-w-[460px]">
                   <SpecSummary specs={specs} locale={locale} />
                 </div>
               )}
-              <p className="order-2 mt-4 text-base leading-[1.5] text-muted lg:order-1 lg:mt-5 lg:max-w-[460px] lg:text-[1.03125rem] lg:leading-[1.55]">
+              <p className="order-2 mt-4 text-base leading-[1.5] text-muted md:order-1 md:mt-[18px] md:text-[1.03125rem] md:leading-[1.55] xl:mt-5 xl:max-w-[460px]">
                 {product.description[locale]}
               </p>
             </div>
 
             {/*
-              Desktop CTA pair — mobile uses the sticky bar instead. The
-              desktop design draws these as 14px-radius 54px rectangles with
-              an outlined (not soft-filled) call button.
+              Inline CTA pair for tablet and desktop — only mobile uses the
+              sticky bottom bar. At tablet these sit above the fold at 834px,
+              which is why the handoff drops the sticky bar here. 14px-radius
+              54px rectangles with an outlined (not soft-filled) call button;
+              they wrap rather than shrink in portrait.
             */}
-            <div className="mt-8 hidden gap-3 lg:flex">
+            <div className="mt-6 hidden flex-wrap gap-2.5 md:flex xl:mt-8 xl:flex-nowrap xl:gap-3">
               <AddToInquiryButton
                 product={product}
                 locale={locale}
-                className="h-[54px]! w-[260px] rounded-[14px]! text-base!"
+                className="h-[54px]! rounded-[14px]! px-[30px]! text-[1.03125rem]! xl:w-[260px] xl:text-base!"
               />
               <a
                 href={telHref(SALES_PHONE)}
-                className="flex h-[54px] items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-navy/15 px-[26px] text-base font-semibold text-navy transition hover:border-navy/30 hover:bg-navy/[0.03]"
+                className="flex h-[54px] items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-navy/15 px-6 text-[1.03125rem] font-semibold text-navy transition hover:border-navy/30 hover:bg-navy/[0.03] xl:px-[26px] xl:text-base"
               >
                 <Phone className="size-[17px] text-teal" strokeWidth={2.1} aria-hidden="true" />
                 {dict.nav.call}
@@ -177,7 +201,7 @@ export async function ProductDetailPage({
                 on its own for every product that has no documents (currently
                 all of them). */}
             {hasDocs && (
-              <div className="mt-7 hidden border-t border-navy/[0.08] pt-7 lg:block">
+              <div className="mt-6 hidden border-t border-navy/[0.08] pt-[22px] md:block xl:mt-7 xl:pt-7">
                 <DocumentationCards product={product} locale={locale} layout="inline" />
               </div>
             )}
@@ -185,22 +209,23 @@ export async function ProductDetailPage({
         </Container>
 
         {specs.length > 0 && (
-          <Container className="pt-[22px] lg:pt-16">
-            <h2 className="mb-2.5 text-h2 font-bold lg:text-h2-lg">
+          <Container className="pt-[22px] md:pt-11 xl:pt-16">
+            <h2 className="mb-2.5 text-h2 font-bold md:text-[1.625rem] md:tracking-[-0.03em] xl:text-h2-lg">
               {dict.product.specsCardHeading}
             </h2>
             <SpecTable specs={specs} locale={locale} />
           </Container>
         )}
 
-        {/* Mobile position for the documentation cards. */}
+        {/* Mobile position for the documentation cards — tablet and desktop
+            carry them inline in the details column instead. */}
         {hasDocs && (
-          <Container className="pt-[22px] lg:hidden">
+          <Container className="pt-[22px] md:hidden">
             <DocumentationCards product={product} locale={locale} />
           </Container>
         )}
 
-        <Container className="px-0 pb-2 lg:px-8 lg:pb-16">
+        <Container className="px-0 pb-2 md:px-0 md:pb-14 xl:px-8 xl:pb-16">
           <RelatedProducts locale={locale} products={related} categorySlug={product.categorySlug} />
         </Container>
       </main>

@@ -28,12 +28,16 @@ export function AddToInquiryButton({
 }: {
   product: Product;
   locale: Locale;
-  /** sm = 36px grid-card button (40px at desktop), md = 48px sticky-bar button. */
+  /**
+   * sm = grid-card button: 36px mobile, 44px tablet (touch minimum), 40px
+   * desktop. md = 48px sticky-bar button.
+   */
   size?: "sm" | "md";
   /**
-   * The desktop design fills the *card* CTA near-black while the product
-   * detail CTA stays accent-teal, so the grid opts into `darkOnDesktop`.
-   * Mobile is teal either way; the added-confirmation green wins over both.
+   * The tablet and desktop designs fill the *card* CTA near-black while the
+   * product detail CTA stays accent-teal, so the grid opts into
+   * `darkOnDesktop`. Mobile is teal either way; the added-confirmation green
+   * wins over both.
    */
   tone?: "accent" | "darkOnDesktop";
   className?: string;
@@ -65,11 +69,13 @@ export function AddToInquiryButton({
       aria-live="polite"
       className={clsx(
         "flex w-full items-center justify-center gap-1.5 rounded-full font-semibold tracking-[-0.01em] text-white transition",
-        size === "sm" ? "h-9 text-sm lg:h-10" : "h-12 text-[0.96875rem]",
+        size === "sm"
+          ? "h-9 text-sm md:h-11 md:text-[0.9375rem] xl:h-10 xl:text-sm"
+          : "h-12 text-[0.96875rem]",
         added
           ? "bg-green"
           : tone === "darkOnDesktop"
-            ? "bg-teal hover:bg-teal-hover lg:bg-navy lg:hover:bg-navy lg:hover:brightness-125"
+            ? "bg-teal hover:bg-teal-hover md:bg-navy md:hover:bg-navy md:hover:brightness-125"
             : "bg-teal hover:bg-teal-hover",
         className,
       )}

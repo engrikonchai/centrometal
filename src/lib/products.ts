@@ -33,6 +33,18 @@ export interface Product {
   image?: SanityImageSource;
   /** Static /public path used as a stand-in until real Sanity photos exist. */
   localImage?: string;
+  /**
+   * Additional photography beyond the primary `image`, in display order.
+   *
+   * The tablet PDP renders a 4-up thumbnail strip when a SKU has more than one
+   * photo and a single image card when it doesn't. Nothing populates this yet:
+   * no product in the catalog has a second photo, and the Sanity product schema
+   * has a single `image` field rather than an array, so every SKU currently
+   * takes the single-image path. The field is typed here so the gallery has a
+   * real shape to read once the photography and the matching CMS field exist —
+   * it is deliberately NOT seeded with stand-in photos of other products.
+   */
+  additionalImages?: (SanityImageSource | string)[];
 }
 
 /**

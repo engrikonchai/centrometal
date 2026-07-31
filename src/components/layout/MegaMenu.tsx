@@ -17,7 +17,7 @@ export function MegaMenu({
 
   return (
     <div id={id} className="border-t border-line bg-surface py-8 shadow-card">
-      <div className="mx-auto grid w-full max-w-[1280px] grid-cols-2 gap-x-8 gap-y-8 px-4 lg:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1280px] grid-cols-2 gap-x-8 gap-y-8 px-4 xl:grid-cols-4 xl:px-8">
         {categories.map((category) => {
           const Icon = category.icon;
           const deptHref = categoryPath(locale, category.slug[locale]);

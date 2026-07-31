@@ -26,9 +26,12 @@ const DEBOUNCE_MS = 200;
  * — it's unlayered CSS, so it always wins over any focus:outline-none
  * utility here, which is why this doesn't bother trying to suppress it.
  */
+/* Radius and left padding are set per variant rather than here: Tailwind
+   resolves conflicting utilities by stylesheet order, not by the order they
+   appear in the class string, so a shared `rounded-xl` would beat a variant's
+   `rounded-[14px]` instead of losing to it. */
 const searchInputBase =
-  "w-full rounded-xl border-0 bg-[rgba(118,118,128,0.12)] pl-9 text-ink " +
-  "placeholder:text-muted";
+  "w-full border-0 bg-[rgba(118,118,128,0.12)] text-ink placeholder:text-muted";
 
 function productHref(locale: Locale, product: Product): string {
   const categorySlug =
@@ -40,13 +43,22 @@ export function SearchBox({
   locale,
   variant,
   className,
+  placeholder,
 }: {
   locale: Locale;
-  variant: "inline" | "collapsible";
+  /**
+   * `tablet` is the 768-1279 header field: same inline behaviour, but 48px
+   * tall with a 16px value so it clears the touch-target minimum and doesn't
+   * trigger iOS Safari's zoom-on-focus.
+   */
+  variant: "inline" | "collapsible" | "tablet";
   /** Inline variant only — overrides the desktop nav's default fixed/expanding width (e.g. "w-full" for a full-width mobile placement). */
   className?: string;
+  /** Scopes the field to the current context, e.g. "Pretražite u Alati i oprema". */
+  placeholder?: string;
 }) {
   const dict = getDictionary(locale);
+  const fieldPlaceholder = placeholder ?? dict.search.placeholder;
   const router = useRouter();
   const listId = useId();
 
@@ -54,7 +66,7 @@ export function SearchBox({
   const [results, setResults] = useState<Product[]>([]);
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [expanded, setExpanded] = useState(variant === "inline");
+  const [expanded, setExpanded] = useState(variant !== "collapsible");
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -211,8 +223,8 @@ export function SearchBox({
         if (results.length > 0) setOpen(true);
       }}
       maxLength={MAX_QUERY_LENGTH}
-      placeholder={dict.search.placeholder}
-      aria-label={dict.search.placeholder}
+      placeholder={fieldPlaceholder}
+      aria-label={fieldPlaceholder}
       role="combobox"
       aria-expanded={open}
       aria-controls={listId}
@@ -220,26 +232,31 @@ export function SearchBox({
       autoComplete="off"
       className={clsx(
         searchInputBase,
-        variant === "collapsible"
-          ? "h-10 py-0 pr-3 text-[1.0625rem]"
-          : "h-[42px] py-0 pr-3 text-[0.90625rem]",
+        variant === "collapsible" && "h-10 rounded-xl py-0 pl-9 pr-3 text-[1.0625rem]",
+        /* Handoff: 48px field, 14px radius, 16px value (iOS zoom threshold). */
+        variant === "tablet" && "h-12 rounded-[14px] py-0 pl-11 pr-4 text-base",
+        variant === "inline" && "h-[42px] rounded-xl py-0 pl-9 pr-3 text-[0.90625rem]",
       )}
     />
   );
 
-  if (variant === "inline") {
+  if (variant === "inline" || variant === "tablet") {
+    const tablet = variant === "tablet";
     return (
       <div
         ref={wrapperRef}
         className={clsx(
-          "relative shrink-0",
-          className ?? "w-[260px]",
+          tablet ? "relative min-w-0 flex-1" : "relative shrink-0",
+          className ?? (tablet ? undefined : "w-[260px]"),
         )}
       >
         <form onSubmit={handleSubmit}>
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted"
-            strokeWidth={2}
+            className={clsx(
+              "pointer-events-none absolute top-1/2 -translate-y-1/2 text-muted",
+              tablet ? "left-4 size-[18px]" : "left-3 size-4",
+            )}
+            strokeWidth={tablet ? 2.2 : 2}
             aria-hidden="true"
           />
           {inputField}

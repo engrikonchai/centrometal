@@ -43,7 +43,7 @@ export async function SearchResultsPage({
             <>
               <p className="text-sm text-muted">{countLine}</p>
               {products.length > 0 ? (
-                <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-3">
+                <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
                   {products.map((product, i) => (
                     <Reveal key={product.slug} delay={(i % 4) * 75} className="h-full">
                       <ProductCard product={product} locale={locale} />
