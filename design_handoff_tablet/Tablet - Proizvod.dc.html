@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e9ee; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #0a7ea4; text-decoration: none; }
+  a:hover { color: #086a8b; }
+  .nsb { scrollbar-width: none; -ms-overflow-style: none; }
+  .nsb::-webkit-scrollbar { display: none; }
+</style>
+</helmet>
+
+<div style="width: 100%; max-width: 1194px; min-height: 100%; margin: 0 auto; background: #fff; position: relative; font-size: 16px; line-height: 1.5; letter-spacing: -0.008em; color: #11151a;">
+
+  <div style="position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.86); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 1px 0 rgba(17,21,26,0.08);">
+    <div style="display: flex; align-items: center; gap: 16px; padding: 12px 24px 10px;">
+      <span style="font-size: 20px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap;">Centro<span style="color: #0a7ea4;">metal</span></span>
+      <div style="display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; height: 48px; padding: 0 16px; border-radius: 14px; background: rgba(118,118,128,0.12);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(60,60,67,0.6)" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+        <span style="font-size: 16px; color: rgba(60,60,67,0.5);">Pretražite proizvode i brendove</span>
+      </div>
+      <a href="#" aria-label="Upit" style="display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgba(60,60,67,0.07); position: relative; flex-shrink: 0;">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#11151a" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 7h13.3l-1.4 9.2a2 2 0 0 1-2 1.7H9.6a2 2 0 0 1-2-1.7L6.2 7z"></path><path d="M9.4 7a2.6 2.6 0 0 1 5.2 0"></path></svg>
+        <span style="position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; border-radius: 999px; background: #0a7ea4; color: #fff; font-size: 11px; font-weight: 700; line-height: 18px; text-align: center;">2</span>
+      </a>
+      <a href="#" style="display: grid; place-items: center; height: 48px; padding: 0 22px; border-radius: 14px; background: #14181d; color: #fff; font-size: 16px; font-weight: 600; white-space: nowrap; flex-shrink: 0;">Pozovite</a>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px; padding: 0 24px 12px; font-size: 15px; color: rgba(60,60,67,0.62);">
+      <a href="#" style="color: rgba(60,60,67,0.62);">Proizvodi</a>
+      <span>/</span>
+      <a href="#" style="color: rgba(60,60,67,0.62);">Alati i oprema</a>
+      <span>/</span>
+      <span style="color: #11151a; font-weight: 500;">Bosch GSB 18V-55</span>
+    </div>
+  </div>
+
+  <div style="padding: 22px 24px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 28px; align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      <div style="border-radius: 26px; overflow: hidden; background: #f4f5f6;">
+        <img src="public/products/bosch-gsb-18v-55.jpg" alt="Bosch GSB 18V-55" style="display: block; width: 100%; aspect-ratio: 1 / 0.9; object-fit: contain; padding: 40px;" />
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+        <div style="display: grid; place-items: center; aspect-ratio: 1 / 1; border-radius: 16px; background: #f4f5f6; border: 2px solid #0a7ea4; overflow: hidden;">
+          <img src="public/products/bosch-gsb-18v-55.jpg" alt="" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;" />
+        </div>
+        <div style="display: grid; place-items: center; aspect-ratio: 1 / 1; border-radius: 16px; background: #f4f5f6; overflow: hidden;">
+          <img src="public/products/bosch-gws-750.jpg" alt="" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;" />
+        </div>
+        <div style="display: grid; place-items: center; aspect-ratio: 1 / 1; border-radius: 16px; background: #f4f5f6; overflow: hidden;">
+          <img src="public/products/bosch-glm-50-c.png" alt="" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;" />
+        </div>
+        <div style="display: grid; place-items: center; aspect-ratio: 1 / 1; border-radius: 16px; background: #f4f5f6; font-size: 14px; font-weight: 600; color: rgba(60,60,67,0.6);">+3</div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <img src="public/logos/bosch.png" alt="Bosch" style="height: 17px; width: auto; max-width: 78px; object-fit: contain; object-position: left;" />
+        <span style="padding: 5px 11px; border-radius: 999px; background: rgba(10,126,164,0.1); font-size: 13px; font-weight: 600; color: #0a7ea4;">Na popustu</span>
+      </div>
+      <h1 style="margin: 12px 0 0; font-size: 32px; font-weight: 700; line-height: 1.1; letter-spacing: -0.03em;">Bosch GSB 18V-55</h1>
+      <p style="margin: 8px 0 0; font-size: 16.5px; color: rgba(60,60,67,0.62);">Akumulatorski alati · Cijena na upit</p>
+      <p style="margin: 18px 0 0; font-size: 16.5px; line-height: 1.55; color: rgba(60,60,67,0.86);">Akumulatorska udarna bušilica-zavrtač za profesionalnu upotrebu, sa beskolektorskim motorom i visokim obrtnim momentom.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 22px;">
+        <div style="padding: 14px; border-radius: 16px; background: #f4f5f6;">
+          <p style="margin: 0; font-size: 13px; color: rgba(60,60,67,0.6);">Napon</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em;">18 V</p>
+        </div>
+        <div style="padding: 14px; border-radius: 16px; background: #f4f5f6;">
+          <p style="margin: 0; font-size: 13px; color: rgba(60,60,67,0.6);">Moment</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em;">63 Nm</p>
+        </div>
+        <div style="padding: 14px; border-radius: 16px; background: #f4f5f6;">
+          <p style="margin: 0; font-size: 13px; color: rgba(60,60,67,0.6);">Težina</p>
+          <p style="margin: 3px 0 0; font-size: 19px; font-weight: 600; letter-spacing: -0.02em;">1.6 kg</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 24px;">
+        <button type="button" onClick="{{ addToInquiry }}" style="display: flex; align-items: center; justify-content: center; height: 54px; padding: 0 30px; border: 0; border-radius: 14px; background: {{ ctaBg }}; color: #fff; font-family: inherit; font-size: 16.5px; font-weight: 600;">{{ ctaLabel }}</button>
+        <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 54px; padding: 0 24px; border-radius: 14px; border: 1.5px solid rgba(20,24,29,0.14); color: #14181d; font-size: 16.5px; font-weight: 600;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L17 13l4 1.5v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 5.2 2 2 0 0 1 6 3"></path></svg>
+          Pozovite
+        </a>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 16px; padding: 14px 16px; border-radius: 16px; background: rgba(10,126,164,0.07);">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 7.5 12 3.5l8 4v9L12 20.5l-8-4z"></path><path d="M4 7.5 12 11.5l8-4M12 11.5v9"></path></svg>
+        <p style="margin: 0; font-size: 15px; line-height: 1.45; color: #11151a;">Dostupno u prodavnici 4 Jula · servis i garancija kod nas</p>
+      </div>
+
+      <div style="margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(20,24,29,0.08);">
+        <p style="margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(60,60,67,0.55);">Dokumentacija</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <a href="#" style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; border-radius: 14px; background: #f4f5f6; color: #11151a; font-size: 15px; font-weight: 600;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7z"></path><path d="M14 3v4h4"></path></svg>
+            Tehnički list (PDF)
+          </a>
+          <a href="#" style="display: flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; border-radius: 14px; background: #f4f5f6; color: #11151a; font-size: 15px; font-weight: 600;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a7ea4" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"></path><path d="M14 4h6v6"></path><path d="M20 4l-8.5 8.5"></path></svg>
+            Stranica proizvođača
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 44px 24px 0;">
+    <p style="margin: 0 0 12px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(60,60,67,0.55);">Specifikacija</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: rgba(20,24,29,0.08); border-radius: 18px; overflow: hidden;">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #fff;">
+        <span style="color: rgba(60,60,67,0.62);">Napon</span>
+        <span style="font-weight: 500;">18 V</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #fff;">
+        <span style="color: rgba(60,60,67,0.62);">Obrtni moment</span>
+        <span style="font-weight: 500;">63 Nm</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #fff;">
+        <span style="color: rgba(60,60,67,0.62);">Težina</span>
+        <span style="font-weight: 500;">1.6 kg</span>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; background: #fff;">
+        <span style="color: rgba(60,60,67,0.62);">Garancija</span>
+        <span style="font-weight: 500;">2 godine</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 44px 0 0;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; padding: 0 24px;">
+      <h2 style="margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.03em;">Slični proizvodi</h2>
+      <a href="#" style="font-size: 16px; font-weight: 600;">Vidi sve →</a>
+    </div>
+    <div class="nsb" style="display: flex; gap: 14px; margin-top: 18px; padding: 2px 24px 4px; overflow-x: auto; scroll-snap-type: x mandatory;">
+      <sc-for list="{{ related }}" as="p" hint-placeholder-count="4">
+        <a href="#" style="flex: 0 0 212px; scroll-snap-align: start; display: flex; flex-direction: column; background: #f4f5f6; border-radius: 20px; overflow: hidden; color: #11151a;">
+          <img src="{{ p.img }}" alt="{{ p.name }}" style="display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: contain; padding: 20px;" />
+          <div style="display: flex; flex-direction: column; gap: 5px; padding: 4px 14px 16px;">
+            <img src="{{ p.logo }}" alt="{{ p.brand }}" style="height: 12px; width: auto; max-width: 56px; object-fit: contain; object-position: left; opacity: 0.7;" />
+            <p style="margin: 0; font-size: 15.5px; font-weight: 600; line-height: 1.25; letter-spacing: -0.015em;">{{ p.name }}</p>
+            <p style="margin: 0; font-size: 13.5px; color: rgba(60,60,67,0.6);">Cijena na upit</p>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="height: 56px;"></div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:834,&quot;height&quot;:1194}}">
+class Component extends DCLogic {
+  state = { added: false };
+
+  renderVals() {
+    return {
+      ctaLabel: this.state.added ? "Dodato u upit ✓" : "Dodaj u upit",
+      ctaBg: this.state.added ? "#1c7c37" : "#14181d",
+      addToInquiry: () => {
+        this.setState({ added: true });
+        window.setTimeout(() => this.setState({ added: false }), 2200);
+      },
+      related: [
+        { name: "Einhell TE-CD 18 Li", brand: "Einhell", img: "public/products/einhell-te-cd-18-li.png", logo: "public/logos/einhell.png" },
+        { name: "Makita HR2470", brand: "Makita", img: "public/products/makita-hr2470.png", logo: "public/logos/makita.png" },
+        { name: "Bosch GWS 750", brand: "Bosch", img: "public/products/bosch-gws-750.jpg", logo: "public/logos/bosch.png" },
+        { name: "Bosch GLM 50 C", brand: "Bosch", img: "public/products/bosch-glm-50-c.png", logo: "public/logos/bosch.png" },
+        { name: "Knipex 86 03 250", brand: "Knipex", img: "public/products/knipex-86-03-250.png", logo: "public/logos/knipex.png" },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>
